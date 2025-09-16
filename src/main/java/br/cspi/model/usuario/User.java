@@ -30,13 +30,12 @@ public class User {
     @Column(name = "senha_hash")
     private String senha;
 
-    @NotBlank
+    @NonNull
     private boolean ativo;
 
     // Relacionamento com Cliente_Usuario
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id") // nome da coluna FK no BD
-    @NotBlank
     @JsonBackReference
     private Owner owner;
 
