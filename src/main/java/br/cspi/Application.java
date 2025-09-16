@@ -1,9 +1,10 @@
 package br.cspi;
 
-import br.cspi.model.usuario.Cliente_Usuario;
-import br.cspi.model.usuario.Cliente_UsuarioRepository;
-import br.cspi.model.usuario.Usuario;
-import br.cspi.model.usuario.UsuarioRepository;
+
+import br.cspi.model.usuario.Owner;
+import br.cspi.model.usuario.OwnerRepository;
+import br.cspi.model.usuario.User;
+import br.cspi.model.usuario.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,13 +18,13 @@ public class Application {
 	}
 
 //	@Bean
-//	public CommandLineRunner demo(Cliente_UsuarioRepository clienteRepo, UsuarioRepository usuarioRepo) {
+//	public CommandLineRunner demo(OwnerRepository clienteRepo, UserRepository usuarioRepo) {
 //		return args -> {
-//			Cliente_Usuario cliente = new Cliente_Usuario("Amin", "031.548.659-67",
-//					"(55) 99935-56258", "CEU", "PREMIUM");
+//			Owner cliente = new Owner("Amin", "031.548.659-67",
+//					"(55)99935-56258", "CEU", "PREMIUM");
 //			clienteRepo.save(cliente);
 //
-//			Usuario usuario = new Usuario("Admin", "admin@admin.com", "admin", true, cliente);
+//			User usuario = new User("Admin", "admin@admin.com", "admin", true, cliente);
 //			usuarioRepo.save(usuario);
 //		};
 //	}

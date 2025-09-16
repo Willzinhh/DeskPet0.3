@@ -1,4 +1,4 @@
-CREATE TABLE cliente_usuario (
+CREATE TABLE owner (
                                  id SERIAL PRIMARY KEY,
                                  uuid UUID DEFAULT gen_random_uuid(),
                                  nome VARCHAR(100) NOT NULL,
@@ -16,5 +16,5 @@ CREATE TABLE usuario (
                          email VARCHAR(100) UNIQUE NOT NULL,
                          senha_hash VARCHAR(255) NOT NULL,  -- senha criptografada --
                          ativo BOOLEAN DEFAULT TRUE,
-                         cliente_usuario_id INTEGER REFERENCES cliente_usuario(id) ON DELETE CASCADE
+                         owner_id INTEGER REFERENCES owner(id) ON DELETE CASCADE
 );

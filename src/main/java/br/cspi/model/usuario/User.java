@@ -2,6 +2,8 @@ package br.cspi.model.usuario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -9,32 +11,33 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
+
 @Table(name = "usuario")
-public class Usuario {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NonNull
+    @NotBlank
     private String nome;
 
-    @NonNull
+    @NotBlank
+    @Email
     private String email;
 
-    @NonNull
+    @NotBlank
     @Column(name = "senha_hash")
     private String senha;
 
-    @NonNull
+    @NotBlank
     private boolean ativo;
 
     // Relacionamento com Cliente_Usuario
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_usuario_id") // nome da coluna FK no BD
-    @NonNull
+    @JoinColumn(name = "owner_id") // nome da coluna FK no BD
+    @NotBlank
     @JsonBackReference
-    private Cliente_Usuario cliente;
+    private Owner owner;
 
 }
