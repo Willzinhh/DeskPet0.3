@@ -5,10 +5,23 @@ import br.cspi.model.usuario.Owner;
 import br.cspi.model.usuario.OwnerRepository;
 import br.cspi.model.usuario.User;
 import br.cspi.model.usuario.UserRepository;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+@OpenAPIDefinition(
+		info = @Info(
+				title = "DeskPet",
+				version = "3.0",
+				description = "Documentação API DeskPet",
+				contact = @Contact(name = "Suport", email = "willianpotkova@gmail.com")
+		)
+)
+
 
 @SpringBootApplication
 public class Application {

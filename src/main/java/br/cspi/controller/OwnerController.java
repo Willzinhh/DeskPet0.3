@@ -4,6 +4,12 @@ package br.cspi.controller;
 import br.cspi.model.usuario.Owner;
 import br.cspi.model.usuario.User;
 import br.cspi.service.OwnerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -22,32 +28,77 @@ public class OwnerController {
     }
 
     @GetMapping("/listar")
+    @Operation(summary = "Listar Proprietarios", description = "Lista todos os Proprietarios cadastrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Proprietarios Encontrados", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Owner.class))),
+    })
     public List<Owner> listar() {
         return OwnerService.listar();
     }
 
+
     @GetMapping("/{id}")
-    public Owner buscar(@PathVariable long id) {
+    @Operation(summary = "Buscar Proprietario por ID", description = "Retorna Proprietario correspondente ao ID fornecido")
+    @ApiResponses(value = {
+            // Corrigido para 200 OK (GET Request) e 404 (Não encontrado)
+            @ApiResponse(responseCode = "200", description = "Proprietario Encontrado", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Owner.class))),
+            @ApiResponse(responseCode = "404", description = "Proprietario não encontrado", content = @Content)
+    })
+    public Owner buscar(@Parameter(description = "ID do Proprietario a ser buscado") @PathVariable long id) {
         return this.OwnerService.getOwner(id);
     }
 
+    @PostMapping
+    @Operation(summary = "Criar novo Proprietario", description = "Cria um novo Proprietário")
+    @ApiResponses(value = {
+            // Corrigido para 201 Created (POST) e 400 (Bad Request)
+            @ApiResponse(responseCode = "201", description = "Proprietario criado com sucesso", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Owner.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content)
+
+    })
+    public void salvar(@RequestBody @Valid Owner owner) {this.OwnerService.salvar(owner);}
+
     @PutMapping
+    @Operation(summary = "Atualizar Proprietario", description = "Atualiza um Proprietário existente")
+    @ApiResponses(value = {
+            // Documentação adicionada
+            @ApiResponse(responseCode = "200", description = "Proprietario atualizado com sucesso", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Owner.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Proprietario não encontrado", content = @Content)
+    })
     public Owner atualizar(@RequestBody @Valid Owner owner ) {
         return this.OwnerService.salvar(owner);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletar(@PathVariable long id) {
+    @Operation(summary = "Deletar Proprietario por ID", description = "Remove o Proprietário correspondente ao ID fornecido")
+    @ApiResponses(value = {
+            // Documentação adicionada
+            @ApiResponse(responseCode = "204", description = "Proprietario excluído com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Proprietario não encontrado", content = @Content)
+    })
+    public ResponseEntity deletar(@Parameter(description = "ID do Proprietario a ser deletado") @PathVariable long id) {
         this.OwnerService.excluir(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/addUser")
     @Transactional
-    public ResponseEntity addUser(@PathVariable long id, @RequestBody @Valid User user) {
+    @Operation(summary = "Adicionar Usuário ao Proprietário", description = "Atribui um novo Usuário ao Proprietário especificado pelo ID")
+    @ApiResponses(value = {
+            // Documentação adicionada
+            @ApiResponse(responseCode = "200", description = "Usuário atribuído com sucesso", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Owner.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Proprietário não encontrado", content = @Content)
+    })
+    public ResponseEntity addUser(@Parameter(description = "ID do Proprietário que receberá o Usuário") @PathVariable long id, @RequestBody @Valid User user) {
         return ResponseEntity.ok(this.OwnerService.atribuirUser(id,user));
     }
-
 
 
 }
