@@ -1,0 +1,87 @@
+package br.cspi.controller;
+
+import br.cspi.model.funcionario.Funcionario;
+import br.cspi.service.FuncionarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/funcionario")
+@Tag(name = "Funcionário", description = "Endpoints para gerenciamento de Funcionários (Colaboradores).")
+public class FuncionarioController {
+
+    private final FuncionarioService funcionarioService;
+
+    public FuncionarioController(FuncionarioService funcionarioService) {
+        this.funcionarioService = funcionarioService;
+    }
+
+    @GetMapping("/listar")
+    @Operation(summary = "Listar Funcionários", description = "Lista todos os funcionários cadastrados.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de Funcionários retornada com sucesso.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Funcionario.class))),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado", content = @Content)
+    })
+    public List<Funcionario> listar() {
+        return funcionarioService.listar(); //
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Buscar Funcionário por ID", description = "Retorna um funcionário específico pelo seu ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Funcionário encontrado.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Funcionario.class))),
+            @ApiResponse(responseCode = "404", description = "Funcionário não encontrado.", content = @Content)
+    })
+    public Funcionario buscar(@Parameter(description = "ID do Funcionário a ser buscado") @PathVariable long id) {
+        return this.funcionarioService.buscarPorId(id); //
+    }
+
+    @PostMapping
+    @Operation(summary = "Criar novo Funcionário", description = "Cria e salva um novo funcionário.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Funcionário criado com sucesso.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Funcionario.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content)
+    })
+    public Funcionario salvar(@RequestBody @Valid Funcionario funcionario) {
+        return this.funcionarioService.salvar(funcionario); //
+    }
+
+    @PutMapping
+    @Operation(summary = "Atualizar Funcionário", description = "Atualiza os dados de um funcionário existente.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Funcionário atualizado com sucesso.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Funcionario.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválios ou ID não encontrado.", content = @Content)
+    })
+    public Funcionario atualizar(@RequestBody @Valid Funcionario funcionario) {
+        return this.funcionarioService.editar(funcionario); //
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Deletar Funcionário", description = "Remove um funcionário pelo seu ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Funcionário deletado com sucesso (No Content).", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Funcionário não encontrado.", content = @Content)
+    })
+    public ResponseEntity deletar(@Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long id) {
+        this.funcionarioService.excluir(id); //
+        return ResponseEntity.noContent().build();
+    }
+}

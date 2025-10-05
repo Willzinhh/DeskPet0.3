@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content; // Import adicionado
 import io.swagger.v3.oas.annotations.media.Schema; // Import adicionado
 import io.swagger.v3.oas.annotations.responses.ApiResponse; // Import adicionado
 import io.swagger.v3.oas.annotations.responses.ApiResponses; // Import adicionado
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "Usuario", description = "Endpoints para gerenciamento de Usuarios (Users).")
+
 public class UserController {
 
     private UserService UserService;
