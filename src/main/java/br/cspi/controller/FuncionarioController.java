@@ -1,7 +1,9 @@
 package br.cspi.controller;
 
 import br.cspi.model.funcionario.Funcionario;
+import br.cspi.model.servico.Servico;
 import br.cspi.service.FuncionarioService;
+import br.cspi.service.ServicoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,9 +23,11 @@ import java.util.List;
 public class FuncionarioController {
 
     private final FuncionarioService funcionarioService;
+    private final ServicoService servicoService;
 
-    public FuncionarioController(FuncionarioService funcionarioService) {
+    public FuncionarioController(FuncionarioService funcionarioService, ServicoService servicoService) {
         this.funcionarioService = funcionarioService;
+        this.servicoService = servicoService;
     }
 
     @GetMapping("/listar")
@@ -84,4 +88,36 @@ public class FuncionarioController {
         this.funcionarioService.excluir(id); //
         return ResponseEntity.noContent().build();
     }
+
+    @Operation(
+            summary = "Vincula um serviço a um funcionário",
+            description = "Associa um serviço existente a um funcionário existente. "
+                    + "Permite registrar quais serviços cada funcionário está habilitado a realizar."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Serviço vinculado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Funcionario.class))),
+            @ApiResponse(responseCode = "404", description = "Funcionário ou serviço não encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Requisição inválida",
+                    content = @Content)
+    })
+    @PutMapping("/{idFuncionario}/servicos/{idServico}")
+    public ResponseEntity<?> vincularServico(
+            @Parameter(description = "ID do funcionário que receberá o serviço", example = "1")
+            @PathVariable Long idFuncionario,
+
+            @Parameter(description = "ID do serviço a ser vinculado", example = "2")
+            @PathVariable Long idServico) {
+
+        Funcionario funcionario = funcionarioService.buscarPorId(idFuncionario);
+        Servico servico = servicoService.buscar(idServico);
+
+        funcionario.getServicos().add(servico);
+        funcionarioService.salvar(funcionario);
+
+        return ResponseEntity.ok(funcionario);
+    }
+
 }

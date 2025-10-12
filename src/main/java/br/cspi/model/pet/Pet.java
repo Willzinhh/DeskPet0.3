@@ -1,10 +1,15 @@
 package br.cspi.model.pet;
 
-import io.swagger.v3.oas.annotations.media.Schema; // Import adicionado
+import br.cspi.model.cliente.Clientes; // Import necessário
+import br.cspi.model.usuario.Owner;    // Import necessário
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,13 +22,14 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Detalhes do Pet") // Anotação de classe
+@Schema(description = "Detalhes do Pet")
 public class Pet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID único do Pet", example = "101")
     private Long id;
+
     @Schema(description = "Nome do Pet", example = "Rex")
     private String nomepet;
     @Schema(description = "Espécie do Pet", example = "Cachorro")
@@ -36,9 +42,18 @@ public class Pet {
     private String descricao;
     @Schema(description = "Data de criação do registro do Pet")
     private Date data_cricao;
-    @Schema(description = "ID do Tutor (Cliente) responsável pelo Pet", example = "5")
-    private int tutor_id;
-    @Schema(description = "ID do Proprietário (Owner) que gerencia o registro", example = "1")
-    private int owner_id;
 
+    // CORREÇÃO: Mapeamento N:1 para o Tutor (Clientes)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tutor_id", nullable = false)
+    @Schema(description = "Objeto Tutor (Cliente) responsável pelo Pet")
+    private Clientes tutor;
+
+    // CORREÇÃO: Mapeamento N:1 para o Owner
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
+    @Schema(description = "Proprietário (Owner) que gerencia o registro")
+    private Owner owner;
+
+    // Os campos 'private int tutor_id;' e 'private int owner_id;' foram removidos.
 }

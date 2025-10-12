@@ -1,10 +1,14 @@
 package br.cspi.model.cliente;
 
-import io.swagger.v3.oas.annotations.media.Schema; // Import adicionado
+import br.cspi.model.usuario.Owner; // Import necessário
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,11 +22,13 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Detalhes do Cliente (Tutor)") // Anotação de classe
+@Schema(description = "Detalhes do Cliente (Tutor)")
 public class Clientes {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID único do Cliente", example = "5")
     private Long id;
+
+    // ... Campos de dados do cliente ...
     @NotBlank
     @Schema(description = "Nome completo do Cliente", example = "Maria Oliveira")
     private String nome;
@@ -35,7 +41,12 @@ public class Clientes {
     private String endereco;
     @Schema(description = "Data e hora de criação do registro do Cliente")
     private Timestamp data_criacao;
-    @Schema(description = "ID do Proprietário (Owner) que gerencia este Cliente", example = "1")
-    private int owner_id;
 
+    // CORREÇÃO: Mapeamento N:1 para o Owner
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
+    @Schema(description = "Proprietário (Owner) que gerencia este Cliente")
+    private Owner owner;
+
+    // O campo 'private int owner_id;' foi removido.
 }
