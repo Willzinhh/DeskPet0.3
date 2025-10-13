@@ -35,6 +35,8 @@ public class User {
     @Schema(description = "Senha do Usuário", writeOnly = true) // writeOnly para não expor no GET
     private String senha;
 
+    private String permissao;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     @JsonBackReference

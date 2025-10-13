@@ -1,7 +1,9 @@
 package br.cspi.service;
 
+import br.cspi.model.usuario.DadosUser;
 import br.cspi.model.usuario.User;
 import br.cspi.model.usuario.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,15 +17,20 @@ public class UserService {
         this.repository = repository;
     }
 
-    public User salvar(User user) {this.repository.save(user);
-        return user;
+    public DadosUser salvar(User user) {
+        user.setSenha(new BCryptPasswordEncoder().encode(user.getSenha()));
+        this.repository.save(user);
+        return new DadosUser(user);
     }
 
-    public List<User> listar() {
-        System.out.println("oi");
-        return this.repository.findAll();}
+    public List<DadosUser> listar() {
+        return repository.findAll().stream().map(DadosUser::new).toList();
+    }
 
-    public User getUser(Long id) {return this.repository.findById(id).get();}
+    public DadosUser getUser(Long id) {
+        User user = repository.getOne(id);
+        return new DadosUser(user);
+        }
 
     public void excluir(Long id) {this.repository.deleteById(id);}
 

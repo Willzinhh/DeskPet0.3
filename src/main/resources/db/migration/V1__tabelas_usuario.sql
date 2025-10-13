@@ -16,5 +16,6 @@ CREATE TABLE usuario (
                          email VARCHAR(100) UNIQUE NOT NULL,
                          senha_hash VARCHAR(255) NOT NULL,  -- senha criptografada --
                          ativo BOOLEAN DEFAULT TRUE,
+                         permissao TEXT,
                          owner_id INTEGER REFERENCES owner(id) ON DELETE CASCADE
 );

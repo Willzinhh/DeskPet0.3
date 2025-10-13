@@ -1,6 +1,7 @@
 package br.cspi.controller;
 
 
+import br.cspi.model.usuario.DadosUser;
 import br.cspi.model.usuario.User;
 import br.cspi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation; // Import adicionado
@@ -37,8 +38,8 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Usuários Encontrados", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = User.class))),
     })
-    public List<User> listar() {
-        return UserService.listar();
+    public ResponseEntity<List<DadosUser>> listar() {
+        return ResponseEntity.ok(this.UserService.listar());
     }
 
     @GetMapping("/{id}")
@@ -49,8 +50,8 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content)
 
     })
-    public User buscar(@Parameter(description = "ID do Usuário a ser buscado") @PathVariable long id) {
-        return this.UserService.getUser(id);
+    public DadosUser buscar(@Parameter(description = "ID do Usuário a ser buscado") @PathVariable long id) {
+        return ResponseEntity.ok(this.UserService.getUser(id)).getBody();
     }
 
     @PutMapping
@@ -80,5 +81,11 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping
+    public ResponseEntity<DadosUser> salvar(@RequestBody @Valid UriComponentsBuilder uriBuilder, User user) {
+        DadosUser uc = UserService.salvar(user);
+        URI uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).body(uc);
+    }
 
 }

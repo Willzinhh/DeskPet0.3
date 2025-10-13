@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    public User findByEmail(String email);
+
     @Query(value = "SELECT u.id as id, u.nome as nome, u.email as email, u.senha_hash as senha, u.ativo as ativo" +
             "FROM user u where a.owner_id =:id", nativeQuery = true)
     List<UserDTO> findUserByOwnerId(@Param("id") Long id);
