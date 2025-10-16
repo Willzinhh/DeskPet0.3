@@ -32,7 +32,6 @@ public class ServicoController {
             @ApiResponse(responseCode = "200", description = "Lista de Serviços retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Servico.class))),
-            @ApiResponse(responseCode = "403", description = "Acesso Negado", content = @Content)
     })
     public List<Servico> listar() {
         return servicoService.listar(); //
@@ -53,7 +52,7 @@ public class ServicoController {
     @PostMapping
     @Operation(summary = "Criar novo Serviço", description = "Cria e salva um novo serviço.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Serviço criado com sucesso.",
+            @ApiResponse(responseCode = "201", description = "Serviço criado com sucesso.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Servico.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content)
@@ -65,10 +64,11 @@ public class ServicoController {
     @PutMapping
     @Operation(summary = "Atualizar Serviço", description = "Atualiza os dados de um serviço existente.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Serviço atualizado com sucesso.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Servico.class))),
-            @ApiResponse(responseCode = "400", description = "Dados inválios ou ID não encontrado.", content = @Content)
+            @ApiResponse(responseCode = "204", description = "Serviço atualizado com sucesso.",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Dados inválios ou ID não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Serviço não encontrado", content = @Content)
+
     })
     public Servico atualizar(@RequestBody @Valid Servico servico) {
         return this.servicoService.alterar(servico); //

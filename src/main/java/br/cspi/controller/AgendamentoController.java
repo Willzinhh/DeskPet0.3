@@ -32,7 +32,6 @@ public class AgendamentoController {
             @ApiResponse(responseCode = "200", description = "Lista de Agendamentos retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Agendamento.class))),
-            @ApiResponse(responseCode = "403", description = "Acesso Negado", content = @Content)
     })
     public List<Agendamento> listar() {
         return agendamentoService.listar(); //
@@ -53,7 +52,7 @@ public class AgendamentoController {
     @PostMapping
     @Operation(summary = "Criar novo Agendamento", description = "Cria e salva um novo agendamento.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Agendamento criado com sucesso.",
+            @ApiResponse(responseCode = "201", description = "Agendamento criado com sucesso.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Agendamento.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content)
@@ -65,10 +64,12 @@ public class AgendamentoController {
     @PutMapping
     @Operation(summary = "Atualizar Agendamento", description = "Atualiza os dados de um agendamento existente.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Agendamento atualizado com sucesso.",
+            @ApiResponse(responseCode = "204", description = "Agendamento atualizado com sucesso.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Agendamento.class))),
-            @ApiResponse(responseCode = "400", description = "Dados inválios ou ID não encontrado.", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Dados inválios", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Agendamento não encontrado", content = @Content)
+
     })
     public Agendamento atualizar(@RequestBody @Valid Agendamento agendamento) {
         return this.agendamentoService.atualizar(agendamento); //

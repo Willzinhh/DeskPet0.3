@@ -66,7 +66,8 @@ public class Owner {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonManagedReference
-    @Schema(description = "Lista de Usuários (funcionários) vinculados a este Proprietário")
+    @Schema(description = "Lista de Usuários (funcionários) vinculados a este Proprietário",
+            accessMode = Schema.AccessMode.READ_ONLY)
     private List<User> users = new ArrayList<>();
 
     // Método auxiliar para manter a consistência do relacionamento
@@ -79,4 +80,5 @@ public class Owner {
         users.remove(user);
         user.setOwner(null);
     }
+
 }

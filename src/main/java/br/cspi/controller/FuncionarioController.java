@@ -2,6 +2,7 @@ package br.cspi.controller;
 
 import br.cspi.model.funcionario.Funcionario;
 import br.cspi.model.servico.Servico;
+import br.cspi.model.usuario.Owner;
 import br.cspi.service.FuncionarioService;
 import br.cspi.service.ServicoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,8 +36,7 @@ public class FuncionarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de Funcionários retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Funcionario.class))),
-            @ApiResponse(responseCode = "403", description = "Acesso Negado", content = @Content)
+                    schema = @Schema(implementation = Funcionario.class))),
     })
     public List<Funcionario> listar() {
         return funcionarioService.listar(); //
@@ -57,7 +57,7 @@ public class FuncionarioController {
     @PostMapping
     @Operation(summary = "Criar novo Funcionário", description = "Cria e salva um novo funcionário.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Funcionário criado com sucesso.",
+            @ApiResponse(responseCode = "201", description = "Funcionário criado com sucesso.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Funcionario.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content)
@@ -69,10 +69,11 @@ public class FuncionarioController {
     @PutMapping
     @Operation(summary = "Atualizar Funcionário", description = "Atualiza os dados de um funcionário existente.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Funcionário atualizado com sucesso.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Funcionario.class))),
-            @ApiResponse(responseCode = "400", description = "Dados inválios ou ID não encontrado.", content = @Content)
+            @ApiResponse(responseCode = "204", description = "Funcionário atualizado com sucesso.",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Dados inválios ou ID não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Funcionario não encontrado", content = @Content)
+
     })
     public Funcionario atualizar(@RequestBody @Valid Funcionario funcionario) {
         return this.funcionarioService.editar(funcionario); //
@@ -95,7 +96,7 @@ public class FuncionarioController {
                     + "Permite registrar quais serviços cada funcionário está habilitado a realizar."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Serviço vinculado com sucesso",
+            @ApiResponse(responseCode = "201", description = "Serviço vinculado com sucesso",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Funcionario.class))),
             @ApiResponse(responseCode = "404", description = "Funcionário ou serviço não encontrado",

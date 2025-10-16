@@ -2,6 +2,7 @@ package br.cspi.controller;
 
 import br.cspi.model.cliente.Clientes;
 import br.cspi.model.pet.Pet;
+import br.cspi.model.usuario.Owner;
 import br.cspi.service.ClienteService;
 import br.cspi.service.PetService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +15,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -53,7 +56,7 @@ public class PetController {
     @PutMapping
     @Operation(summary = "Atualizar Pet", description = "Atualiza um Pet existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Pet atualizado com sucesso", content = @Content(mediaType = "application/json",
+            @ApiResponse(responseCode = "204", description = "Pet atualizado com sucesso", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Pet.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
             @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
@@ -72,6 +75,20 @@ public class PetController {
     public ResponseEntity deletar(@Parameter(description = "ID do Pet a ser deletado")@PathVariable long id) {
         this.PetService.excluir(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    @Operation(summary = "Criar novo Pet", description = "Cria um novo Pet")
+    @ApiResponses(value = {
+            // Corrigido para 201 Created (POST) e 400 (Bad Request)
+            @ApiResponse(responseCode = "201", description = "Pet criado com sucesso", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Owner.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content)
+    })
+    public ResponseEntity salvar(@RequestBody @Valid Pet pet, UriComponentsBuilder uriBuilder) {
+        this.PetService.salvar(pet);
+        URI uri = uriBuilder.path("/pet/{id}").buildAndExpand(pet.getId()).toUri();
+        return ResponseEntity.created(uri).body(pet);
     }
 
 

@@ -52,9 +52,9 @@ public class ClienteController {
     @PostMapping
     @Operation(summary = "Criar novo Cliente", description = "Criar um novo Cliente e adicionar à lista")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cliente criado com sucesso", content = @Content(mediaType = "application/json",
+            @ApiResponse(responseCode = "201", description = "Cliente criado com sucesso", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Clientes.class))),
-            @ApiResponse(responseCode = "404", description = "Dados inválios fornecidos", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content)
 
     })
     public void salvar(@RequestBody @Valid Clientes cliente) {this.ClienteService.salvar(cliente);}
@@ -62,7 +62,7 @@ public class ClienteController {
     @PutMapping
     @Operation(summary = "Atualizar Cliente", description = "Atualiza um Cliente existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cliente atualizado com sucesso", content = @Content(mediaType = "application/json",
+            @ApiResponse(responseCode = "204", description = "Cliente atualizado com sucesso", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Clientes.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado", content = @Content)

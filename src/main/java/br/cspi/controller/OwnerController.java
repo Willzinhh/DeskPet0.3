@@ -13,22 +13,24 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/owner")
 @Tag(name = "Owner", description = "Endpoints para gerenciamento de Proprietários (Owners).")
 
 public class OwnerController {
 
     private OwnerService OwnerService;
-    public OwnerController(OwnerService OwnerService) {
-        this.OwnerService = OwnerService;
-    }
+
 
     @GetMapping("/listar")
     @Operation(summary = "Listar Proprietarios", description = "Lista todos os Proprietarios cadastrados")
@@ -62,19 +64,24 @@ public class OwnerController {
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content)
 
     })
-    public void salvar(@RequestBody @Valid Owner owner) {this.OwnerService.salvar(owner);}
+    public ResponseEntity salvar(@RequestBody @Valid Owner owner, UriComponentsBuilder uriBuilder) {
+        this.OwnerService.salvar(owner);
+        URI uri = uriBuilder.path("/owner/{id}").buildAndExpand(owner.getId()).toUri();
+        return ResponseEntity.created(uri).body(owner);
+    }
 
     @PutMapping
     @Operation(summary = "Atualizar Proprietario", description = "Atualiza um Proprietário existente")
     @ApiResponses(value = {
             // Documentação adicionada
-            @ApiResponse(responseCode = "200", description = "Proprietario atualizado com sucesso", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Owner.class))),
+            @ApiResponse(responseCode = "204", description = "Proprietario atualizado com sucesso", content = @Content),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietario não encontrado", content = @Content)
     })
-    public Owner atualizar(@RequestBody @Valid Owner owner ) {
-        return this.OwnerService.salvar(owner);
+    public ResponseEntity<Owner> atualizar(@RequestBody @Valid Owner owner ) {
+
+        this.OwnerService.atualizar(owner);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
@@ -94,7 +101,7 @@ public class OwnerController {
     @Operation(summary = "Adicionar Usuário ao Proprietário", description = "Atribui um novo Usuário ao Proprietário especificado pelo ID")
     @ApiResponses(value = {
             // Documentação adicionada
-            @ApiResponse(responseCode = "200", description = "Usuário atribuído com sucesso", content = @Content(mediaType = "application/json",
+            @ApiResponse(responseCode = "204", description = "Usuário atribuído com sucesso", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Owner.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietário não encontrado", content = @Content)

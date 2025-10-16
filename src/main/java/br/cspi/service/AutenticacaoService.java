@@ -14,17 +14,19 @@ import org.springframework.stereotype.Service;
 public class AutenticacaoService implements UserDetailsService {
     private final UserRepository userRepository;
 
+
+
     @Override
-    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException{
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
 
         if(user == null){
             throw new UsernameNotFoundException("Usuario não encontrado");
         }
-        else{
-            UserDetails user = User.withEmail(user.getEmail())
-                    .password(user.get)
-        }
+//        else{
+//            UserDetails userD = User.withEmail(user.getEmail())
+//                    .password(user.get)
+//        }
+        return null;
     }
-
 }

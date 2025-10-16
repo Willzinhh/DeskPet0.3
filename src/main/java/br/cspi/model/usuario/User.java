@@ -15,6 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name ="usuario")
 @Schema(description = "Detalhes do Usuário Secundário (Funcionário) vinculado a um Proprietário")
 public class User {
 
