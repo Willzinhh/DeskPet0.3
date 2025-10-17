@@ -6,5 +6,6 @@ public interface UserDTO {
     String getEmail();
     String getSenha();
     Boolean isAtivo();
+    String getPermissao();
 
 }

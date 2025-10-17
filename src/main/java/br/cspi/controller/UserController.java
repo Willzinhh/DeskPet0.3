@@ -1,6 +1,7 @@
 package br.cspi.controller;
 
 
+import br.cspi.dto.UserDTO;
 import br.cspi.model.usuario.DadosUser;
 import br.cspi.model.usuario.Owner;
 import br.cspi.model.usuario.User;
@@ -12,10 +13,12 @@ import io.swagger.v3.oas.annotations.media.Schema; // Import adicionado
 import io.swagger.v3.oas.annotations.responses.ApiResponse; // Import adicionado
 import io.swagger.v3.oas.annotations.responses.ApiResponses; // Import adicionado
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,22 +30,25 @@ import java.util.List;
 @RequestMapping("/user")
 @AllArgsConstructor
 @Tag(name = "Usuario", description = "Endpoints para gerenciamento de Usuarios (Users).")
-
 public class UserController {
 
     private UserService UserService;
 
-    @GetMapping("/listar")
-    @Operation(summary = "Listar Usuários", description = "Lista todos os Usuários cadastrados")
+    HttpSession session;
+
+
+    @GetMapping("/listar/{owner_id}")
+    @Operation(summary = "Listar Usuários", description = "Lista todos os Usuários cadastrados de um Owner")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuários Encontrados", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = User.class))),
+                    schema = @Schema(implementation = DadosUser.class))),
+            @ApiResponse(responseCode = "404", description = "Owner não encontrado", content = @Content)
     })
-    public ResponseEntity<List<DadosUser>> listar() {
-        return ResponseEntity.ok(this.UserService.listar());
+    public ResponseEntity<List<DadosUser>> listar(@Parameter(description = "ID do Proprietario") @PathVariable() long owner_id) {
+        return ResponseEntity.ok(this.UserService.listar(owner_id));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{owner_id}/{id}")
     @Operation(summary = "Buscar Usuário por ID", description = "Retorna Usuário correspondete ao ID fornecido")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuário Encontrado", content = @Content(mediaType = "application/json",
@@ -50,8 +56,9 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content)
 
     })
-    public DadosUser buscar(@Parameter(description = "ID do Usuário a ser buscado") @PathVariable long id) {
-        return ResponseEntity.ok(this.UserService.getUser(id)).getBody();
+    public DadosUser buscar(@Parameter(description = "ID do Proprietário/Tenant que detém o usuário.") @PathVariable long owner_id,
+                            @Parameter(description = "ID do Usuário específico a ser buscado.") @PathVariable long id) throws Throwable {
+        return ResponseEntity.ok(this.UserService.getUser(owner_id, id)).getBody();
     }
 
     @PutMapping
@@ -64,7 +71,7 @@ public class UserController {
 
     })
     public ResponseEntity atualizar(@RequestBody @Valid User user, UriComponentsBuilder uriBuilder) {
-        this.UserService.salvar(user);
+        this.UserService.editar(user);
         return ResponseEntity.noContent().build();
     }
 
