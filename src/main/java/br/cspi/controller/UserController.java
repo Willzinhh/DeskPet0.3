@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses; // Import adicionad
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -24,14 +25,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@AllArgsConstructor
 @Tag(name = "Usuario", description = "Endpoints para gerenciamento de Usuarios (Users).")
 
 public class UserController {
 
     private UserService UserService;
-    public UserController(UserService UserService) {
-        this.UserService = UserService;
-    }
 
     @GetMapping("/listar")
     @Operation(summary = "Listar Usuários", description = "Lista todos os Usuários cadastrados")

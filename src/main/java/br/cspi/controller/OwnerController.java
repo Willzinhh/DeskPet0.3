@@ -31,7 +31,6 @@ public class OwnerController {
 
     private OwnerService OwnerService;
 
-
     @GetMapping("/listar")
     @Operation(summary = "Listar Proprietarios", description = "Lista todos os Proprietarios cadastrados")
     @ApiResponses(value = {

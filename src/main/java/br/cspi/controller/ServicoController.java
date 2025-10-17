@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,14 +18,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/servico")
+@AllArgsConstructor
 @Tag(name = "Serviço", description = "Endpoints para gerenciamento de Serviços (Banho, Tosa, etc.) oferecidos.")
 public class ServicoController {
 
     private final ServicoService servicoService;
-
-    public ServicoController(ServicoService servicoService) {
-        this.servicoService = servicoService;
-    }
 
     @GetMapping("/listar")
     @Operation(summary = "Listar Serviços", description = "Lista todos os serviços cadastrados.")

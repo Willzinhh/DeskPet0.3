@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,14 +18,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/agendamento")
+@AllArgsConstructor
 @Tag(name = "Agendamento", description = "Endpoints para gerenciamento de Agendamentos (Consultas, Serviços) dos Pets.")
 public class AgendamentoController {
 
     private final AgendamentoService agendamentoService;
 
-    public AgendamentoController(AgendamentoService agendamentoService) {
-        this.agendamentoService = agendamentoService;
-    }
 
     @GetMapping("/listar")
     @Operation(summary = "Listar Agendamentos", description = "Lista todos os agendamentos cadastrados.")

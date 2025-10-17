@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,15 +23,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pet")
+@AllArgsConstructor
 @Tag(name = "Pet", description = "Endpoints para gerenciamento de Pets.")
 
 public class PetController {
 
 
     private PetService PetService;
-    public PetController(PetService PetService) {
-        this.PetService = PetService;
-    }
 
     @GetMapping("/listar")
     @Operation(summary = "Listar Pets", description = "Lista todos os Pets cadastrados")

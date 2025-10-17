@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +21,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/funcionario")
+@AllArgsConstructor
 @Tag(name = "Funcionário", description = "Endpoints para gerenciamento de Funcionários (Colaboradores).")
 public class FuncionarioController {
 
     private final FuncionarioService funcionarioService;
     private final ServicoService servicoService;
 
-    public FuncionarioController(FuncionarioService funcionarioService, ServicoService servicoService) {
-        this.funcionarioService = funcionarioService;
-        this.servicoService = servicoService;
-    }
 
     @GetMapping("/listar")
     @Operation(summary = "Listar Funcionários", description = "Lista todos os funcionários cadastrados.")
