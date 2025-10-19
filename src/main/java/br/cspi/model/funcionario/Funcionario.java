@@ -5,6 +5,7 @@ import br.cspi.model.usuario.Owner; // Import necessário
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,11 +26,13 @@ public class Funcionario {
     // ... Campos de dados do Funcionário ...
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID único do Funcionário", example = "5")
-    private int id;
+    private Long id;
     @Schema(description = "Nome completo do Funcionário", example = "Ana Costa")
     private String nome;
+    @Size(min = 14, max = 14, message = "CPF deve seguir o formato XXX.XXX.XXX-XX ")
     @Schema(description = "CPF do Funcionário", example = "321.654.987-00")
     private String cpf;
+    @Size(min = 14, max = 14, message = "Telefone deve seguir o formato (XX)XXXXX-XXXX")
     @Schema(description = "Telefone para contato", example = "(11)99999-8888")
     private String telefone;
     @Schema(description = "Cargo ou função do Funcionário", example = "Veterinário")
@@ -56,6 +59,21 @@ public class Funcionario {
     @JsonManagedReference
     @Schema(description = "Lista de serviços que o funcionário está habilitado a realizar")
     private Set<Servico> servicos = new HashSet<>();
+
+
+
+    public  Funcionario(DadosFuncionario funcionario) {
+        Funcionario func = new Funcionario();
+        func.setId(funcionario.id());
+        func.setNome(funcionario.nome());
+        func.setCpf(funcionario.cpf());
+        func.setTelefone(funcionario.telefone());
+        func.setCargo(funcionario.cargo());
+        func.setSalario(funcionario.salario());
+        func.setAtivo(funcionario.ativo());
+
+    }
+
 
     public void addServico(Servico servico) {
         this.servicos.add(servico);

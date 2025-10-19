@@ -7,6 +7,8 @@ import br.cspi.model.usuario.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class OwnerService {
@@ -19,22 +21,35 @@ public class OwnerService {
         this.userRepository = userRepository;
     }
 
-    public Owner salvar(Owner owner) {this.repository.save(owner);
+    public Owner salvar(Owner owner) {
+        this.repository.save(owner);
 
         return owner;
     }
+
     public Owner atualizar(Owner owner) {
         Owner lowner = getOwner(owner.getId());
         List<User> users = lowner.getUsers();
         owner.setUsers(users);
+        owner.setUuid(lowner.getUuid());
         return repository.save(owner);
     }
 
-    public List<Owner> listar() {return this.repository.findAll();}
+    public List<Owner> listar() {
+        return this.repository.findAll();
+    }
 
-    public Owner getOwner(Long id) {return this.repository.findById(id).get();}
+    public Owner getOwner(Long id) {
+        return this.repository.findById(id).get();
+    }
 
-    public void excluir(Long id) {this.repository.deleteById(id);}
+    public void excluir(Long id) {
+        Optional<Owner> owner = this.repository.findById(id);
+        if(owner.isEmpty()) {
+            throw new NoSuchElementException("Usuário não encontrado");
+        }
+        this.repository.deleteById(id);
+    }
 
     public String atribuirUser(Long idOwner, User user) {
         Owner owner = this.repository.getReferenceById(idOwner);

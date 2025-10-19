@@ -1,6 +1,7 @@
 package br.cspi.controller;
 
 import br.cspi.model.cliente.Clientes;
+import br.cspi.model.pet.DadosPet;
 import br.cspi.model.pet.Pet;
 import br.cspi.model.usuario.Owner;
 import br.cspi.service.ClienteService;
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,28 +33,39 @@ public class PetController {
 
     private PetService PetService;
 
-    @GetMapping("/listar")
+    @GetMapping("/listar/{owner_id}")
     @Operation(summary = "Listar Pets", description = "Lista todos os Pets cadastrados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pets Encontrados", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Pet.class))),
     })
-    public List<Pet> listar() {
-        return PetService.listar();
+    public List<DadosPet> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id) {
+        return PetService.listar(owner_id);
     }
 
-    @GetMapping("/{id}") @Operation(summary = "Buscar Pet por ID", description = "Retorna Pet correspondete ao ID fornecido")
+    @GetMapping("/listar/{owner_id}/{tutor_id}")
+    @Operation(summary = "Listar Pets", description = "Lista todos os Pets cadastrados")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Pets Encontrados", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Pet.class))),
+    })
+    public List<DadosPet> listarByTutor(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long tutor_id) {
+        return PetService.listarByTutor(owner_id, tutor_id);
+    }
+
+    @GetMapping("/{owner_id}/{id}")
+    @Operation(summary = "Buscar Pet por ID", description = "Retorna Pet correspondete ao ID fornecido")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pet Encontrado", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Pet.class))),
             @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
 
     })
-    public Pet buscar(@Parameter(description = "ID do Pet a ser buscado") @PathVariable long id) {
-        return this.PetService .getPet(id);
+    public DadosPet buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Pet a ser buscado") @PathVariable long id) {
+        return this.PetService .getPet(owner_id, id);
     }
 
-    @PutMapping
+    @PutMapping("/{owner_id}")
     @Operation(summary = "Atualizar Pet", description = "Atualiza um Pet existente")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Pet atualizado com sucesso", content = @Content(mediaType = "application/json",
@@ -61,34 +74,24 @@ public class PetController {
             @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
 
     })
-    public Pet atualizar(@RequestBody @Valid Pet cliente ) {
-        return this.PetService .salvar(cliente);
+    public ResponseEntity<DadosPet> atualizar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id,@RequestBody @Valid Pet pet, UriComponentsBuilder uriBuilder ) {
+       DadosPet dp = this.PetService.editar(owner_id, pet);
+       URI uri = uriBuilder.path("/pet/owner_id").buildAndExpand(pet.getId()).toUri();
+         return ResponseEntity.created(uri).body(dp);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{owner_id}/{id}")
     @Operation(summary = "Deletar Pet por ID", description = "Remove o Pet correspondente ao ID fornecido")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Pet excluído com sucesso"),
             @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
     })
-    public ResponseEntity deletar(@Parameter(description = "ID do Pet a ser deletado")@PathVariable long id) {
-        this.PetService.excluir(id);
+    public ResponseEntity deletar(@Parameter(description = "ID do Pet a ser deletado")@PathVariable long owner_id, @Parameter(description = "ID do Pet a ser deletado")@PathVariable long id) {
+        this.PetService.excluir(owner_id, id);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
-    @Operation(summary = "Criar novo Pet", description = "Cria um novo Pet")
-    @ApiResponses(value = {
-            // Corrigido para 201 Created (POST) e 400 (Bad Request)
-            @ApiResponse(responseCode = "201", description = "Pet criado com sucesso", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Owner.class))),
-            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content)
-    })
-    public ResponseEntity salvar(@RequestBody @Valid Pet pet, UriComponentsBuilder uriBuilder) {
-        this.PetService.salvar(pet);
-        URI uri = uriBuilder.path("/pet/{id}").buildAndExpand(pet.getId()).toUri();
-        return ResponseEntity.created(uri).body(pet);
-    }
+
 
 
 }

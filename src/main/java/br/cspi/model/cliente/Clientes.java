@@ -1,21 +1,19 @@
 package br.cspi.model.cliente;
 
+import br.cspi.model.pet.Pet;
 import br.cspi.model.usuario.Owner; // Import necessário
+import br.cspi.model.usuario.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -48,5 +46,24 @@ public class Clientes {
     @Schema(description = "Proprietário (Owner) que gerencia este Cliente")
     private Owner owner;
 
-    // O campo 'private int owner_id;' foi removido.
+    @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonManagedReference
+    @Schema(description = "Lista de Pets vinculados a este Cliente",
+            accessMode = Schema.AccessMode.READ_ONLY)
+    private List<Pet> pets = new ArrayList<>();
+
+    // Método auxiliar para manter a consistência do relacionamento
+    public void addPet(Pet pet) {
+        pet.setOwner(this.owner);
+        pet.setTutor(this);
+        pets.add(pet);
+    }
+
+    public void removePet(Pet pet) {
+        pets.remove(pet);
+    }
+
+
 }

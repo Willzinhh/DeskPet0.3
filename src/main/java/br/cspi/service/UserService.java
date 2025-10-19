@@ -1,18 +1,14 @@
 package br.cspi.service;
 
-import br.cspi.infra.TratadorDeErros;
 import br.cspi.model.usuario.DadosUser;
 import br.cspi.model.usuario.User;
 import br.cspi.model.usuario.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -27,10 +23,9 @@ public class UserService {
     }
 
     public List<DadosUser> listar(Long id) {
-        List<DadosUser> users =repository.findUserByOwner(id).stream().map(DadosUser::new).toList();
+        List<DadosUser> users = repository.findUserByOwner(id).stream().map(DadosUser::new).toList();
         if (users.isEmpty()) {
-                throw new NoSuchElementException("Usuário não encontrado");
-
+            throw new NoSuchElementException("Usuário não encontrado");
         }
         return users;
     }
@@ -43,19 +38,23 @@ public class UserService {
         return new DadosUser(user);
     }
 
-    public void excluir(Long id) {
+    public void excluir(long owner_id ,long id) {
+        User user = repository.findUserByOwnerAndId(owner_id, id);
+        if (user == null) {
+            throw new NoSuchElementException("Usuário não encontrado");
+        }
+
         this.repository.deleteById(id);
     }
 
-    public void editar(User user) {
-        User u = this.repository.getReferenceById(user.getId());
-        u.setNome(user.getNome());
-        u.setEmail(user.getEmail());
-        u.setSenha(user.getSenha());
-        u.setId(user.getId());
+    public DadosUser editar(User user, long owner_id) {
+        User u = this.repository.findUserByOwnerAndId(owner_id, user.getId());
 
-        if (this.repository.existsById(user.getId())) {}
+        if (u == null) {
+            throw new NoSuchElementException("Usuário não encontrado");
+        }
+        user.setOwner(u.getOwner());
 
-        this.repository.save(u);
+        return new DadosUser(this.repository.save(user));
     }
 }

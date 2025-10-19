@@ -1,28 +1,68 @@
 package br.cspi.service;
 
+import br.cspi.model.servico.DadosServico;
 import br.cspi.model.servico.Servico;
 import br.cspi.model.servico.ServicoRepository;
+import br.cspi.model.usuario.Owner;
+import br.cspi.model.usuario.OwnerRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ServicoService {
 
     private final ServicoRepository servicoRepository;
+    private final OwnerRepository ownerRepository;
 
-    public ServicoService(ServicoRepository servicoRepository) {this.servicoRepository = servicoRepository;}
 
-    public List<Servico> listar() {return servicoRepository.findAll();}
+    public List<DadosServico> listar(long owner_id) {
+        List<DadosServico> s = servicoRepository.findServicosByOwner(owner_id).stream().map(DadosServico::new).collect(Collectors.toList());
+        if (s.isEmpty()) {
+            throw new NoSuchElementException("Proprietario não encontrado");
+        }
+        return s;
+    }
 
-    public Servico salvar(Servico servico) {return servicoRepository.save(servico);}
+    public DadosServico salvar(long owner_id, Servico servico) {
+        Owner owner = ownerRepository.findOwnerById(owner_id);
+        if (owner == null) {
+            throw new NoSuchElementException("Proprietario não encontrado");
+        }
+        servico.setOwner(owner);
 
-    public Servico alterar(Servico servico) {return servicoRepository.save(servico);}
+        return new DadosServico(this.servicoRepository.save(servico));
+    }
 
-    public Servico buscar(Long id) {return servicoRepository.findById(id).get();}
+    public DadosServico editar(long owner_id,Servico servico) {
+        Servico s = this.servicoRepository.findServicoByOwnerAndId(owner_id, servico.getId());
+        if (s == null) {
+            throw new NoSuchElementException("Proprietario não encontrado");
+        }
+        servico.setOwner(s.getOwner());
+        servico.setFuncionarios(s.getFuncionarios());
+        return new DadosServico( servicoRepository.save(servico));
+    }
 
-    public void excluir(Long id) {servicoRepository.deleteById(id);}
+    public DadosServico buscar(long owner_id, long id) {
+       Servico s = servicoRepository.findServicoByOwnerAndId(owner_id, id);
+       if (s == null) {
+           throw new NoSuchElementException("Proprietario não encontrado");
+       }
+       return new DadosServico(s);
+    }
 
+    public void excluir(long owner_id, long id) {
+        Servico s = this.servicoRepository.findServicoByOwnerAndId(owner_id, id);
+        if (s == null) {
+            throw new NoSuchElementException("Proprietario não encontrado");
+        }
+        servicoRepository.deleteById(id);
+    }
 
 
 }

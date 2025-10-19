@@ -25,7 +25,7 @@ public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID único do Serviço", example = "3")
-    private int id;
+    private Long id;
     @Schema(description = "Nome do Serviço", example = "Banho e Tosa")
     private String nome;
     @Schema(description = "Descrição detalhada do Serviço", example = "Inclui corte de pelo, limpeza de ouvidos e corte de unhas.")

@@ -2,6 +2,7 @@ package br.cspi.model.pet;
 
 import br.cspi.model.cliente.Clientes; // Import necessário
 import br.cspi.model.usuario.Owner;    // Import necessário
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -46,8 +47,11 @@ public class Pet {
     // CORREÇÃO: Mapeamento N:1 para o Tutor (Clientes)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id", nullable = false)
+    @JsonBackReference
     @Schema(description = "Objeto Tutor (Cliente) responsável pelo Pet")
     private Clientes tutor;
+
+
 
     // CORREÇÃO: Mapeamento N:1 para o Owner
     @ManyToOne(fetch = FetchType.LAZY)

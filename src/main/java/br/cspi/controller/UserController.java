@@ -61,7 +61,7 @@ public class UserController {
         return ResponseEntity.ok(this.UserService.getUser(owner_id, id)).getBody();
     }
 
-    @PutMapping
+    @PutMapping("/{owner_id}")
     @Transactional
     @Operation(summary = "Atualizar Usuário", description = "Atualiza um Usuário existente")
     @ApiResponses(value = {
@@ -70,19 +70,19 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content)
 
     })
-    public ResponseEntity atualizar(@RequestBody @Valid User user, UriComponentsBuilder uriBuilder) {
-        this.UserService.editar(user);
+    public ResponseEntity<DadosUser> atualizar(@Parameter(description = "ID do Usuário a ser deletado") @PathVariable long owner_id ,@RequestBody @Valid User user, UriComponentsBuilder uriBuilder) {
+        DadosUser du = this.UserService.editar(user, owner_id);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}") // Adicionei o path variable aqui
+    @DeleteMapping("/{owner_id}/{id}") // Adicionei o path variable aqui
     @Operation(summary = "Deletar Usuário por ID", description = "Remove o Usuário correspondente ao ID fornecido")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Usuário excluído com sucesso"),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content)
     })
-    public ResponseEntity deletar(@Parameter(description = "ID do Usuário a ser deletado") @PathVariable long id) { // Adicionei o path variable aqui
-        this.UserService.excluir(id);
+    public ResponseEntity deletar(@Parameter(description = "ID do Usuário a ser deletado") @PathVariable long owner_id,@Parameter(description = "ID do Usuário a ser deletado") @PathVariable long id) { // Adicionei o path variable aqui
+        this.UserService.excluir(owner_id,id);
         return ResponseEntity.noContent().build();
     }
 

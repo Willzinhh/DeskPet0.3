@@ -1,6 +1,7 @@
 package br.cspi.controller;
 
 import br.cspi.model.agendamento.Agendamento;
+import br.cspi.model.agendamento.InputDadosAgendamento;
 import br.cspi.service.AgendamentoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/agendamento")
@@ -48,7 +50,6 @@ public class AgendamentoController {
         return this.agendamentoService.getById(id); //
     }
 
-    @PostMapping
     @Operation(summary = "Criar novo Agendamento", description = "Cria e salva um novo agendamento.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Agendamento criado com sucesso.",
@@ -56,8 +57,15 @@ public class AgendamentoController {
                             schema = @Schema(implementation = Agendamento.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content)
     })
-    public Agendamento salvar(@RequestBody @Valid Agendamento agendamento) {
-        return this.agendamentoService.salvar(agendamento); //
+    @PostMapping({"{owner_id}/{funcionario_id}/{pet_id}/{servico_id}", ""})
+    public Agendamento salvar(@Parameter(description = "ID do Proprietario") @PathVariable int owner_id, @Parameter(description = "ID do Funcionario") @PathVariable int funcionario_id, @Parameter(description = "ID do Pet") @PathVariable int pet_id, @Parameter(description = "ID do Servico") @PathVariable int servico_id, @RequestBody @Valid InputDadosAgendamento agendamento) {
+        Agendamento agendamentoEntity = new Agendamento();
+        agendamentoEntity.setData(agendamento.data());
+        agendamentoEntity.setHorario(agendamento.horario());
+        agendamentoEntity.setObservacao(agendamento.observacao());
+        agendamentoEntity.setStatus(agendamento.status());
+        agendamentoEntity.setPagamento(agendamento.pagamento());
+        return this.agendamentoService.salvar(owner_id, funcionario_id, pet_id, servico_id, agendamentoEntity); //
     }
 
     @PutMapping

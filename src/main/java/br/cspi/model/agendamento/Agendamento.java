@@ -17,8 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Time;
-import java.util.Date;
+import java.time.OffsetDateTime;
 // ... (outros imports)
 
 @Entity
@@ -31,11 +30,11 @@ public class Agendamento {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID único do Agendamento", example = "50")
-    private int id;
+    private Long id;
     @Schema(description = "Data do Agendamento", example = "2025-10-25")
-    private Date data;
+    private OffsetDateTime data;
     @Schema(description = "Horário do Agendamento", example = "14:30:00")
-    private Time horario;
+    private OffsetDateTime horario;
 
     // CORREÇÃO: Mapeamento N:1 para o Pet
     @ManyToOne(fetch = FetchType.LAZY)
@@ -79,4 +78,6 @@ public class Agendamento {
     @Schema(description = "Nome do Funcionário (campo extra para exibição)")
     private String funcionarioNome;
     */
+
+
 }
