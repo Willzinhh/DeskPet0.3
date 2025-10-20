@@ -10,7 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -46,5 +48,5 @@ public class Servico {
     @ManyToMany(mappedBy = "servicos")
     @JsonBackReference
     @Schema(description = "Lista de funcionários habilitados para realizar este serviço")
-    private Set<Funcionario> funcionarios = new HashSet<>();
+    private List<Funcionario> funcionarios = new ArrayList<>();
 }

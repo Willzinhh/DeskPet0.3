@@ -3,11 +3,14 @@ package br.cspi.service;
 import br.cspi.model.funcionario.DadosFuncionario;
 import br.cspi.model.funcionario.Funcionario;
 import br.cspi.model.funcionario.FuncionarioRepository;
+import br.cspi.model.servico.Servico;
+import br.cspi.model.servico.ServicoRepository;
 import br.cspi.model.usuario.Owner;
 import br.cspi.model.usuario.OwnerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -17,6 +20,7 @@ public class FuncionarioService {
 
     private final FuncionarioRepository funcionarioRepository;
     private final OwnerRepository ownerRepository;
+    private final ServicoRepository servicoRepository;
 
 
     public DadosFuncionario buscarPorId(long owner_id ,long id) {
@@ -66,5 +70,26 @@ public class FuncionarioService {
 
         funcionario.setOwner(f.getOwner());
         return new DadosFuncionario( funcionarioRepository.save(funcionario));
+    }
+
+    public void associarServico(Long owner_id, Long funcionario_id, Long servico_id) {
+        Funcionario f = funcionarioRepository.findFuncionarioByOwnerAndId(owner_id, funcionario_id);
+        Servico s = servicoRepository.findServicoByOwnerAndId(owner_id, servico_id);
+
+        if(f == null || s == null) {
+            throw new NoSuchElementException("Proprietario não encontrado");
+        }
+
+        f.addServico(s);
+        funcionarioRepository.save(f); // Hibernate salva também na tabela intermediária
+    }
+
+    public List<DadosFuncionario> listarByServico(long owner_id, long servicoId) {
+        List<DadosFuncionario> f = this.funcionarioRepository.findFuncionariosByServico(owner_id, servicoId).stream().map(DadosFuncionario::new).toList();
+        if(f.isEmpty()) {
+            throw new NoSuchElementException("Proprietario não encontrado");
+        }
+        return f;
+
     }
 }

@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -58,25 +60,12 @@ public class Funcionario {
     )
     @JsonManagedReference
     @Schema(description = "Lista de serviços que o funcionário está habilitado a realizar")
-    private Set<Servico> servicos = new HashSet<>();
-
-
-
-    public  Funcionario(DadosFuncionario funcionario) {
-        Funcionario func = new Funcionario();
-        func.setId(funcionario.id());
-        func.setNome(funcionario.nome());
-        func.setCpf(funcionario.cpf());
-        func.setTelefone(funcionario.telefone());
-        func.setCargo(funcionario.cargo());
-        func.setSalario(funcionario.salario());
-        func.setAtivo(funcionario.ativo());
-
-    }
-
+    private List<Servico> servicos = new ArrayList<>();
 
     public void addServico(Servico servico) {
-        this.servicos.add(servico);
-        servico.getFuncionarios().add(this);
+        if (!this.servicos.contains(servico)) {
+            this.servicos.add(servico);
+            servico.getFuncionarios().add(this);
+        }
     }
 }

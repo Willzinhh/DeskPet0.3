@@ -52,6 +52,17 @@ public class ServicoController {
         return this.servicoService.buscar(owner_id, id); //
     }
 
+    @GetMapping("/listarbyFuncionario/{owner_id}/{funcionario_id}")
+    @Operation(summary = "Listar Serviços", description = "Lista todos os serviços cadastrados.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de Serviços retornada com sucesso.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Servico.class))),
+    })
+    public List<DadosServico> listarByFuncionario(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long funcionario_id) {
+        return servicoService.listarByFuncionario(owner_id, funcionario_id); //
+    }
+
     @PostMapping("/{owner_id}")
     @Operation(summary = "Criar novo Serviço", description = "Cria e salva um novo serviço.")
     @ApiResponses(value = {

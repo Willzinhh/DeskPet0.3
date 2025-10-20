@@ -47,6 +47,17 @@ public class FuncionarioController {
         return funcionarioService.listar(owner_id); //
     }
 
+    @GetMapping("/listarByServico/{owner_id}/{servico_id}")
+    @Operation(summary = "Listar Funcionários", description = "Lista Funcionarios por Servico.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de Funcionários retornada com sucesso.",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Funcionario.class))),
+    })
+    public List<DadosFuncionario> listarByServico(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id , @Parameter(description = "ID do Proprietario") @PathVariable long servico_id) {
+        return funcionarioService.listarByServico(owner_id, servico_id); //
+    }
+
     @GetMapping("/{owner_id}/{id}")
     @Operation(summary = "Buscar Funcionário por ID", description = "Retorna um funcionário específico pelo seu ID.")
     @ApiResponses(value = {
@@ -115,36 +126,19 @@ public class FuncionarioController {
         this.funcionarioService.excluir(owner_id,id); //
         return ResponseEntity.noContent().build();
     }
-//
-//    @Operation(
-//            summary = "Vincula um serviço a um funcionário",
-//            description = "Associa um serviço existente a um funcionário existente. "
-//                    + "Permite registrar quais serviços cada funcionário está habilitado a realizar."
-//    )
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "201", description = "Serviço vinculado com sucesso",
-//                    content = @Content(mediaType = "application/json",
-//                            schema = @Schema(implementation = Funcionario.class))),
-//            @ApiResponse(responseCode = "404", description = "Funcionário ou serviço não encontrado",
-//                    content = @Content),
-//            @ApiResponse(responseCode = "400", description = "Requisição inválida",
-//                    content = @Content)
-//    })
-//    @PutMapping("/{idFuncionario}/servicos/{idServico}")
-//    public ResponseEntity<?> vincularServico(
-//            @Parameter(description = "ID do funcionário que receberá o serviço", example = "1")
-//            @PathVariable Long idFuncionario,
-//
-//            @Parameter(description = "ID do serviço a ser vinculado", example = "2")
-//            @PathVariable Long idServico) {
-//
-//        Funcionario funcionario = funcionarioService.buscarPorId(idFuncionario);
-//        Servico servico = servicoService.buscar(idServico);
-//
-//        funcionario.getServicos().add(servico);
-//        funcionarioService.salvar(funcionario);
-//
-//        return ResponseEntity.ok(funcionario);
-//    }
 
+    @PutMapping("/{owner_id}/{funcionario_id}/{servico_id}")
+    @Operation(summary = "Adicionar Serviços a Funcionario", description = "Adiciona Serviço a lista de Serviços que ele pode executar")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Servico atribuido com sucesso.",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Dados inválios ou ID não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Funcionario não encontrado", content = @Content)
+
+    })
+    public ResponseEntity atualizar(@Parameter (description = "ID do Funcionário a ser deletado") @PathVariable long owner_id, @Parameter (description = "ID do Funcionário a ser deletado") @PathVariable long funcionario_id, @Parameter (description = "ID do Funcionário a ser deletado") @PathVariable long servico_id) {
+        this.funcionarioService.associarServico(owner_id,funcionario_id,servico_id);
+
+        return ResponseEntity.noContent().build();
+    }
 }

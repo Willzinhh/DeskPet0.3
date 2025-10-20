@@ -65,4 +65,11 @@ public class ServicoService {
     }
 
 
+    public List<DadosServico> listarByFuncionario(long ownerId, long funcionarioId) {
+        List<DadosServico> ds = this.servicoRepository.findServicosByFuncionario(ownerId, funcionarioId).stream().map(DadosServico::new).toList();
+        if (ds.isEmpty()) {
+            throw new NoSuchElementException("Proprietario não encontrado");
+        }
+        return ds;
+    }
 }
