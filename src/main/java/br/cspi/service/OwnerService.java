@@ -4,6 +4,7 @@ import br.cspi.model.usuario.Owner;
 import br.cspi.model.usuario.OwnerRepository;
 import br.cspi.model.usuario.User;
 import br.cspi.model.usuario.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,10 @@ public class OwnerService {
     }
 
     public Owner salvar(Owner owner) {
+        owner.getUsers().get(0).setSenha(new BCryptPasswordEncoder().encode(owner.getUsers().get(0).getSenha()));
+        owner.getUsers().get(0).setOwner(owner);
         this.repository.save(owner);
+
 
         return owner;
     }
@@ -53,6 +57,7 @@ public class OwnerService {
 
     public String atribuirUser(Long idOwner, User user) {
         Owner owner = this.repository.getReferenceById(idOwner);
+        user.setSenha(new BCryptPasswordEncoder().encode(user.getSenha()));
         userRepository.save(user);
         owner.addUser(user);
         return "Usuario atualizado com sucesso!";
