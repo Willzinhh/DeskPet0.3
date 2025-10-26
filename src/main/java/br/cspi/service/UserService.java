@@ -23,13 +23,12 @@ public class UserService {
         return new DadosUser(user);
     }
 
-    public List<User> listar(String id) {
-        User users = repository.findByEmail(id);
-//        List<DadosUser> users = repository.findUserByOwner(id).stream().map(DadosUser::new).toList();
-//        if (users.isEmpty()) {
-//            throw new NoSuchElementException("Usuário não encontrado");
-//        }
-        return Collections.singletonList(users);
+    public List<DadosUser> listar(Long id) {
+        List<DadosUser> users = repository.findUserByOwner(id).stream().map(DadosUser::new).toList();
+        if (users.isEmpty()) {
+            throw new NoSuchElementException("Usuário não encontrado");
+        }
+        return users;
     }
 
     public DadosUser getUser(Long owner_id, Long id) throws Throwable {

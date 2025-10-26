@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -37,6 +38,7 @@ public class OwnerController {
             @ApiResponse(responseCode = "200", description = "Proprietarios Encontrados", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Owner.class))),
     })
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Owner> listar() {
         return OwnerService.listar();
     }

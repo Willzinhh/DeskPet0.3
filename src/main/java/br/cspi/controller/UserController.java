@@ -41,7 +41,7 @@ public class UserController {
                     schema = @Schema(implementation = DadosUser.class))),
             @ApiResponse(responseCode = "404", description = "Owner não encontrado", content = @Content)
     })
-    public ResponseEntity<List<User>> listar(@Parameter(description = "ID do Proprietario") @PathVariable() String owner_id) {
+    public ResponseEntity<List<DadosUser>> listar(@Parameter(description = "ID do Proprietario") @PathVariable() Long owner_id) {
         return ResponseEntity.ok(this.UserService.listar(owner_id));
     }
 

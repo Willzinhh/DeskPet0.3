@@ -1,6 +1,7 @@
 package br.cspi.infra.security;
 
 
+import br.cspi.service.AutenticacaoService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ public class SecurityConfig {
 
     private final AuenticacaoFilter autenticacaoFilter;
 
+
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
@@ -31,14 +33,20 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             .authorizeHttpRequests(auth -> auth
                             //endpoint de login - todos
                             .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                            //endpoint de registro de usuario]
-                            //documentaçao do swagger
+                            .requestMatchers(HttpMethod.POST, "/owner").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+
+                            .requestMatchers(HttpMethod.GET, "/owner/**").hasAuthority("ADMIN")
+                            .requestMatchers(HttpMethod.DELETE, "/owner/**").hasAuthority("ADMIN")
+
+                            .requestMatchers( HttpMethod.POST, "/user/**","/funcionario/**","/servico/**", "/produto/**", "/pet/**", "/cliente/**").hasAnyAuthority("OWNER","ADMIN")
+                            .requestMatchers( HttpMethod.PUT,"/user/**","/funcionario/**","/servico/**", "/produto/**", "/pet/**", "/cliente/**").hasAnyAuthority("OWNER","ADMIN")
+                            .requestMatchers( HttpMethod.DELETE,"/user/**","/funcionario/**","/servico/**", "/produto/**", "/pet/**", "/cliente/**").hasAnyAuthority("OWNER","ADMIN")
+
 
 
                             .anyRequest().authenticated()
             )
-//                .addFilterBefore(this.filtroToken, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(this.autenticacaoFilter, UsernamePasswordAuthenticationFilter.class)
             .build(); // sessao nao salvs
 }

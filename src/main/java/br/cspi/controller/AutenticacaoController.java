@@ -1,6 +1,7 @@
 package br.cspi.controller;
 
 import br.cspi.infra.security.TokenServiceJWT;
+import br.cspi.model.usuario.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -25,10 +26,12 @@ public class AutenticacaoController {
 
     private final AuthenticationManager manager;
     private final TokenServiceJWT tokenServiceJWT;
+    private final UserRepository userRepository;
 
-    public AutenticacaoController(AuthenticationManager manager, TokenServiceJWT tokenServiceJWT) {
+    public AutenticacaoController(AuthenticationManager manager, TokenServiceJWT tokenServiceJWT, UserRepository userRepository) {
         this.manager = manager;
         this.tokenServiceJWT = tokenServiceJWT;
+        this.userRepository = userRepository;
     }
 
     @PostMapping
@@ -40,8 +43,10 @@ public class AutenticacaoController {
             Authentication autenticado = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
             Authentication at = manager.authenticate(autenticado);
 
+            br.cspi.model.usuario.User userr = userRepository.findByEmail(dados.email());
+
             User user = (User) at.getPrincipal();
-            String token = this.tokenServiceJWT.gerarToken(user);
+            String token = this.tokenServiceJWT.gerarToken(userr);
 
             return ResponseEntity.ok().body(new DadosTokenJWT (token));
         }

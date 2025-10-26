@@ -23,7 +23,6 @@ public class OwnerService {
     }
 
     public Owner salvar(Owner owner) {
-        owner.getUsers().get(0).setSenha(new BCryptPasswordEncoder().encode(owner.getUsers().get(0).getSenha()));
         this.repository.save(owner);
 
 

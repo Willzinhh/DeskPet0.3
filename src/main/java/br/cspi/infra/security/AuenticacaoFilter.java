@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.hibernate.annotations.Filter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Service
+@AllArgsConstructor
 public class AuenticacaoFilter extends OncePerRequestFilter {
 
     private TokenServiceJWT tokenService;
@@ -24,19 +26,19 @@ public class AuenticacaoFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         System.out.println("filtro para autenticar e autorizar");
+        System.out.println("filtro para autenticação e autorização");
 
-        String token = request.getHeader("token");
-        System.out.println("token: " + token);
+        String token = this.recuperaToken(request);
+        System.out.println("Token: " + token);
 
         if (token != null) {
             String subject = this.tokenService.getSubject(token);
-            System.out.println("subject: " + subject);
+            System.out.println("Login: " + subject);
+
 
             UserDetails userDetails = this.autenticacaoService.loadUserByUsername(subject);
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
 
         filterChain.doFilter(request, response);
