@@ -1,9 +1,7 @@
 package br.cspi.controller;
 
 
-import br.cspi.dto.UserDTO;
 import br.cspi.model.usuario.DadosUser;
-import br.cspi.model.usuario.Owner;
 import br.cspi.model.usuario.User;
 import br.cspi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation; // Import adicionado
@@ -18,7 +16,6 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -44,7 +41,7 @@ public class UserController {
                     schema = @Schema(implementation = DadosUser.class))),
             @ApiResponse(responseCode = "404", description = "Owner não encontrado", content = @Content)
     })
-    public ResponseEntity<List<DadosUser>> listar(@Parameter(description = "ID do Proprietario") @PathVariable() long owner_id) {
+    public ResponseEntity<List<User>> listar(@Parameter(description = "ID do Proprietario") @PathVariable() String owner_id) {
         return ResponseEntity.ok(this.UserService.listar(owner_id));
     }
 

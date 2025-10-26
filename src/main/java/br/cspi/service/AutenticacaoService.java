@@ -1,6 +1,5 @@
 package br.cspi.service;
 
-
 import br.cspi.model.usuario.User;
 import br.cspi.model.usuario.UserRepository;
 import lombok.AllArgsConstructor;
@@ -12,21 +11,18 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class AutenticacaoService implements UserDetailsService {
+
     private final UserRepository userRepository;
 
-
-
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-
-        if(user == null){
-            throw new UsernameNotFoundException("Usuario não encontrado");
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        User usuario = userRepository.findByEmail(login);
+        if (usuario == null) {
+            throw new UsernameNotFoundException("Usuario ou senha Incoreetos");
+        }else{
+            return org.springframework.security.core.userdetails.User.withUsername(usuario.getEmail())
+                    .password(usuario.getSenha()).authorities(usuario.getPermissao()).build();
         }
-//        else{
-//            UserDetails userD = User.withEmail(user.getEmail())
-//                    .password(user.get)
-//        }
-        return null;
+
     }
 }

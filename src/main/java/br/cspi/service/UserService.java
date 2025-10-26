@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -22,12 +23,13 @@ public class UserService {
         return new DadosUser(user);
     }
 
-    public List<DadosUser> listar(Long id) {
-        List<DadosUser> users = repository.findUserByOwner(id).stream().map(DadosUser::new).toList();
-        if (users.isEmpty()) {
-            throw new NoSuchElementException("Usuário não encontrado");
-        }
-        return users;
+    public List<User> listar(String id) {
+        User users = repository.findByEmail(id);
+//        List<DadosUser> users = repository.findUserByOwner(id).stream().map(DadosUser::new).toList();
+//        if (users.isEmpty()) {
+//            throw new NoSuchElementException("Usuário não encontrado");
+//        }
+        return Collections.singletonList(users);
     }
 
     public DadosUser getUser(Long owner_id, Long id) throws Throwable {

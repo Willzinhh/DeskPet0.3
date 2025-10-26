@@ -5,16 +5,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "owner")                // ✅ Evita loop ao imprimir o User
+@EqualsAndHashCode(exclude = "owner")       // ✅ Evita loop em equals/hashCode
 @Table(name ="usuario")
 @Schema(description = "Detalhes do Usuário Secundário (Funcionário) vinculado a um Proprietário")
 public class User {

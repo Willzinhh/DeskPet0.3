@@ -1,4 +1,4 @@
-package br.cspi.infra;
+package br.cspi.infra.exceptions;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
