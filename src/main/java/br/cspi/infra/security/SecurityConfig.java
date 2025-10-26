@@ -37,6 +37,8 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 
                             .requestMatchers(HttpMethod.GET, "/owner/**").hasAuthority("ADMIN")
+                            .requestMatchers(HttpMethod.GET, "/user/**").hasAnyAuthority("ADMIN", "USER")
+
                             .requestMatchers(HttpMethod.DELETE, "/owner/**").hasAuthority("ADMIN")
 
                             .requestMatchers( HttpMethod.POST, "/user/**","/funcionario/**","/servico/**", "/produto/**", "/pet/**", "/cliente/**").hasAnyAuthority("OWNER","ADMIN")

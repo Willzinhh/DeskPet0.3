@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -41,6 +42,7 @@ public class UserController {
                     schema = @Schema(implementation = DadosUser.class))),
             @ApiResponse(responseCode = "404", description = "Owner não encontrado", content = @Content)
     })
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseEntity<List<DadosUser>> listar(@Parameter(description = "ID do Proprietario") @PathVariable() Long owner_id) {
         return ResponseEntity.ok(this.UserService.listar(owner_id));
     }
@@ -53,6 +55,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content)
 
     })
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public DadosUser buscar(@Parameter(description = "ID do Proprietário/Tenant que detém o usuário.") @PathVariable long owner_id,
                             @Parameter(description = "ID do Usuário específico a ser buscado.") @PathVariable long id) throws Throwable {
         return ResponseEntity.ok(this.UserService.getUser(owner_id, id)).getBody();
@@ -78,6 +81,7 @@ public class UserController {
             @ApiResponse(responseCode = "204", description = "Usuário excluído com sucesso"),
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content)
     })
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseEntity deletar(@Parameter(description = "ID do Usuário a ser deletado") @PathVariable long owner_id,@Parameter(description = "ID do Usuário a ser deletado") @PathVariable long id) { // Adicionei o path variable aqui
         this.UserService.excluir(owner_id,id);
         return ResponseEntity.noContent().build();
@@ -91,7 +95,29 @@ public class UserController {
                     schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content)
     })
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseEntity<DadosUser> salvar(@RequestBody @Valid UriComponentsBuilder uriBuilder, User user) {
+        if (user.getPermissao().equals("ADMIN")) {
+            user.setPermissao("OWNER");
+        }
+        DadosUser uc = UserService.salvar(user);
+        URI uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).body(uc);
+    }
+
+    @PostMapping
+    @Operation(summary = "Criar novo Usuario Admin", description = "Cria um novo Usuario")
+    @ApiResponses(value = {
+            // Corrigido para 201 Created (POST) e 400 (Bad Request)
+            @ApiResponse(responseCode = "201", description = "Usuario criado com sucesso", content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = User.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui a role 'ADMIN'.", content = @Content)
+
+    })
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<DadosUser> salvarAdmin(@RequestBody @Valid UriComponentsBuilder uriBuilder, User user) {
+        user.setPermissao("ADMIN");
         DadosUser uc = UserService.salvar(user);
         URI uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
         return ResponseEntity.created(uri).body(uc);

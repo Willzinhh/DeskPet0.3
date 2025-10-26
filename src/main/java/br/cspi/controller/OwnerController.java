@@ -37,6 +37,7 @@ public class OwnerController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Proprietarios Encontrados", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Owner.class))),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui a role 'ADMIN'.", content = @Content),
     })
     @PreAuthorize("hasRole('ADMIN')")
     public List<Owner> listar() {
@@ -50,8 +51,10 @@ public class OwnerController {
             // Corrigido para 200 OK (GET Request) e 404 (Não encontrado)
             @ApiResponse(responseCode = "200", description = "Proprietario Encontrado", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Owner.class))),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui a role 'ADMIN'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietario não encontrado", content = @Content)
     })
+    @PreAuthorize("hasRole('ADMIN')")
     public Owner buscar(@Parameter(description = "ID do Proprietario a ser buscado") @PathVariable long id) {
         return this.OwnerService.getOwner(id);
     }
@@ -65,6 +68,7 @@ public class OwnerController {
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content)
 
     })
+
     public ResponseEntity salvar(@RequestBody @Valid Owner owner, UriComponentsBuilder uriBuilder) {
         this.OwnerService.salvar(owner);
         URI uri = uriBuilder.path("/owner/{id}").buildAndExpand(owner.getId()).toUri();
@@ -90,19 +94,22 @@ public class OwnerController {
     @ApiResponses(value = {
             // Documentação adicionada
             @ApiResponse(responseCode = "204", description = "Proprietario excluído com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui a role 'ADMIN'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietario não encontrado", content = @Content)
     })
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity deletar(@Parameter(description = "ID do Proprietario a ser deletado") @PathVariable long id) {
         this.OwnerService.excluir(id);
         return ResponseEntity.noContent().build();
     }
 
+
     @PutMapping("/{id}/addUser")
     @Transactional
-    @Operation(summary = "Adicionar Usuário ao Proprietário", description = "Atribui um novo Usuário ao Proprietário especificado pelo ID")
+    @Operation(summary = "Adicionar Usuário ao Proprietário", description = "Atribui um novo Usuário ao Proprietário especificado pelo ID e retorna o Owner atualizado.")
     @ApiResponses(value = {
-            // Documentação adicionada
-            @ApiResponse(responseCode = "204", description = "Usuário atribuído com sucesso", content = @Content(mediaType = "application/json",
+            // CORREÇÃO CRÍTICA: O código retorna 200 OK (ResponseEntity.ok(...)), não 204 No Content.
+            @ApiResponse(responseCode = "200", description = "Usuário atribuído com sucesso. Retorna o Proprietário atualizado.", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Owner.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietário não encontrado", content = @Content)
