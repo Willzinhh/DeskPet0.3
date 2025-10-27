@@ -6,6 +6,10 @@ O **DeskPet RestAPI** é o backend da aplicação DeskPet, projetada para gerenc
 
 A API é construída com **Java (Spring Boot)** e utiliza **JPA/Hibernate** para persistência de dados. A documentação interativa completa é fornecida via **Swagger (OpenAPI 3)**.
 
+## 🌟 Modelo de ER
+
+<img src="" alt="Captura de tela" width="400" height="200" />
+
 ### 🔑 Principais Funcionalidades
 
 * **Gerenciamento de Proprietários (Owners):** Cadastro e controle da conta principal e seus planos de assinatura (`Free`, `Basic`, `Premium`).
