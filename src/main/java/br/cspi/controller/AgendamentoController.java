@@ -23,6 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/agendamento")
 @AllArgsConstructor
+@ControllerAdvice
 @Tag(name = "Agendamento", description = "Endpoints para gerenciamento de Agendamentos (Consultas, Serviços) dos Pets.")
 public class AgendamentoController {
 
