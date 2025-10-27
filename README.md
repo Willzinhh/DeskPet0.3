@@ -8,7 +8,7 @@ A API é construída com **Java (Spring Boot)** e utiliza **JPA/Hibernate** para
 
 ## 🌟 Modelo de ER
 
-<img src="https://github.com/Willzinhh/DeskPet0.3/blob/main/Diagrama1.png" alt="Captura de tela" width="400" height="200" />
+<img src="https://raw.githubusercontent.com/Willzinhh/DeskPet0.3/main/Diagrama1.png" alt="Captura de tela" width="400" height="200" />
 
 ### 🔑 Principais Funcionalidades
 
