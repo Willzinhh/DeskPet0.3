@@ -17,7 +17,7 @@ collection:
         meta:
           id: req_d083d7998e57442cb2ef7fe0189926b0
           created: 1760310846033
-          modified: 1760909186685
+          modified: 1761540500300
           isPrivate: false
           sortKey: -1760311039952
         method: GET
@@ -26,6 +26,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NzQ3MX0.b-MjONMZ717N34lffjzcoK0qwV4v8D-yQx4hkT6SLFw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -61,7 +64,7 @@ collection:
         meta:
           id: req_c7fa18f3149b4b1ea6012a51efeef4b5
           created: 1760310846035
-          modified: 1760896331605
+          modified: 1761543407424
           isPrivate: false
           sortKey: -1760311039752
         method: POST
@@ -78,6 +81,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NzQ3MX0.b-MjONMZ717N34lffjzcoK0qwV4v8D-yQx4hkT6SLFw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -322,7 +328,7 @@ collection:
         meta:
           id: req_bfbf1537b3b3477da2aa8d9eb91f4ec4
           created: 1760310846049
-          modified: 1761512690767
+          modified: 1761543338318
           isPrivate: false
           sortKey: -1760311021486
         method: GET
@@ -332,11 +338,9 @@ collection:
           - name: Content-Type
             value: application/json
             id: pair_db2492c8c39f41cd8bdf4c673d99e246
-          - id: pair_ad909cff16874c49b7ab694f579e5945
-            name: Authorization
-            value: Bearer
-              eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IlBlZHJvQGdtYWlsLmNvbSIsIlJPTEUiOiJGdW5jaW9uYXJpbyIsImV4cCI6MTc2MTUxOTg3Nn0.YDJCSgUy1J01AF4o25AKMB4v1j6S-TF7y50V47QJ9ZE
-            disabled: false
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU1MDQ4MX0.4SmZt-6waZwYgWxxJPdUyvDhFOgDc9EbKYD-Tj9doZk
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -532,7 +536,7 @@ collection:
         meta:
           id: req_3d50fe8bbe764bceb8330aeb55ddb2e9
           created: 1760310846053
-          modified: 1761524161561
+          modified: 1761541931697
           isPrivate: false
           sortKey: -1760311005190
         method: GET
@@ -543,7 +547,7 @@ collection:
             disabled: false
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTUzMDg3NH0.g8V5gxjoMIH6EGdrQByP_5ic9MkWn3u_GJBbq1NxBOA
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0OTA4NH0.cPaMVwkXCJbCEo7ie2hNc1o1CcK65Kf6AdJwlTj3nrw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -642,12 +646,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/owner/9/addUser
+      - url: http://localhost:8080/DeskPet/owner/1/addUser
         name: Adicionar Usuario a Owner
         meta:
           id: req_c4da242ec09e4f4298b9c216df02d8f6
           created: 1760310846064
-          modified: 1761524173718
+          modified: 1761543261652
           isPrivate: false
           sortKey: -1760311005390
         method: PUT
@@ -656,7 +660,7 @@ collection:
           text: |-
             {
               "nome": "Admin",
-              "email": "ABdmin@gmail.com",
+              "email": "Will@gmail.com",
               "senha": "1234",
               "permissao": "ADMIN"
             }
@@ -664,6 +668,9 @@ collection:
           - name: Content-Type
             value: application/json
             id: pair_1b2c476fcab4494b8a1102da3693f2b2
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NTI4NX0.XaCPVCtjcvaelWPjl2tGCRwlALQb5REHJQeMHOzencQ
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -679,12 +686,12 @@ collection:
       modified: 1760310846056
       sortKey: -1760310846056
     children:
-      - url: http://localhost:8080/DeskPet/pet/listar/{owner_id}
+      - url: http://localhost:8080/DeskPet/pet/listar/1
         name: Listar Pets
         meta:
           id: req_128237ce4ef2422b9755a6a923f97112
           created: 1760310846057
-          modified: 1761430205556
+          modified: 1761543377155
           isPrivate: false
           sortKey: -1760310981968
         method: GET
@@ -693,6 +700,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU1MDQ4MX0.4SmZt-6waZwYgWxxJPdUyvDhFOgDc9EbKYD-Tj9doZk
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -723,12 +733,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/pet/{owner_id}
+      - url: http://localhost:8080/DeskPet/pet/1
         name: Atualizar Pet
         meta:
           id: req_67e6f1fd51a641e89f9520d5a0b5e6be
           created: 1760310846058
-          modified: 1760844171944
+          modified: 1761539596504
           isPrivate: false
           sortKey: -1760310981768
         method: PUT
@@ -740,13 +750,16 @@ collection:
             		"nomepet": "Bidu",
             		"especie": "Cachorro",
             		"raca": "Golden Retriever",
-            		"sexo": "M",
+            		"sexo": "F",
             		"descricao": "Castrado, alergia a frango."
             		
             	}
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NjcxM30.QEbDmtpHakBnZlp2mrnf3ANyxXVQJm7Mc-x4SWODHds
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -809,10 +822,13 @@ collection:
         meta:
           id: req_09f28925cd664fc489948c5c6cb0ab26
           created: 1760310846060
-          modified: 1760890336970
+          modified: 1761543398914
           isPrivate: false
           sortKey: -1760310958296
         method: GET
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU1MDQ4MX0.4SmZt-6waZwYgWxxJPdUyvDhFOgDc9EbKYD-Tj9doZk
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -919,26 +935,6 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/servico/listarbyFuncionario/1/4
-        name: New Request
-        meta:
-          id: req_20f13e4a6213438da62b510f01f3e53e
-          created: 1760923613712
-          modified: 1760923729829
-          isPrivate: false
-          sortKey: -1760923613712
-        method: GET
-        headers:
-          - name: User-Agent
-            value: insomnia/11.0.2
-        settings:
-          renderRequestBody: true
-          encodeUrl: true
-          followRedirects: global
-          cookies:
-            send: true
-            store: true
-          rebuildPath: true
   - name: UserController
     meta:
       id: fld_d2deb7507dfe494caf9aa017ec9124ba
@@ -951,7 +947,7 @@ collection:
         meta:
           id: req_901fb9e47d5b48da9160b1a2cb9a0e90
           created: 1760310846063
-          modified: 1761524114523
+          modified: 1761538704776
           isPrivate: false
           sortKey: -1760310939559
         method: GET
@@ -968,7 +964,7 @@ collection:
             id: pair_0d654179c8d949ff8a95a3b6de56fbb6
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTUzMDg3NH0.g8V5gxjoMIH6EGdrQByP_5ic9MkWn3u_GJBbq1NxBOA
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NTI4NX0.XaCPVCtjcvaelWPjl2tGCRwlALQb5REHJQeMHOzencQ
           disabled: false
           prefix: "Bearer "
         settings:
@@ -984,7 +980,7 @@ collection:
         meta:
           id: req_1d15994b1d324dc7a95468fedfab9fd6
           created: 1760310846064
-          modified: 1761524184500
+          modified: 1761532266904
           isPrivate: false
           sortKey: -1760310939459
         method: GET
@@ -996,6 +992,7 @@ collection:
             id: pair_67fe97cb6bfd4e9ead8fa3b5d2c69459
         authentication:
           type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTUzOTM5Mn0.nsOYjQSMEQe2lBCfzkt17mQDbx3TS1F0scQqTinr-eo
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -1009,7 +1006,7 @@ collection:
         meta:
           id: req_fb6222da15f84cb19f551ad154f9e478
           created: 1760310846065
-          modified: 1761524190664
+          modified: 1761539393342
           isPrivate: false
           sortKey: -1760310939259
         method: PUT
@@ -1017,16 +1014,19 @@ collection:
           mimeType: application/json
           text: |-
             {
-            		"id": 7,
-            		"nome": "Alencar",
-            		"email": "Alencar@admin.com.br",
-            		"senha": "admin",
-            		"permissao": "Owner"
+            		"id": 13,
+            		"nome": "Pedro",
+            		"email": "Pedror@admin.com.br",
+            		"senha": "1234",
+            		"permissao": "FUNCIONARIO"
             	}
         headers:
           - name: Content-Type
             value: application/json
             id: pair_349e9bc39d9f4c6b885f7edf65dad17c
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NTI4NX0.XaCPVCtjcvaelWPjl2tGCRwlALQb5REHJQeMHOzencQ
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -1035,12 +1035,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/user/{owner_id}/{user_id}
+      - url: http://localhost:8080/DeskPet/user/2/6
         name: Excluir Usuário
         meta:
           id: req_1ae53d1816d247e8a31d05bc1db4ab3b
           created: 1760310846066
-          modified: 1760835398058
+          modified: 1761532322008
           isPrivate: false
           sortKey: -1760310939159
         method: DELETE
@@ -1049,25 +1049,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
-        settings:
-          renderRequestBody: true
-          encodeUrl: true
-          followRedirects: global
-          cookies:
-            send: true
-            store: true
-          rebuildPath: true
-      - name: New Request
-        meta:
-          id: req_2f3820d8bcd84e0f8a779ef7dbd63729
-          created: 1761245557419
-          modified: 1761245557419
-          isPrivate: false
-          sortKey: -1761245557419
-        method: GET
-        headers:
-          - name: User-Agent
-            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTUzOTM5Mn0.nsOYjQSMEQe2lBCfzkt17mQDbx3TS1F0scQqTinr-eo
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -1088,7 +1072,7 @@ collection:
         meta:
           id: req_6cf60460eb804f3f9e05f9d5dc8eaac5
           created: 1761434286827
-          modified: 1761520629915
+          modified: 1761543280527
           isPrivate: false
           sortKey: -1761434286827
         method: POST
