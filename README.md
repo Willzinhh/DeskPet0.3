@@ -92,20 +92,13 @@ Após iniciar o servidor, você pode acessar a documentação completa da API at
 
 🔗 **URL do Swagger UI:** `http://localhost:8080/DeskPet/swagger-ui.html`
 
+🔗 **Coleção de EndPoints em DeskPet0.3_endPoints:** `https://github.com/Willzinhh/DeskPet0.3/blob/main/DeskPet0.3_endPoints`
+
 Nesta interface, você encontrará:
 
 * **Modelos (Schemas):** Detalhes de cada objeto (`Owner`, `Clientes`, `Pet`, etc.), incluindo tipo de dado e descrição de cada campo (documentados via `@Schema`).
 * **Endpoints:** Lista de todas as rotas com suas descrições (`@Operation`), parâmetros de entrada (`@Parameter`) e códigos de resposta esperados (`@ApiResponses`).
 
-## ✍️ Contribuição
-
-Contribuições são bem-vindas! Se você encontrar um bug ou tiver sugestões de melhoria:
-
-1.  Faça um fork do projeto.
-2.  Crie uma nova branch (`git checkout -b feature/minha-melhoria`).
-3.  Commit suas mudanças (`git commit -m 'feat: Adiciona nova funcionalidade X'`).
-4.  Faça push para a branch (`git push origin feature/minha-melhoria`).
-5.  Abra um Pull Request.
 
 ## 🧑‍💻 Desenvolvedor
 
