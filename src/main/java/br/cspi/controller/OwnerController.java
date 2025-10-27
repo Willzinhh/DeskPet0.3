@@ -3,6 +3,7 @@ package br.cspi.controller;
 
 import br.cspi.model.usuario.Owner;
 import br.cspi.model.usuario.User;
+import br.cspi.model.usuario.UserRepository;
 import br.cspi.service.OwnerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,6 +30,7 @@ import java.util.List;
 @Tag(name = "Owner", description = "Endpoints para gerenciamento de Proprietários (Owners).")
 public class OwnerController {
 
+    private final UserRepository userRepository;
     private OwnerService OwnerService;
 
     @GetMapping("/listar")
@@ -103,7 +105,7 @@ public class OwnerController {
     }
 
 
-    @PutMapping("/{id}/addUser")
+    @PutMapping("/{owner_id}/addUser")
     @Transactional
     @Operation(summary = "Adicionar Usuário ao Proprietário", description = "Atribui um novo Usuário ao Proprietário especificado pelo ID e retorna o Owner atualizado.")
     @ApiResponses(value = {
@@ -113,8 +115,8 @@ public class OwnerController {
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietário não encontrado", content = @Content)
     })
-    public ResponseEntity<User> addUser(@Parameter(description = "ID do Proprietário que receberá o Usuário") @PathVariable long id, @RequestBody @Valid User user ,UriComponentsBuilder uriBuilder) {
-        User usern = this.OwnerService.atribuirUser(id, user);
+    public ResponseEntity<User> addUser(@Parameter(description = "ID do Proprietário que receberá o Usuário") @PathVariable long owner_id, @RequestBody @Valid User user ,UriComponentsBuilder uriBuilder) {
+        User usern = this.OwnerService.atribuirUser(owner_id, user);
         URI uri = uriBuilder.path("/user/{id}").buildAndExpand(usern.getId()).toUri();
         return ResponseEntity.created(uri).body(usern);
     }

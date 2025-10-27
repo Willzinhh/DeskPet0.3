@@ -53,7 +53,7 @@ public class AgendamentoController {
         return this.agendamentoService.getById(owner_id, id); //
     }
 
-    @PostMapping({"{owner_id}/{funcionario_id}/{pet_id}/{servico_id}", ""})
+    @PostMapping({"{owner_id}/{funcionario_id}/{pet_id}/{servico_id}"})
     @Operation(summary = "Criar novo Agendamento", description = "Cria e salva um novo agendamento.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Agendamento criado com sucesso.",
@@ -72,7 +72,7 @@ public class AgendamentoController {
         agendamentoEntity.setObservacao(agendamento.observacao());
         agendamentoEntity.setStatus(agendamento.status());
         agendamentoEntity.setPagamento(agendamento.pagamento());
-        DadosAgendamento da = new DadosAgendamento( this.agendamentoService.salvar(owner_id, funcionario_id, pet_id, servico_id, agendamentoEntity)); //
+        DadosAgendamento da = new DadosAgendamento(this.agendamentoService.salvar(owner_id, funcionario_id, pet_id, servico_id, agendamentoEntity)); //
         URI uri = uriBuilder.path("/agendamento/{owner_id/{id}").buildAndExpand(da.id()).toUri();
         return ResponseEntity.created(uri).body(da);
     }

@@ -44,7 +44,7 @@ public class Clientes {
     // CORREÇÃO: Mapeamento N:1 para o Owner
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
-    @JsonIgnore
+
     @Schema(description = "Proprietário (Owner) que gerencia este Cliente")
     private Owner owner;
 

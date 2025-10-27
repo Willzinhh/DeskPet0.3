@@ -34,6 +34,8 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                             //endpoint de login - todos
                             .requestMatchers(HttpMethod.POST, "/login").permitAll()
                             .requestMatchers(HttpMethod.POST, "/owner").permitAll()
+                            .requestMatchers(HttpMethod.PUT, "/owner").permitAll()
+
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 
                             .requestMatchers(HttpMethod.GET, "/owner/**").hasAuthority("ADMIN")

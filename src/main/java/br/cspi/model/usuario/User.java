@@ -20,7 +20,6 @@ import lombok.*;
 public class User {
 
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID único do Usuário", example = "10")
     private Long id;

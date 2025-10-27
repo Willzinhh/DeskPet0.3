@@ -49,7 +49,6 @@ public class Pet {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id", nullable = false)
     @JsonBackReference
-    @JsonIgnore
     @Schema(description = "Objeto Tutor (Cliente) responsável pelo Pet")
     private Clientes tutor;
 
@@ -58,7 +57,6 @@ public class Pet {
     // CORREÇÃO: Mapeamento N:1 para o Owner
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
-    @JsonIgnore
     @Schema(description = "Proprietário (Owner) que gerencia o registro")
     private Owner owner;
 

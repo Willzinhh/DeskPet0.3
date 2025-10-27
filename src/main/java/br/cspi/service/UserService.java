@@ -52,6 +52,7 @@ public class UserService {
         User u = this.repository.findUserByOwnerAndId(owner_id, user.getId());
 
         if (u == null) {
+            System.out.println("id = " + user.getId());
             throw new NoSuchElementException("Usuário não encontrado");
         }
         user.setOwner(u.getOwner());

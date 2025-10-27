@@ -67,7 +67,6 @@ public class UserController {
     }
 
     @PutMapping("/{owner_id}")
-    @Transactional
     @Operation(summary = "Atualizar Usuário", description = "Atualiza um Usuário existente.")
     @ApiResponses(value = {
             // Removido content=@Content do 204 pois não deve haver corpo na resposta
@@ -77,8 +76,8 @@ public class UserController {
 
     })
     public ResponseEntity<DadosUser> atualizar(
-            @Parameter(description = "ID do Proprietário/Tenant ao qual o Usuário pertence.") @PathVariable long owner_id, // Descrição corrigida
-            @RequestBody @Valid User user, UriComponentsBuilder uriBuilder) {
+            @Parameter(description = "ID do Proprietário/Tenant ao qual o Usuário pertence.") @PathVariable long owner_id, @RequestBody @Valid User user, UriComponentsBuilder uriBuilder) {
+        System.out.println(user.toString());
         DadosUser du = this.UserService.editar(user, owner_id);
         return ResponseEntity.noContent().build();
     }
@@ -99,41 +98,9 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
-    @Operation(summary = "Criar novo Usuario (Owner ou Usuário padrão)", description = "Cria um novo Usuário (com role 'OWNER' se tentar usar 'ADMIN'). **Requer permissão de ADMIN ou OWNER.**")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuario criado com sucesso", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = DadosUser.class))), // Schema alterado para DadosUser
-            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
-            // Adicionado 403 Forbidden para cobrir a restrição de segurança
-            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário autenticado não é 'ADMIN' nem 'OWNER'.", content = @Content)
-    })
-    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    // CORREÇÃO CRÍTICA: Corrigi a anotação @RequestBody para o objeto User e a ordem dos parâmetros.
-    public ResponseEntity<DadosUser> salvar(@RequestBody @Valid User user, UriComponentsBuilder uriBuilder) {
-        if (user.getPermissao().equals("ADMIN")) {
-            user.setPermissao("OWNER");
-        }
-        DadosUser uc = UserService.salvar(user);
-        URI uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
-        return ResponseEntity.created(uri).body(uc);
-    }
 
-    @PostMapping("/admin")
-    @Operation(summary = "Criar novo Usuario Admin", description = "Cria um novo Usuário com permissão de ADMIN. **Requer permissão de ADMIN do usuário solicitante.**")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuario criado com sucesso", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = DadosUser.class))), // Schema alterado para DadosUser
-            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
-            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui a role 'ADMIN'.", content = @Content)
+    
 
-    })
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<DadosUser> salvarAdmin(@RequestBody @Valid User user, UriComponentsBuilder uriBuilder) {
-        user.setPermissao("ADMIN");
-        DadosUser uc = UserService.salvar(user);
-        URI uri = uriBuilder.path("/user/{id}").buildAndExpand(user.getId()).toUri();
-        return ResponseEntity.created(uri).body(uc);
-    }
+
 
 }
