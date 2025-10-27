@@ -17,6 +17,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -60,11 +61,12 @@ public class ClienteController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Cliente criado com sucesso", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Clientes.class))),
-            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content)
-
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content)
     })
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseEntity<DadosCliente> salvar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id,
-            @RequestBody @Valid Clientes cliente, UriComponentsBuilder uriBuilder) {
+                                               @RequestBody @Valid Clientes cliente, UriComponentsBuilder uriBuilder) {
         DadosCliente dc = this.ClienteService.salvar(owner_id, cliente);
         URI uri = uriBuilder.path("/cliente/{id}").buildAndExpand(cliente.getId()).toUri();
         return ResponseEntity.created(uri).body(dc);
@@ -73,28 +75,30 @@ public class ClienteController {
     @PutMapping("{owner_id}")
     @Operation(summary = "Atualizar Cliente", description = "Atualiza um Cliente existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Cliente atualizado com sucesso", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Clientes.class))),
+            @ApiResponse(responseCode = "204", description = "Cliente atualizado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado", content = @Content)
 
     })
-    public ResponseEntity<DadosCliente> atualizar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id,@RequestBody @Valid Clientes cliente , UriComponentsBuilder uriBuilder) {
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+    public ResponseEntity<DadosCliente> atualizar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody @Valid Clientes cliente) {
         DadosCliente dc = this.ClienteService.editar(cliente);
-        URI uri = uriBuilder.path("/cliente/{owner_id}").buildAndExpand(cliente.getId()).toUri();
-        return ResponseEntity.created(uri).body(dc);
+        return ResponseEntity.noContent().build();
 
     }
 
     @DeleteMapping("/{owner_id}/{id}")
     @Operation(summary = "Deletar Cliente por ID", description = "Remove o Cliente correspondente ao ID fornecido")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Cliente excluído com sucesso"),
+            @ApiResponse(responseCode = "204", description = "Cliente excluído com sucesso",content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Cliente não encontrado", content = @Content)
     })
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseEntity deletar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id,
-            @Parameter(description = "ID do Cliente a ser deletado") @PathVariable long id) {
-        this.ClienteService.excluir(owner_id,id);
+                                  @Parameter(description = "ID do Cliente a ser deletado") @PathVariable long id) {
+        this.ClienteService.excluir(owner_id, id);
         return ResponseEntity.noContent().build();
     }
 
@@ -103,13 +107,15 @@ public class ClienteController {
     @Operation(summary = "Adicionar Pet ao Cliente", description = "Atribui um novo Pet ao Cliente")
     @ApiResponses(value = {
             // Documentação adicionada
-            @ApiResponse(responseCode = "204", description = "Pet atribuído com sucesso", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Clientes.class))),
+            @ApiResponse(responseCode = "204", description = "Pet atribuído com sucesso", content = @Content),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietário não encontrado", content = @Content)
     })
-    public ResponseEntity addPet(@Parameter(description = "ID do Proprietário que receberá o Usuário") @PathVariable long owner_id,@Parameter(description = "ID do Proprietário que receberá o Usuário") @PathVariable long id, @RequestBody @Valid Pet pet) {
-        return ResponseEntity.ok(this.ClienteService.atribuirPet(owner_id, id, pet));
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+    public ResponseEntity addPet(@Parameter(description = "ID do Proprietário que receberá o Usuário") @PathVariable long owner_id, @Parameter(description = "ID do Proprietário que receberá o Usuário") @PathVariable long id, @RequestBody @Valid Pet pet) {
+        this.ClienteService.atribuirPet(owner_id, id, pet);
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -1,0 +1,1137 @@
+type: collection.insomnia.rest/5.0
+name: DeskPet0.3
+meta:
+  id: wrk_6e173de135394895aab61b42312f13ac
+  created: 1760310846028
+  modified: 1760311120724
+collection:
+  - name: AgendamentoController
+    meta:
+      id: fld_21251393fe6e417e8599dbacebd2fadf
+      created: 1760310846031
+      modified: 1760310846031
+      sortKey: -1760310846031
+    children:
+      - url: http://localhost:8080/DeskPet/agendamento/listar/1
+        name: Listar Agendamentos
+        meta:
+          id: req_d083d7998e57442cb2ef7fe0189926b0
+          created: 1760310846033
+          modified: 1760909186685
+          isPrivate: false
+          sortKey: -1760311039952
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/agendamento/{owner_id}/{agendamento_id}
+        name: Buscar Agendamento por ID
+        meta:
+          id: req_f4b7ce0e3a49445d88a2f7122b62c8f0
+          created: 1760310846034
+          modified: 1760909146576
+          isPrivate: false
+          sortKey: -1760311039852
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/agendamento/1/4/2/2
+        name: Criar Agendamento
+        meta:
+          id: req_c7fa18f3149b4b1ea6012a51efeef4b5
+          created: 1760310846035
+          modified: 1760896331605
+          isPrivate: false
+          sortKey: -1760311039752
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "data": "2025-10-19T17:09:45.580Z",
+              "horario": "2025-10-19T17:09:45.580Z",
+              "observacao": "Pet arisco, necessário focinheira.",
+              "status": "PENDENTE",
+              "pagamento": "PENDENTE"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/agendamento/{owner_id}
+        name: Atualizar Agendamento
+        meta:
+          id: req_a4380ab82a6e4bd4b0748293e13de71f
+          created: 1760310846036
+          modified: 1760919703228
+          isPrivate: false
+          sortKey: -1760311039652
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id": 2,
+            	"data": "2025-10-19T00:00:00Z",
+            	"horario": "1970-01-01T17:09:45.58Z",
+            	"observacao": "Pet arisco, necessário focinheira.",
+            	"status": "REALIZADO",
+            	"pagamento": "PAGO",
+            	"pet_id": 2,
+            	"servico_id": 2,
+            	"funcionario_id": 4,
+            	"owner_id": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/agendamento/{owner_id}/{agendamento_i}
+        name: Excluir Agendamento
+        meta:
+          id: req_3fa87fab1eda4bf5a1e12c8db3dcc681
+          created: 1760310846037
+          modified: 1760914141845
+          isPrivate: false
+          sortKey: -1760311039552
+        method: DELETE
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: ClienteController
+    meta:
+      id: fld_f558dbaf89f24a02ab5b9ebcf517dd3c
+      created: 1760310846039
+      modified: 1760310846039
+      sortKey: -1760310846039
+    children:
+      - url: http://localhost:8080/DeskPet/cliente/listar/{owner_id}
+        name: Listar Clientes
+        meta:
+          id: req_1b9308b69be54b96914973b1b8e9f9c8
+          created: 1760310846044
+          modified: 1760918209084
+          isPrivate: false
+          sortKey: -1760311031494
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/cliente/{owner_id}/{id}
+        name: Buscar Cliente por ID
+        meta:
+          id: req_d26cda5af3ce4e5196ade8fec96aee87
+          created: 1760310846045
+          modified: 1760840545857
+          isPrivate: false
+          sortKey: -1760311031394
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/cliente/{owner_id}
+        name: Criar Cliente
+        meta:
+          id: req_fb36d46adf0f405c8e9b4e08008b3409
+          created: 1760310846046
+          modified: 1760832692571
+          isPrivate: false
+          sortKey: -1760311031294
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nome": "Mariana Oliveira",
+              "telefone": "(21)99887-7669",
+              "cpf": "187.694.391-39",
+              "endereco": "Av. Principal, 456 - Bairro X"
+              
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/cliente/{owner_id}
+        name: Atualizar Cliente
+        meta:
+          id: req_614cffe04992468a9066346e5fdee981
+          created: 1760310846047
+          modified: 1760832726204
+          isPrivate: false
+          sortKey: -1760311031194
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            		"id": 10,
+            		"nome": "Mariano Oliveira",
+            		"telefone": "(21)99887-7669",
+            		"cpf": "187.694.391-99",
+            		"endereco": "Av. Principal, 456 - Bairro X",
+            		"data_criacao": null
+            	}
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/cliente/{owner_id}/{cliente_id}
+        name: Excluir Cliente
+        meta:
+          id: req_a2d6a1614623444f9d15359d1471fc56
+          created: 1760310846048
+          modified: 1760831401043
+          isPrivate: false
+          sortKey: -1760311031094
+        method: DELETE
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/cliente/{owner_id}/{cliente_id}/addPet
+        name: Atribuir Pet
+        meta:
+          id: req_84ab3e8ea6484f74825639e557067363
+          created: 1760836936686
+          modified: 1760918254801
+          isPrivate: false
+          sortKey: -1760836936686
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nomepet": "tobi",
+              "especie": "Cachorro",
+              "raca": "Golden Retriever",
+              "sexo": "M",
+              "descricao": "Castrado, alergia a frango.",
+              "data_cricao": "2025-10-19T01:29:44.014Z"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: FuncionarioController
+    meta:
+      id: fld_30d1a5f684c2423db35744100d66e789
+      created: 1760310846049
+      modified: 1760310846049
+      sortKey: -1760310846049
+    children:
+      - url: http://localhost:8080/DeskPet/funcionario/listar/1
+        name: Listar Funcionários
+        meta:
+          id: req_bfbf1537b3b3477da2aa8d9eb91f4ec4
+          created: 1760310846049
+          modified: 1761512690767
+          isPrivate: false
+          sortKey: -1760311021486
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_db2492c8c39f41cd8bdf4c673d99e246
+          - id: pair_ad909cff16874c49b7ab694f579e5945
+            name: Authorization
+            value: Bearer
+              eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IlBlZHJvQGdtYWlsLmNvbSIsIlJPTEUiOiJGdW5jaW9uYXJpbyIsImV4cCI6MTc2MTUxOTg3Nn0.YDJCSgUy1J01AF4o25AKMB4v1j6S-TF7y50V47QJ9ZE
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/funcionario/1
+        name: Criar Funcionário
+        meta:
+          id: req_2c2a2fc069b3400e80084d6699b9bbde
+          created: 1760310846050
+          modified: 1760883848478
+          isPrivate: false
+          sortKey: -1760311021386
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nome": "Maria",
+              "cpf": "123.456.789-01",
+              "telefone": "(11)99999-8881",
+              "cargo": "Atendente",
+              "salario": 3500.00,
+              "ativo": true
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/funcionario/{owner_id}/{funcionario_id}
+        name: Buscar Funcionário por ID
+        meta:
+          id: req_e9bab50dd6b34f839abb953a3c348c77
+          created: 1760310846050
+          modified: 1760880481185
+          isPrivate: false
+          sortKey: -1760311021286
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/funcionario/1
+        name: Atualizar Funcionário
+        meta:
+          id: req_d6f108510d3f4408a6cf794166b1d996
+          created: 1760310846051
+          modified: 1760886311273
+          isPrivate: false
+          sortKey: -1760311021186
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            		"id": 4,
+            		"nome": "Joao",
+            		"cpf": "123.456.789-01",
+            		"telefone": "(11)99999-8881",
+            		"cargo": "Tosador",
+            		"salario": 3500,
+            		"ativo": true
+            	}
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/funcionario/{owner_id}/{funcionario_id}
+        name: Excluir Funcionário
+        meta:
+          id: req_90423ba832544ee7b2ef623b66f8bfb8
+          created: 1760310846052
+          modified: 1761512753177
+          isPrivate: false
+          sortKey: -1760311021086
+        method: DELETE
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_770f832d3fc74588af0dcd2ca0f12c26
+          - id: pair_4f8a135e689d4aeea1d5840a89a632dd
+            name: Authorization
+            value: Bearer
+              eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IlBlZHJvQGdtYWlsLmNvbSIsIlJPTEUiOiJGdW5jaW9uYXJpbyIsImV4cCI6MTc2MTUxOTg3Nn0.YDJCSgUy1J01AF4o25AKMB4v1j6S-TF7y50V47QJ9ZE
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/funcionario/{owner_id}/{funcionario_id}/{servico_id}
+        name: Atribuir Serviços a Funcionário
+        meta:
+          id: req_e6b49e8deee1407eba564e58131d63ed
+          created: 1760921038378
+          modified: 1760921407657
+          isPrivate: false
+          sortKey: -1760921038378
+        method: PUT
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/funcionario/listarByServico/1/2
+        name: "Listar Funcionários por Serviço "
+        meta:
+          id: req_ce98f8feb5144ea38b89a865b326f064
+          created: 1760922162732
+          modified: 1760923724332
+          isPrivate: false
+          sortKey: -1760922162732
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: OwnerController
+    meta:
+      id: fld_bd5f873dd7cb4cd9aa1e33214162f6ad
+      created: 1760310846052
+      modified: 1760310846052
+      sortKey: -1760310846052
+    children:
+      - url: http://localhost:8080/DeskPet/owner/1
+        name: Buscar Owner por ID
+        meta:
+          id: req_15fa71324b1145b9b55c0efd1c77fd83
+          created: 1760310846053
+          modified: 1760832776654
+          isPrivate: false
+          sortKey: -1760311005290
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/owner/listar
+        name: Listar Owner
+        meta:
+          id: req_3d50fe8bbe764bceb8330aeb55ddb2e9
+          created: 1760310846053
+          modified: 1761524161561
+          isPrivate: false
+          sortKey: -1760311005190
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - id: pair_cee52a4d32ca4be7b8dcc5bceb78c25f
+            disabled: false
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTUzMDg3NH0.g8V5gxjoMIH6EGdrQByP_5ic9MkWn3u_GJBbq1NxBOA
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/owner
+        name: Criar Owner
+        meta:
+          id: req_530ce72addde4442a57e33146431cc7b
+          created: 1760310846054
+          modified: 1761507227907
+          isPrivate: false
+          sortKey: -1760311005090
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+
+              "nome": "Alencar",
+              "cpf": "123.456.719-10",
+              "cnpj": "11.212.333/0001-10",
+              "telefone": "(11)98765-4322",
+              "endereco": "Rua Teste, 123 - Centro",
+              "nome_empresa": "PetShop Nota10",
+              "plano": "Premium"
+            	
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_39624c7f26174e44b47645d540507b0b
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/owner/{owner_id}
+        name: Excluir Owner
+        meta:
+          id: req_b5cd69654127470aa0fc0100b37f9888
+          created: 1760310846055
+          modified: 1760833572394
+          isPrivate: false
+          sortKey: -1760311004890
+        method: DELETE
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/owner
+        name: Atualizar Owner
+        meta:
+          id: req_bac02c4d3858484a9c2178b919c1a014
+          created: 1760310846055
+          modified: 1760833188900
+          isPrivate: false
+          sortKey: -1760311004990
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id": 2,
+              "nome": "Felipe",
+              "cpf": "123.456.789-00",
+              "cnpj": "11.222.333/0001-44",
+              "telefone": "(11)98765-4321",
+              "endereco": "Rua Teste, 123 - Centro",
+              "nome_empresa": "PetShop Fanta",
+              "plano": "Free"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/owner/9/addUser
+        name: Adicionar Usuario a Owner
+        meta:
+          id: req_c4da242ec09e4f4298b9c216df02d8f6
+          created: 1760310846064
+          modified: 1761524173718
+          isPrivate: false
+          sortKey: -1760311005390
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nome": "Admin",
+              "email": "ABdmin@gmail.com",
+              "senha": "1234",
+              "permissao": "ADMIN"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_1b2c476fcab4494b8a1102da3693f2b2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: PetController
+    meta:
+      id: fld_409917fe64b54cb3a7f7a59d7f4e29d1
+      created: 1760310846056
+      modified: 1760310846056
+      sortKey: -1760310846056
+    children:
+      - url: http://localhost:8080/DeskPet/pet/listar/{owner_id}
+        name: Listar Pets
+        meta:
+          id: req_128237ce4ef2422b9755a6a923f97112
+          created: 1760310846057
+          modified: 1761430205556
+          isPrivate: false
+          sortKey: -1760310981968
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/pet/{owner_id}/{pet_id}
+        name: Buscar Pet por ID
+        meta:
+          id: req_ce134ae730bc40deb95f88b8e91cd1f5
+          created: 1760310846057
+          modified: 1760842526832
+          isPrivate: false
+          sortKey: -1760310981868
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/pet/{owner_id}
+        name: Atualizar Pet
+        meta:
+          id: req_67e6f1fd51a641e89f9520d5a0b5e6be
+          created: 1760310846058
+          modified: 1760844171944
+          isPrivate: false
+          sortKey: -1760310981768
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            		"id": 2,
+            		"nomepet": "Bidu",
+            		"especie": "Cachorro",
+            		"raca": "Golden Retriever",
+            		"sexo": "M",
+            		"descricao": "Castrado, alergia a frango."
+            		
+            	}
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/pet/{owner_id}/{pet_id}
+        name: Excluir Pet
+        meta:
+          id: req_ce59757da7d649f78b09aedf1bd15e46
+          created: 1760310846059
+          modified: 1760844033486
+          isPrivate: false
+          sortKey: -1760310981568
+        method: DELETE
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/pet/listar/{owner_id}/{cliente_id}
+        name: Listar Pets por Cliente
+        meta:
+          id: req_7165b81b109744c4a85535ac095ae937
+          created: 1760841693582
+          modified: 1760841949599
+          isPrivate: false
+          sortKey: -1760841693582
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: ServicoController
+    meta:
+      id: fld_c685c94d353d47df9bb610e4aeb69cfc
+      created: 1760310846059
+      modified: 1760310846059
+      sortKey: -1760310846059
+    children:
+      - url: http://localhost:8080/DeskPet/servico/listar/1
+        name: Listar Serviços
+        meta:
+          id: req_09f28925cd664fc489948c5c6cb0ab26
+          created: 1760310846060
+          modified: 1760890336970
+          isPrivate: false
+          sortKey: -1760310958296
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/servico/{owner_id)/{servico_id}
+        name: Buscar Serviço por ID
+        meta:
+          id: req_75d428338b5d4dbbac17b254ebd9bd37
+          created: 1760310846060
+          modified: 1760890530388
+          isPrivate: false
+          sortKey: -1760310958196
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/servico/{owner_id}
+        name: Atualizar Serviço
+        meta:
+          id: req_b8d7351752604a07acdd6ecbe59d1b31
+          created: 1760310846061
+          modified: 1760890947090
+          isPrivate: false
+          sortKey: -1760310958096
+        method: PUT
+        body:
+          mimeType: application/json
+          text: >-
+            {
+            		"id": 1,
+            		"nome": "Banho e Tosa Completa",
+            		"descricao": "Inclui corte de pelo, limpeza de ouvidos e corte de unhas.",
+            		"valor": 85,
+            		"tempo": "02:00"
+            	}
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/servico/1
+        name: Criar Serviço
+        meta:
+          id: req_f2785aa943ef4794be710b300a9398dd
+          created: 1760310846061
+          modified: 1760886864930
+          isPrivate: false
+          sortKey: -1760310957896
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+              "nome": "Banho e Tosa",
+              "descricao": "Inclui corte de pelo, limpeza de ouvidos e corte de unhas.",
+              "valor": 85,
+              "tempo": "01:30"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/servico/1/1
+        name: Excluir Serviço
+        meta:
+          id: req_e35f5744d66f42d7a46177f665bb99e2
+          created: 1760310846062
+          modified: 1760890964996
+          isPrivate: false
+          sortKey: -1760310957996
+        method: DELETE
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/servico/listarbyFuncionario/1/4
+        name: New Request
+        meta:
+          id: req_20f13e4a6213438da62b510f01f3e53e
+          created: 1760923613712
+          modified: 1760923729829
+          isPrivate: false
+          sortKey: -1760923613712
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: UserController
+    meta:
+      id: fld_d2deb7507dfe494caf9aa017ec9124ba
+      created: 1760310846062
+      modified: 1760310917100
+      sortKey: -1760310846062
+    children:
+      - url: http://localhost:8080/DeskPet/user/listar/1
+        name: Listar Usuários
+        meta:
+          id: req_901fb9e47d5b48da9160b1a2cb9a0e90
+          created: 1760310846063
+          modified: 1761524114523
+          isPrivate: false
+          sortKey: -1760310939559
+        method: GET
+        body:
+          mimeType: application/json
+        parameters:
+          - id: pair_9e349d728f0140ca84aaf4e4e0001451
+            disabled: false
+          - id: pair_a4f1dd4aecfb4e85ba03dc0b69da6621
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_0d654179c8d949ff8a95a3b6de56fbb6
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTUzMDg3NH0.g8V5gxjoMIH6EGdrQByP_5ic9MkWn3u_GJBbq1NxBOA
+          disabled: false
+          prefix: "Bearer "
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/user/{owner_id}/{user_id}
+        name: Buscar Usuário por ID
+        meta:
+          id: req_1d15994b1d324dc7a95468fedfab9fd6
+          created: 1760310846064
+          modified: 1761524184500
+          isPrivate: false
+          sortKey: -1760310939459
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_67fe97cb6bfd4e9ead8fa3b5d2c69459
+        authentication:
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/user/1
+        name: Atualizar Usuário
+        meta:
+          id: req_fb6222da15f84cb19f551ad154f9e478
+          created: 1760310846065
+          modified: 1761524190664
+          isPrivate: false
+          sortKey: -1760310939259
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            		"id": 7,
+            		"nome": "Alencar",
+            		"email": "Alencar@admin.com.br",
+            		"senha": "admin",
+            		"permissao": "Owner"
+            	}
+        headers:
+          - name: Content-Type
+            value: application/json
+            id: pair_349e9bc39d9f4c6b885f7edf65dad17c
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/user/{owner_id}/{user_id}
+        name: Excluir Usuário
+        meta:
+          id: req_1ae53d1816d247e8a31d05bc1db4ab3b
+          created: 1760310846066
+          modified: 1760835398058
+          isPrivate: false
+          sortKey: -1760310939159
+        method: DELETE
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - name: New Request
+        meta:
+          id: req_2f3820d8bcd84e0f8a779ef7dbd63729
+          created: 1761245557419
+          modified: 1761245557419
+          isPrivate: false
+          sortKey: -1761245557419
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Autenticação
+    meta:
+      id: fld_99bf95e94f7a47b8805618a31865c9b7
+      created: 1761245115068
+      modified: 1761245115068
+      sortKey: -1761245115068
+    children:
+      - url: http://localhost:8080/DeskPet/login
+        name: Login
+        meta:
+          id: req_6cf60460eb804f3f9e05f9d5dc8eaac5
+          created: 1761434286827
+          modified: 1761520629915
+          isPrivate: false
+          sortKey: -1761434286827
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email":"Admin@gmail.com",
+            	"senha":"1234"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_a6c8e7e21e09de0094d11097078da59705c07f53
+    created: 1760310846067
+    modified: 1761425418064
+  cookies:
+    - key: JSESSIONID
+      value: 8A09607576786923FBB18FE1CB15CC9B
+      domain: localhost
+      path: /DeskPet
+      httpOnly: true
+      hostOnly: true
+      creation: 2025-10-19T21:22:17.166Z
+      lastAccessed: 2025-10-25T20:50:18.064Z
+      id: 7b584e82-5da3-4a62-871a-7fd7e3fb8646
+environments:
+  name: Base Environment
+  meta:
+    id: env_a6c8e7e21e09de0094d11097078da59705c07f53
+    created: 1760310846067
+    modified: 1760310846067
+    isPrivate: false

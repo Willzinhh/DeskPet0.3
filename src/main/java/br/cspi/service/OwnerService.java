@@ -53,11 +53,11 @@ public class OwnerService {
         this.repository.deleteById(id);
     }
 
-    public String atribuirUser(Long idOwner, User user) {
+    public User atribuirUser(Long idOwner, User user) {
         Owner owner = this.repository.getReferenceById(idOwner);
         user.setSenha(new BCryptPasswordEncoder().encode(user.getSenha()));
         userRepository.save(user);
         owner.addUser(user);
-        return "Usuario atualizado com sucesso!";
+        return user;
     }
 }

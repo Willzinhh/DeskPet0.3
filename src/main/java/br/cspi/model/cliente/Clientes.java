@@ -3,6 +3,7 @@ package br.cspi.model.cliente;
 import br.cspi.model.pet.Pet;
 import br.cspi.model.usuario.Owner; // Import necessário
 import br.cspi.model.usuario.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -43,6 +44,7 @@ public class Clientes {
     // CORREÇÃO: Mapeamento N:1 para o Owner
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
+    @JsonIgnore
     @Schema(description = "Proprietário (Owner) que gerencia este Cliente")
     private Owner owner;
 
@@ -50,6 +52,7 @@ public class Clientes {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @JsonManagedReference
+
     @Schema(description = "Lista de Pets vinculados a este Cliente",
             accessMode = Schema.AccessMode.READ_ONLY)
     private List<Pet> pets = new ArrayList<>();

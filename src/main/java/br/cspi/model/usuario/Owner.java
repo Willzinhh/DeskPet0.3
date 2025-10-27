@@ -1,5 +1,6 @@
 package br.cspi.model.usuario;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema; // Import adicionado
 import jakarta.persistence.*;
@@ -28,6 +29,7 @@ public class Owner {
     private long id;
 
     @UuidGenerator
+    @JsonIgnore
     @Schema(description = "UUID único gerado automaticamente", example = "a1b2c3d4-e5f6-7890-1234-567890abcdef")
     private UUID uuid;
 

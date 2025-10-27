@@ -27,7 +27,6 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/owner")
 @Tag(name = "Owner", description = "Endpoints para gerenciamento de Proprietários (Owners).")
-
 public class OwnerController {
 
     private OwnerService OwnerService;
@@ -83,7 +82,7 @@ public class OwnerController {
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietario não encontrado", content = @Content)
     })
-    public ResponseEntity<Owner> atualizar(@RequestBody @Valid Owner owner ) {
+    public ResponseEntity<Owner> atualizar(@RequestBody @Valid Owner owner) {
 
         this.OwnerService.atualizar(owner);
         return ResponseEntity.noContent().build();
@@ -108,14 +107,16 @@ public class OwnerController {
     @Transactional
     @Operation(summary = "Adicionar Usuário ao Proprietário", description = "Atribui um novo Usuário ao Proprietário especificado pelo ID e retorna o Owner atualizado.")
     @ApiResponses(value = {
-            // CORREÇÃO CRÍTICA: O código retorna 200 OK (ResponseEntity.ok(...)), não 204 No Content.
-            @ApiResponse(responseCode = "200", description = "Usuário atribuído com sucesso. Retorna o Proprietário atualizado.", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Owner.class))),
+            @ApiResponse(responseCode = "200", description = "Usuário atribuído com sucesso. Retorna o Proprietário atualizado.",content = @Content(mediaType ="application/json",
+            schema = @Schema(implementation = User.class))),
+
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietário não encontrado", content = @Content)
     })
-    public ResponseEntity addUser(@Parameter(description = "ID do Proprietário que receberá o Usuário") @PathVariable long id, @RequestBody @Valid User user) {
-        return ResponseEntity.ok(this.OwnerService.atribuirUser(id,user));
+    public ResponseEntity<User> addUser(@Parameter(description = "ID do Proprietário que receberá o Usuário") @PathVariable long id, @RequestBody @Valid User user ,UriComponentsBuilder uriBuilder) {
+        User usern = this.OwnerService.atribuirUser(id, user);
+        URI uri = uriBuilder.path("/user/{id}").buildAndExpand(usern.getId()).toUri();
+        return ResponseEntity.created(uri).body(usern);
     }
 
 

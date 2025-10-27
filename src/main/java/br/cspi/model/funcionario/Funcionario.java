@@ -2,6 +2,7 @@ package br.cspi.model.funcionario;
 
 import br.cspi.model.servico.Servico;
 import br.cspi.model.usuario.Owner; // Import necessário
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -48,6 +49,7 @@ public class Funcionario {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false) // Usando owner_id como nome da coluna
     @Schema(description = "Proprietário (Owner) que gerencia o registro")
+    @JsonIgnore
     private Owner owner;
     // O campo 'private int cliente_usuario_id;' foi removido.
 
@@ -59,6 +61,7 @@ public class Funcionario {
             inverseJoinColumns = @JoinColumn(name = "servico_id")
     )
     @JsonManagedReference
+    @JsonIgnore
     @Schema(description = "Lista de serviços que o funcionário está habilitado a realizar")
     private List<Servico> servicos = new ArrayList<>();
 

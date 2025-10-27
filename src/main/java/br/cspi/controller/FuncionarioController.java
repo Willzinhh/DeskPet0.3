@@ -19,6 +19,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -41,7 +42,8 @@ public class FuncionarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de Funcionários retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Funcionario.class))),
+                            schema = @Schema(implementation = Funcionario.class))),
+            @ApiResponse(responseCode = "404", description = "Funcionario não encontrado", content = @Content)
     })
     public List<DadosFuncionario> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id) {
         return funcionarioService.listar(owner_id); //
@@ -53,8 +55,10 @@ public class FuncionarioController {
             @ApiResponse(responseCode = "200", description = "Lista de Funcionários retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Funcionario.class))),
-    })
-    public List<DadosFuncionario> listarByServico(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id , @Parameter(description = "ID do Proprietario") @PathVariable long servico_id) {
+            @ApiResponse(responseCode = "404", description = "Funcionario não encontrado", content = @Content)
+
+})
+    public List<DadosFuncionario> listarByServico(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long servico_id) {
         return funcionarioService.listarByServico(owner_id, servico_id); //
     }
 
@@ -66,8 +70,8 @@ public class FuncionarioController {
                             schema = @Schema(implementation = Funcionario.class))),
             @ApiResponse(responseCode = "404", description = "Funcionário não encontrado.", content = @Content)
     })
-    public DadosFuncionario buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id,@Parameter(description = "ID do Funcionário a ser buscado") @PathVariable long id) {
-        return this.funcionarioService.buscarPorId(owner_id,id); //
+    public DadosFuncionario buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Funcionário a ser buscado") @PathVariable long id) {
+        return this.funcionarioService.buscarPorId(owner_id, id); //
     }
 
 
@@ -76,10 +80,12 @@ public class FuncionarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Funcionário criado com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Funcionario.class))),
-            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content)
+                            schema = @Schema(implementation = DadosFuncionario.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
     })
-    public ResponseEntity<DadosFuncionario> salvar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody InputDadosFuncionario f, UriComponentsBuilder uriBuilder){
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+    public ResponseEntity<DadosFuncionario> salvar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody InputDadosFuncionario f, UriComponentsBuilder uriBuilder) {
         Funcionario funcionarioEntity = new Funcionario();
         funcionarioEntity.setNome(f.nome());
         funcionarioEntity.setCpf(f.cpf());
@@ -87,22 +93,23 @@ public class FuncionarioController {
         funcionarioEntity.setCargo(f.cargo());
         funcionarioEntity.setSalario(f.salario());
         funcionarioEntity.setAtivo(f.ativo());
-         DadosFuncionario funcionario = this.funcionarioService.salvar(owner_id, funcionarioEntity); //
+        DadosFuncionario funcionario = this.funcionarioService.salvar(owner_id, funcionarioEntity); //
         URI uri = uriBuilder.path("/funcionario/owner_id").buildAndExpand(funcionario.id()).toUri();
-        return ResponseEntity.created(uri).body(funcionario);}
-
+        return ResponseEntity.created(uri).body(funcionario);
+    }
 
 
     @PutMapping("/{owner_id}")
     @Operation(summary = "Atualizar Funcionário", description = "Atualiza os dados de um funcionário existente.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Funcionário atualizado com sucesso.",
-                    content = @Content),
+            @ApiResponse(responseCode = "204", description = "Funcionário atualizado com sucesso.", content = @Content),
             @ApiResponse(responseCode = "400", description = "Dados inválios ou ID não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Funcionario não encontrado", content = @Content)
 
     })
-    public ResponseEntity<DadosFuncionario> atualizar(@Parameter (description = "ID do Funcionário a ser deletado") @PathVariable long owner_id,@RequestBody @Valid InputDadosFuncionario f, UriComponentsBuilder uriBuilder) {
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+    public ResponseEntity<DadosFuncionario> atualizar(@Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long owner_id, @RequestBody @Valid InputDadosFuncionario f, UriComponentsBuilder uriBuilder) {
         Funcionario funcionarioEntity = new Funcionario();
         funcionarioEntity.setId(f.id());
         funcionarioEntity.setNome(f.nome());
@@ -120,10 +127,12 @@ public class FuncionarioController {
     @Operation(summary = "Deletar Funcionário", description = "Remove um funcionário pelo seu ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Funcionário deletado com sucesso (No Content).", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Funcionário não encontrado.", content = @Content)
     })
-    public ResponseEntity deletar(@Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long owner_id,@Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long id) {
-        this.funcionarioService.excluir(owner_id,id); //
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+    public ResponseEntity deletar(@Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long owner_id, @Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long id) {
+        this.funcionarioService.excluir(owner_id, id); //
         return ResponseEntity.noContent().build();
     }
 
@@ -133,11 +142,13 @@ public class FuncionarioController {
             @ApiResponse(responseCode = "204", description = "Servico atribuido com sucesso.",
                     content = @Content),
             @ApiResponse(responseCode = "400", description = "Dados inválios ou ID não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Funcionario não encontrado", content = @Content)
 
     })
-    public ResponseEntity atualizar(@Parameter (description = "ID do Funcionário a ser deletado") @PathVariable long owner_id, @Parameter (description = "ID do Funcionário a ser deletado") @PathVariable long funcionario_id, @Parameter (description = "ID do Funcionário a ser deletado") @PathVariable long servico_id) {
-        this.funcionarioService.associarServico(owner_id,funcionario_id,servico_id);
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+    public ResponseEntity atualizar(@Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long owner_id, @Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long funcionario_id, @Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long servico_id) {
+        this.funcionarioService.associarServico(owner_id, funcionario_id, servico_id);
 
         return ResponseEntity.noContent().build();
     }

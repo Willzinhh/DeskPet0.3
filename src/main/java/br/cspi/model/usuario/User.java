@@ -1,6 +1,7 @@
 package br.cspi.model.usuario;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -19,6 +20,7 @@ import lombok.*;
 public class User {
 
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID único do Usuário", example = "10")
     private Long id;
@@ -40,6 +42,7 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     @JsonBackReference
+    @JsonIgnore
     @Schema(description = "Proprietário (Owner) ao qual este Usuário está vinculado")
     private Owner owner;
 

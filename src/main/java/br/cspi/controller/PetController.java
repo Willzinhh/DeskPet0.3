@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -38,16 +39,18 @@ public class PetController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pets Encontrados", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Pet.class))),
+            @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
     })
     public List<DadosPet> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id) {
         return PetService.listar(owner_id);
     }
 
     @GetMapping("/listar/{owner_id}/{tutor_id}")
-    @Operation(summary = "Listar Pets", description = "Lista todos os Pets cadastrados")
+    @Operation(summary = "Listar Pets Por Cliente(Tutor)", description = "Lista todos os Pets cadastrados de um Tutor")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pets Encontrados", content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Pet.class))),
+            @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
     })
     public List<DadosPet> listarByTutor(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long tutor_id) {
         return PetService.listarByTutor(owner_id, tutor_id);
@@ -62,36 +65,36 @@ public class PetController {
 
     })
     public DadosPet buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Pet a ser buscado") @PathVariable long id) {
-        return this.PetService .getPet(owner_id, id);
+        return this.PetService.getPet(owner_id, id);
     }
 
     @PutMapping("/{owner_id}")
     @Operation(summary = "Atualizar Pet", description = "Atualiza um Pet existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Pet atualizado com sucesso", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Pet.class))),
+            @ApiResponse(responseCode = "204", description = "Pet atualizado com sucesso", content = @Content),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
 
     })
-    public ResponseEntity<DadosPet> atualizar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id,@RequestBody @Valid Pet pet, UriComponentsBuilder uriBuilder ) {
-       DadosPet dp = this.PetService.editar(owner_id, pet);
-       URI uri = uriBuilder.path("/pet/owner_id").buildAndExpand(pet.getId()).toUri();
-         return ResponseEntity.created(uri).body(dp);
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+    public ResponseEntity<DadosPet> atualizar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody @Valid Pet pet) {
+        DadosPet dp = this.PetService.editar(owner_id, pet);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{owner_id}/{id}")
     @Operation(summary = "Deletar Pet por ID", description = "Remove o Pet correspondente ao ID fornecido")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Pet excluído com sucesso"),
+            @ApiResponse(responseCode = "204", description = "Pet excluído com sucesso",content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
     })
-    public ResponseEntity deletar(@Parameter(description = "ID do Pet a ser deletado")@PathVariable long owner_id, @Parameter(description = "ID do Pet a ser deletado")@PathVariable long id) {
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
+    public ResponseEntity deletar(@Parameter(description = "ID do Pet a ser deletado") @PathVariable long owner_id, @Parameter(description = "ID do Pet a ser deletado") @PathVariable long id) {
         this.PetService.excluir(owner_id, id);
         return ResponseEntity.noContent().build();
     }
-
-
 
 
 }

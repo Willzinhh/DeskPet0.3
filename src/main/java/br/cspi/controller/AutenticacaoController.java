@@ -3,9 +3,13 @@ package br.cspi.controller;
 import br.cspi.infra.security.TokenServiceJWT;
 import br.cspi.model.usuario.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,10 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
 @RestController
 @RequestMapping("/login")
-// Adicionar o Tag ajuda o Springdoc a reconhecer o Controller
 @Tag(name = "Autenticação", description = "Endpoints para Login e geração de Token JWT")
 public class AutenticacaoController {
 
@@ -36,10 +38,13 @@ public class AutenticacaoController {
 
     @PostMapping
     @Operation(summary = "Realiza o login e retorna um token JWT", description = "Endpoint público. Não requer autorização.")
-// O endpoint de login é o único que não deve exigir o SecurityRequirement,
-// mas anotações como @Tag e @Operation são importantes.
-    public ResponseEntity<?> efetuarLogin(@RequestBody DadosAutenticacao dados){
-        try{
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login bem-sucedido. Retorna o token JWT."),
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos na requisição (e-mail ou senha ausentes/inválidos).", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Credenciais inválidas (e-mail ou senha incorretos).", content = @Content),
+    })
+    public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
+        try {
             Authentication autenticado = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
             Authentication at = manager.authenticate(autenticado);
 
@@ -48,18 +53,18 @@ public class AutenticacaoController {
             User user = (User) at.getPrincipal();
             String token = this.tokenServiceJWT.gerarToken(userr);
 
-            return ResponseEntity.ok().body(new DadosTokenJWT (token));
-        }
-        catch (Exception e){
+            return ResponseEntity.ok().body(new DadosTokenJWT(token));
+        } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Falha na autenticação: Credenciais inválidas.");
         }
     }
 
-    private record DadosAutenticacao(String email, String senha){
+    private record DadosAutenticacao(String email, String senha) {
 
     }
 
-    private record DadosTokenJWT(String token){}
+    private record DadosTokenJWT(String token) {
+    }
 }
 

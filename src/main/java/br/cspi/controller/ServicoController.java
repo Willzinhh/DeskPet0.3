@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -34,7 +35,7 @@ public class ServicoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de Serviços retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Servico.class))),
+                            schema = @Schema(implementation = DadosServico.class))),
     })
     public List<DadosServico> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id) {
         return servicoService.listar(owner_id); //
@@ -45,10 +46,10 @@ public class ServicoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Serviço encontrado.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Servico.class))),
+                            schema = @Schema(implementation = DadosServico.class))),
             @ApiResponse(responseCode = "404", description = "Serviço não encontrado.", content = @Content)
     })
-    public DadosServico buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id,@Parameter(description = "ID do Serviço a ser buscado") @PathVariable long id) {
+    public DadosServico buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Serviço a ser buscado") @PathVariable long id) {
         return this.servicoService.buscar(owner_id, id); //
     }
 
@@ -57,7 +58,7 @@ public class ServicoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de Serviços retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Servico.class))),
+                            schema = @Schema(implementation = DadosServico.class))),
     })
     public List<DadosServico> listarByFuncionario(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long funcionario_id) {
         return servicoService.listarByFuncionario(owner_id, funcionario_id); //
@@ -68,9 +69,12 @@ public class ServicoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Serviço criado com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Servico.class))),
-            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content)
+                            schema = @Schema(implementation = DadosServico.class))),
+            @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Proprietário (Owner) não encontrado.", content = @Content),
     })
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseEntity<DadosServico> salvar(@Parameter(description = "ID do Serviço a ser buscado") @PathVariable long owner_id, @RequestBody @Valid InputDadosServico servico, UriComponentsBuilder uriBuilder) {
         Servico servicoEntity = new Servico();
         servicoEntity.setId(servico.id());
@@ -79,7 +83,7 @@ public class ServicoController {
         servicoEntity.setValor(servico.valor());
         servicoEntity.setTempo(servico.tempo());
 
-        DadosServico ds = this.servicoService.salvar(owner_id,servicoEntity);
+        DadosServico ds = this.servicoService.salvar(owner_id, servicoEntity);
         URI uri = uriBuilder.path("servico/{servico_id}").build(ds.id());
         return ResponseEntity.created(uri).body(ds);
     }
@@ -90,9 +94,11 @@ public class ServicoController {
             @ApiResponse(responseCode = "204", description = "Serviço atualizado com sucesso.",
                     content = @Content),
             @ApiResponse(responseCode = "400", description = "Dados inválios ou ID não encontrado.", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Serviço não encontrado", content = @Content)
 
     })
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public DadosServico atualizar(@Parameter(description = "ID do Serviço a ser buscado") @PathVariable long owner_id, @RequestBody @Valid InputDadosServico servico) {
         Servico servicoEntity = new Servico();
         servicoEntity.setId(servico.id());
@@ -106,9 +112,11 @@ public class ServicoController {
     @DeleteMapping("/{owner_id}/{id}")
     @Operation(summary = "Deletar Serviço", description = "Remove um serviço pelo seu ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Serviço deletado com sucesso (No Content).", content = @Content),
+            @ApiResponse(responseCode = "204", description = "Serviço deletado com sucesso (No Content)."),
+            @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Serviço não encontrado.", content = @Content)
     })
+    @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseEntity deletar(@Parameter(description = "ID do Serviço a ser buscado") @PathVariable long owner_id, @Parameter(description = "ID do Serviço a ser deletado") @PathVariable long id) {
         this.servicoService.excluir(owner_id, id); //
         return ResponseEntity.noContent().build();
