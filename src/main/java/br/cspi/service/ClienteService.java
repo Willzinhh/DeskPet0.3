@@ -2,7 +2,6 @@ package br.cspi.service;
 
 import br.cspi.model.cliente.ClienteRepository;
 import br.cspi.model.cliente.Clientes;
-import br.cspi.model.cliente.DadosClienteInput;
 import br.cspi.model.cliente.DadosClienteOutput;
 import br.cspi.model.pet.DadosPetInput;
 import br.cspi.model.pet.Pet;
@@ -58,12 +57,12 @@ public class ClienteService {
 
     }
 
-    public DadosClienteOutput editar(@Valid DadosClienteInput cliente) {
-        Clientes c = this.repository.getReferenceById(cliente.id());
-        c.setNome(cliente.nome());
-        c.setCpf(cliente.cpf());
-        c.setTelefone(cliente.telefone());
-        c.setEndereco(cliente.endereco());
+    public DadosClienteOutput editar(@Valid Clientes cliente) {
+        Clientes c = this.repository.getReferenceById(cliente.getId());
+        c.setNome(cliente.getNome());
+        c.setCpf(cliente.getCpf());
+        c.setTelefone(cliente.getTelefone());
+        c.setEndereco(cliente.getEndereco());
 
         this.repository.save(c);
         return new DadosClienteOutput(c);

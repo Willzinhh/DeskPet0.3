@@ -5,6 +5,8 @@ import br.cspi.model.cliente.DadosClienteInput;
 import br.cspi.model.cliente.DadosClienteOutput;
 import br.cspi.model.pet.DadosPetInput;
 import br.cspi.model.pet.Pet;
+import br.cspi.model.usuario.Owner;
+import br.cspi.model.usuario.OwnerRepository;
 import br.cspi.service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,6 +34,7 @@ import java.util.List;
 public class ClienteController {
 
 
+    private final OwnerRepository ownerRepository;
     private ClienteService ClienteService;
 
     @GetMapping("/listar/{owner_id}")
@@ -69,7 +72,19 @@ public class ClienteController {
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseEntity<DadosClienteOutput> salvar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id,
-                                                     @RequestBody @Valid Clientes cliente, UriComponentsBuilder uriBuilder) {
+                                                     @RequestBody @Valid DadosClienteInput clienteInput, UriComponentsBuilder uriBuilder) {
+        Owner o = ownerRepository.findOwnerById(owner_id);
+
+        Clientes cliente = new Clientes();
+        cliente.setNome(clienteInput.nome());
+        cliente.setTelefone(clienteInput.telefone());
+        cliente.setCpf(clienteInput.cpf());
+        cliente.setEndereco(clienteInput.endereco());
+        cliente.setData_criacao(clienteInput.data_criacao());
+        cliente.setOwner(o);
+
+
+
         DadosClienteOutput dc = this.ClienteService.salvar(owner_id, cliente);
         URI uri = uriBuilder.path("/clente/{id}").buildAndExpand(cliente.getId()).toUri();
         return ResponseEntity.created(uri).body(dc);
@@ -85,7 +100,7 @@ public class ClienteController {
 
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    public ResponseEntity<DadosClienteInput> atualizar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody @Valid DadosClienteInput cliente) {
+    public ResponseEntity<DadosClienteInput> atualizar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody @Valid Clientes cliente) {
         DadosClienteOutput dc = this.ClienteService.editar(cliente);
         return ResponseEntity.noContent().build();
 
