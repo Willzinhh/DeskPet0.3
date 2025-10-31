@@ -4,12 +4,14 @@ import br.cspi.infra.security.TokenServiceJWT;
 import br.cspi.model.usuario.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,11 +22,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.print.DocFlavor;
+
 
 @RestController
 @RequestMapping("/login")
 @Tag(name = "Autenticação", description = "Endpoints para Login e geração de Token JWT")
 public class AutenticacaoController {
+
 
     private final AuthenticationManager manager;
     private final TokenServiceJWT tokenServiceJWT;
@@ -39,7 +44,9 @@ public class AutenticacaoController {
     @PostMapping
     @Operation(summary = "Realiza o login e retorna um token JWT", description = "Endpoint público. Não requer autorização.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Login bem-sucedido. Retorna o token JWT."),
+            @ApiResponse(responseCode = "200", description = "Login bem-sucedido. Retorna o token JWT.",content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema( example = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos na requisição (e-mail ou senha ausentes/inválidos).", content = @Content),
             @ApiResponse(responseCode = "401", description = "Credenciais inválidas (e-mail ou senha incorretos).", content = @Content),
     })

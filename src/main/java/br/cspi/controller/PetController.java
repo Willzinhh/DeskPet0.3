@@ -1,10 +1,8 @@
 package br.cspi.controller;
 
-import br.cspi.model.cliente.Clientes;
-import br.cspi.model.pet.DadosPet;
+import br.cspi.model.pet.DadosPetInput;
+import br.cspi.model.pet.DadosPetOutput;
 import br.cspi.model.pet.Pet;
-import br.cspi.model.usuario.Owner;
-import br.cspi.service.ClienteService;
 import br.cspi.service.PetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,18 +13,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/pet")
 @AllArgsConstructor
+@ControllerAdvice
 @Tag(name = "Pet", description = "Endpoints para gerenciamento de Pets.")
 
 public class PetController {
@@ -35,13 +31,13 @@ public class PetController {
     private PetService PetService;
 
     @GetMapping("/listar/{owner_id}")
-    @Operation(summary = "Listar Pets", description = "Lista todos os Pets cadastrados")
+    @Operation(summary = "Listar Pets por Proprietario (Owner)", description = "Lista todos os Pets cadastrados por Proprietario")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pets Encontrados", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Pet.class))),
+                    schema = @Schema(implementation = DadosPetOutput.class))),
             @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
     })
-    public List<DadosPet> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id) {
+    public List<DadosPetOutput> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id) {
         return PetService.listar(owner_id);
     }
 
@@ -49,10 +45,10 @@ public class PetController {
     @Operation(summary = "Listar Pets Por Cliente(Tutor)", description = "Lista todos os Pets cadastrados de um Tutor")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pets Encontrados", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Pet.class))),
+                    schema = @Schema(implementation = DadosPetOutput.class))),
             @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
     })
-    public List<DadosPet> listarByTutor(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long tutor_id) {
+    public List<DadosPetOutput> listarByTutor(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long tutor_id) {
         return PetService.listarByTutor(owner_id, tutor_id);
     }
 
@@ -60,11 +56,11 @@ public class PetController {
     @Operation(summary = "Buscar Pet por ID", description = "Retorna Pet correspondete ao ID fornecido")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pet Encontrado", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Pet.class))),
+                    schema = @Schema(implementation = DadosPetOutput.class))),
             @ApiResponse(responseCode = "404", description = "Pet não encontrado", content = @Content)
 
     })
-    public DadosPet buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Pet a ser buscado") @PathVariable long id) {
+    public DadosPetOutput buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Pet a ser buscado") @PathVariable long id) {
         return this.PetService.getPet(owner_id, id);
     }
 
@@ -78,8 +74,8 @@ public class PetController {
 
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    public ResponseEntity<DadosPet> atualizar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody @Valid Pet pet) {
-        DadosPet dp = this.PetService.editar(owner_id, pet);
+    public ResponseEntity<DadosPetOutput> atualizar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody @Valid Pet pet) {
+        DadosPetOutput dp = this.PetService.editar(owner_id, pet);
         return ResponseEntity.noContent().build();
     }
 

@@ -1,11 +1,8 @@
 package br.cspi.controller;
 
-import br.cspi.model.cliente.DadosCliente;
-import br.cspi.model.funcionario.DadosFuncionario;
+import br.cspi.model.funcionario.DadosFuncionarioOutput;
 import br.cspi.model.funcionario.Funcionario;
 import br.cspi.model.funcionario.InputDadosFuncionario;
-import br.cspi.model.servico.Servico;
-import br.cspi.model.usuario.Owner;
 import br.cspi.service.FuncionarioService;
 import br.cspi.service.ServicoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -25,11 +21,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/funcionario")
 @AllArgsConstructor
+@ControllerAdvice
 @Tag(name = "Funcionário", description = "Endpoints para gerenciamento de Funcionários (Colaboradores).")
 public class FuncionarioController {
 
@@ -42,10 +38,10 @@ public class FuncionarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de Funcionários retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Funcionario.class))),
+                            schema = @Schema(implementation = DadosFuncionarioOutput.class))),
             @ApiResponse(responseCode = "404", description = "Funcionario não encontrado", content = @Content)
     })
-    public List<DadosFuncionario> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id) {
+    public List<DadosFuncionarioOutput> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id) {
         return funcionarioService.listar(owner_id); //
     }
 
@@ -54,11 +50,11 @@ public class FuncionarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de Funcionários retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Funcionario.class))),
+                            schema = @Schema(implementation = DadosFuncionarioOutput.class))),
             @ApiResponse(responseCode = "404", description = "Funcionario não encontrado", content = @Content)
 
 })
-    public List<DadosFuncionario> listarByServico(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long servico_id) {
+    public List<DadosFuncionarioOutput> listarByServico(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long servico_id) {
         return funcionarioService.listarByServico(owner_id, servico_id); //
     }
 
@@ -67,10 +63,10 @@ public class FuncionarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Funcionário encontrado.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Funcionario.class))),
+                            schema = @Schema(implementation = DadosFuncionarioOutput.class))),
             @ApiResponse(responseCode = "404", description = "Funcionário não encontrado.", content = @Content)
     })
-    public DadosFuncionario buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Funcionário a ser buscado") @PathVariable long id) {
+    public DadosFuncionarioOutput buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Funcionário a ser buscado") @PathVariable long id) {
         return this.funcionarioService.buscarPorId(owner_id, id); //
     }
 
@@ -80,12 +76,12 @@ public class FuncionarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Funcionário criado com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = DadosFuncionario.class))),
+                            schema = @Schema(implementation = DadosFuncionarioOutput.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content),
             @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    public ResponseEntity<DadosFuncionario> salvar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody InputDadosFuncionario f, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosFuncionarioOutput> salvar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody InputDadosFuncionario f, UriComponentsBuilder uriBuilder) {
         Funcionario funcionarioEntity = new Funcionario();
         funcionarioEntity.setNome(f.nome());
         funcionarioEntity.setCpf(f.cpf());
@@ -93,7 +89,7 @@ public class FuncionarioController {
         funcionarioEntity.setCargo(f.cargo());
         funcionarioEntity.setSalario(f.salario());
         funcionarioEntity.setAtivo(f.ativo());
-        DadosFuncionario funcionario = this.funcionarioService.salvar(owner_id, funcionarioEntity); //
+        DadosFuncionarioOutput funcionario = this.funcionarioService.salvar(owner_id, funcionarioEntity); //
         URI uri = uriBuilder.path("/funcionario/owner_id").buildAndExpand(funcionario.id()).toUri();
         return ResponseEntity.created(uri).body(funcionario);
     }
@@ -109,7 +105,7 @@ public class FuncionarioController {
 
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    public ResponseEntity<DadosFuncionario> atualizar(@Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long owner_id, @RequestBody @Valid InputDadosFuncionario f, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosFuncionarioOutput> atualizar(@Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long owner_id, @RequestBody @Valid InputDadosFuncionario f, UriComponentsBuilder uriBuilder) {
         Funcionario funcionarioEntity = new Funcionario();
         funcionarioEntity.setId(f.id());
         funcionarioEntity.setNome(f.nome());
@@ -118,7 +114,7 @@ public class FuncionarioController {
         funcionarioEntity.setCargo(f.cargo());
         funcionarioEntity.setSalario(f.salario());
         funcionarioEntity.setAtivo(f.ativo());
-        DadosFuncionario df = this.funcionarioService.editar(owner_id, funcionarioEntity);
+        DadosFuncionarioOutput df = this.funcionarioService.editar(owner_id, funcionarioEntity);
         URI uri = uriBuilder.path("/funcionario/owner_id").buildAndExpand(df.id()).toUri();
         return ResponseEntity.created(uri).body(df);
     }

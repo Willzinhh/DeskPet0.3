@@ -24,7 +24,7 @@ import java.util.Set;
 @Schema(description = "Detalhes do Cliente (Tutor)")
 public class Clientes {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "ID único do Cliente", example = "5")
+    @Schema(description = "ID único do Cliente", example = "5" )
     private Long id;
 
     // ... Campos de dados do cliente ...
@@ -42,10 +42,11 @@ public class Clientes {
     private Timestamp data_criacao;
 
     // CORREÇÃO: Mapeamento N:1 para o Owner
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
 
-    @Schema(description = "Proprietário (Owner) que gerencia este Cliente")
+    @Schema(description = "Proprietário (Owner) que gerencia este Cliente", hidden = true)
     private Owner owner;
 
     @OneToMany(mappedBy = "tutor", cascade = CascadeType.ALL, orphanRemoval = true)
