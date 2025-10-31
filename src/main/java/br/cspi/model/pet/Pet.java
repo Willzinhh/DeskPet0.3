@@ -3,7 +3,6 @@ package br.cspi.model.pet;
 import br.cspi.model.cliente.Clientes; // Import necessário
 import br.cspi.model.usuario.Owner;    // Import necessário
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,12 +11,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 
 @Entity
 @Getter
@@ -38,12 +40,15 @@ public class Pet {
     private String especie;
     @Schema(description = "Raça do Pet", example = "Golden Retriever")
     private String raca;
+    @NotBlank
+    @Pattern(regexp = "^(M|F)$",
+            message = "O sexo deve ser 'M' (Macho) ou 'F' (Femea).")
     @Schema(description = "Sexo do Pet (M/F)", example = "M")
     private String sexo;
     @Schema(description = "Descrição ou observações sobre o Pet", example = "Castrado, alergia a frango.")
     private String descricao;
     @Schema(description = "Data de criação do registro do Pet")
-    private Date data_cricao;
+    private OffsetDateTime data_cricao;
 
     // CORREÇÃO: Mapeamento N:1 para o Tutor (Clientes)
     @ManyToOne(fetch = FetchType.LAZY)

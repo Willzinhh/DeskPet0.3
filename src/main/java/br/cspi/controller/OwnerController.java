@@ -1,6 +1,7 @@
 package br.cspi.controller;
 
 
+import br.cspi.model.cliente.DadosClienteInput;
 import br.cspi.model.usuario.*;
 import br.cspi.service.OwnerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,7 +57,7 @@ public class OwnerController {
             @ApiResponse(responseCode = "404", description = "Proprietario não encontrado", content = @Content)
     })
     @PreAuthorize("hasRole('ADMIN')")
-    public Optional<DadosOwnerOutput> buscar(@Parameter(description = "ID do Proprietario a ser buscado") @PathVariable long id) {
+    public DadosOwnerOutput buscar(@Parameter(description = "ID do Proprietario a ser buscado") @PathVariable long id) {
         return this.OwnerService.getOwner(id);
     }
 
@@ -71,9 +72,9 @@ public class OwnerController {
     })
 
     public ResponseEntity salvar(@RequestBody @Valid DadosOwnerInput owner, UriComponentsBuilder uriBuilder) {
-        this.OwnerService.salvar(owner);
+        Owner no = this.OwnerService.salvar(owner);
         URI uri = uriBuilder.path("/owner/{id}").buildAndExpand(owner.id()).toUri();
-        return ResponseEntity.created(uri).body(owner);
+        return ResponseEntity.created(uri).body(no);
     }
 
     @PutMapping

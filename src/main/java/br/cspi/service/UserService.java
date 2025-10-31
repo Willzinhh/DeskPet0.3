@@ -53,16 +53,18 @@ public class UserService {
     public DadosUserOutput editar(@Valid DadosUserInput userInput, long owner_id) {
         User u = this.repository.findUserByOwnerAndId(owner_id, userInput.id());
 
+        if (u == null) {
+            System.out.println("id = " + userInput.id());
+            throw new NoSuchElementException("Usuário não encontrado");
+        }
+
         u.setNome(userInput.nome());
         u.setEmail(userInput.email());
         u.setSenha(new BCryptPasswordEncoder().encode(userInput.senha()));
         u.setPermissao(userInput.permissao());
 
 
-        if (u == null) {
-            System.out.println("id = " + userInput.id());
-            throw new NoSuchElementException("Usuário não encontrado");
-        }
+
 
 
         return new DadosUserOutput(this.repository.save(u));

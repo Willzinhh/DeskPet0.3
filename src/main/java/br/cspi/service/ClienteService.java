@@ -57,12 +57,17 @@ public class ClienteService {
 
     }
 
-    public DadosClienteOutput editar(@Valid Clientes cliente) {
-        Clientes c = this.repository.getReferenceById(cliente.getId());
+    public DadosClienteOutput editar(Long owner_id, @Valid Clientes cliente) {
+        Clientes c = this.repository.findClienteByOwnerAndId(owner_id ,cliente.getId());
+        if (c == null ) {
+            throw new NoSuchElementException("Usuário não encontrado");
+        }
+
         c.setNome(cliente.getNome());
         c.setCpf(cliente.getCpf());
         c.setTelefone(cliente.getTelefone());
         c.setEndereco(cliente.getEndereco());
+        c.setData_criacao(cliente.getData_criacao());
 
         this.repository.save(c);
         return new DadosClienteOutput(c);
@@ -79,7 +84,7 @@ public class ClienteService {
         petEntity.setRaca(pet.raca());
         petEntity.setSexo(pet.sexo());
         petEntity.setDescricao(pet.descricao());
-        petEntity.setData_cricao(pet.data_criacao());
+        petEntity.setData_cricao(pet.data_cricao());
         petEntity.setOwner(cliente.getOwner());
         petEntity.setTutor(cliente);
         petRepository.save(petEntity);

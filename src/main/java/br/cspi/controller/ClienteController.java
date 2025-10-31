@@ -101,7 +101,7 @@ public class ClienteController {
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
     public ResponseEntity<DadosClienteInput> atualizar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @RequestBody @Valid Clientes cliente) {
-        DadosClienteOutput dc = this.ClienteService.editar(cliente);
+        DadosClienteOutput dc = this.ClienteService.editar(owner_id, cliente);
         return ResponseEntity.noContent().build();
 
     }

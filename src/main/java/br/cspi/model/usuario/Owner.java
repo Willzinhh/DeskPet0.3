@@ -29,7 +29,6 @@ public class Owner {
     private long id;
 
     @UuidGenerator
-    @JsonIgnore
     @Schema(description = "UUID único gerado automaticamente", example = "a1b2c3d4-e5f6-7890-1234-567890abcdef")
     private UUID uuid;
 
