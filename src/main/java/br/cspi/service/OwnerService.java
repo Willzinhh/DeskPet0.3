@@ -1,9 +1,7 @@
 package br.cspi.service;
 
-import br.cspi.model.usuario.Owner;
-import br.cspi.model.usuario.OwnerRepository;
-import br.cspi.model.usuario.User;
-import br.cspi.model.usuario.UserRepository;
+import br.cspi.model.usuario.*;
+import jakarta.validation.Valid;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,27 +20,35 @@ public class OwnerService {
         this.userRepository = userRepository;
     }
 
-    public Owner salvar(Owner owner) {
-        this.repository.save(owner);
+    public Owner salvar(@Valid DadosOwnerInput ownerInput) {
 
+        Owner owner = new Owner();
+        owner.setNome(ownerInput.nome());
+        owner.setCpf(ownerInput.cpf());
+        owner.setCnpj(ownerInput.cnpj());
+        owner.setTelefone(ownerInput.telefone());
+        owner.setEndereco(ownerInput.endereco());
+        owner.setNome_empresa(ownerInput.nome_empresa());
+        owner.setPlano(ownerInput.plano());
+        this.repository.save(owner);
 
         return owner;
     }
 
     public Owner atualizar(Owner owner) {
-        Owner lowner = getOwner(owner.getId());
+        Owner lowner = repository.findById(owner.getId()).orElseThrow(NoSuchElementException::new);
         List<User> users = lowner.getUsers();
         owner.setUsers(users);
         owner.setUuid(lowner.getUuid());
         return repository.save(owner);
     }
 
-    public List<Owner> listar() {
-        return this.repository.findAll();
+    public List<DadosOwnerOutput> listar() {
+        return this.repository.findAll().stream().map(DadosOwnerOutput::new).toList();
     }
 
-    public Owner getOwner(Long id) {
-        return this.repository.findById(id).get();
+    public Optional<DadosOwnerOutput> getOwner(Long id) {
+        return this.repository.findById(id).map(DadosOwnerOutput::new);
     }
 
     public void excluir(Long id) {

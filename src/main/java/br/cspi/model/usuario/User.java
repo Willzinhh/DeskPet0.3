@@ -41,8 +41,7 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     @JsonBackReference
-    @JsonIgnore
-    @Schema(description = "Proprietário (Owner) ao qual este Usuário está vinculado")
+    @Schema(description = "Proprietário (Owner) ao qual este Usuário está vinculado", hidden = true)
     private Owner owner;
 
     // Construtores omitidos para brevidade

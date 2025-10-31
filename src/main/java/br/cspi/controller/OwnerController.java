@@ -1,9 +1,7 @@
 package br.cspi.controller;
 
 
-import br.cspi.model.usuario.Owner;
-import br.cspi.model.usuario.User;
-import br.cspi.model.usuario.UserRepository;
+import br.cspi.model.usuario.*;
 import br.cspi.service.OwnerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -22,11 +20,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/owner")
+@ControllerAdvice
 @Tag(name = "Owner", description = "Endpoints para gerenciamento de Proprietários (Owners).")
 public class OwnerController {
 
@@ -37,11 +37,11 @@ public class OwnerController {
     @Operation(summary = "Listar Proprietarios", description = "Lista todos os Proprietarios cadastrados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Proprietarios Encontrados", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Owner.class))),
+                    schema = @Schema(implementation = DadosOwnerOutput.class))),
             @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui a role 'ADMIN'.", content = @Content),
     })
     @PreAuthorize("hasRole('ADMIN')")
-    public List<Owner> listar() {
+    public List<DadosOwnerOutput> listar() {
         return OwnerService.listar();
     }
 
@@ -51,12 +51,12 @@ public class OwnerController {
     @ApiResponses(value = {
             // Corrigido para 200 OK (GET Request) e 404 (Não encontrado)
             @ApiResponse(responseCode = "200", description = "Proprietario Encontrado", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Owner.class))),
+                    schema = @Schema(implementation = DadosOwnerOutput.class))),
             @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui a role 'ADMIN'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietario não encontrado", content = @Content)
     })
     @PreAuthorize("hasRole('ADMIN')")
-    public Owner buscar(@Parameter(description = "ID do Proprietario a ser buscado") @PathVariable long id) {
+    public Optional<DadosOwnerOutput> buscar(@Parameter(description = "ID do Proprietario a ser buscado") @PathVariable long id) {
         return this.OwnerService.getOwner(id);
     }
 
@@ -65,14 +65,14 @@ public class OwnerController {
     @ApiResponses(value = {
             // Corrigido para 201 Created (POST) e 400 (Bad Request)
             @ApiResponse(responseCode = "201", description = "Proprietario criado com sucesso", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = Owner.class))),
+                    schema = @Schema(implementation = DadosOwnerOutput.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos", content = @Content)
 
     })
 
-    public ResponseEntity salvar(@RequestBody @Valid Owner owner, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity salvar(@RequestBody @Valid DadosOwnerInput owner, UriComponentsBuilder uriBuilder) {
         this.OwnerService.salvar(owner);
-        URI uri = uriBuilder.path("/owner/{id}").buildAndExpand(owner.getId()).toUri();
+        URI uri = uriBuilder.path("/owner/{id}").buildAndExpand(owner.id()).toUri();
         return ResponseEntity.created(uri).body(owner);
     }
 
@@ -94,7 +94,7 @@ public class OwnerController {
     @Operation(summary = "Deletar Proprietario por ID", description = "Remove o Proprietário correspondente ao ID fornecido")
     @ApiResponses(value = {
             // Documentação adicionada
-            @ApiResponse(responseCode = "204", description = "Proprietario excluído com sucesso"),
+            @ApiResponse(responseCode = "204", description = "Proprietario excluído com sucesso", content = @Content),
             @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui a role 'ADMIN'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietario não encontrado", content = @Content)
     })

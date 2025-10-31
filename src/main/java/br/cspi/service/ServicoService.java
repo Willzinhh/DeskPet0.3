@@ -1,6 +1,6 @@
 package br.cspi.service;
 
-import br.cspi.model.servico.DadosServico;
+import br.cspi.model.servico.DadosServicoOutput;
 import br.cspi.model.servico.Servico;
 import br.cspi.model.servico.ServicoRepository;
 import br.cspi.model.usuario.Owner;
@@ -20,40 +20,40 @@ public class ServicoService {
     private final OwnerRepository ownerRepository;
 
 
-    public List<DadosServico> listar(long owner_id) {
-        List<DadosServico> s = servicoRepository.findServicosByOwner(owner_id).stream().map(DadosServico::new).collect(Collectors.toList());
+    public List<DadosServicoOutput> listar(long owner_id) {
+        List<DadosServicoOutput> s = servicoRepository.findServicosByOwner(owner_id).stream().map(DadosServicoOutput::new).collect(Collectors.toList());
         if (s.isEmpty()) {
             throw new NoSuchElementException("Proprietario não encontrado");
         }
         return s;
     }
 
-    public DadosServico salvar(long owner_id, Servico servico) {
+    public DadosServicoOutput salvar(long owner_id, Servico servico) {
         Owner owner = ownerRepository.findOwnerById(owner_id);
         if (owner == null) {
             throw new NoSuchElementException("Proprietario não encontrado");
         }
         servico.setOwner(owner);
 
-        return new DadosServico(this.servicoRepository.save(servico));
+        return new DadosServicoOutput(this.servicoRepository.save(servico));
     }
 
-    public DadosServico editar(long owner_id,Servico servico) {
+    public DadosServicoOutput editar(long owner_id, Servico servico) {
         Servico s = this.servicoRepository.findServicoByOwnerAndId(owner_id, servico.getId());
         if (s == null) {
             throw new NoSuchElementException("Proprietario não encontrado");
         }
         servico.setOwner(s.getOwner());
         servico.setFuncionarios(s.getFuncionarios());
-        return new DadosServico( servicoRepository.save(servico));
+        return new DadosServicoOutput( servicoRepository.save(servico));
     }
 
-    public DadosServico buscar(long owner_id, long id) {
+    public DadosServicoOutput buscar(long owner_id, long id) {
        Servico s = servicoRepository.findServicoByOwnerAndId(owner_id, id);
        if (s == null) {
            throw new NoSuchElementException("Proprietario não encontrado");
        }
-       return new DadosServico(s);
+       return new DadosServicoOutput(s);
     }
 
     public void excluir(long owner_id, long id) {
@@ -65,8 +65,8 @@ public class ServicoService {
     }
 
 
-    public List<DadosServico> listarByFuncionario(long ownerId, long funcionarioId) {
-        List<DadosServico> ds = this.servicoRepository.findServicosByFuncionario(ownerId, funcionarioId).stream().map(DadosServico::new).toList();
+    public List<DadosServicoOutput> listarByFuncionario(long ownerId, long funcionarioId) {
+        List<DadosServicoOutput> ds = this.servicoRepository.findServicosByFuncionario(ownerId, funcionarioId).stream().map(DadosServicoOutput::new).toList();
         if (ds.isEmpty()) {
             throw new NoSuchElementException("Proprietario não encontrado");
         }

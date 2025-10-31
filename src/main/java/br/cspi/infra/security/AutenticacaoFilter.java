@@ -1,12 +1,15 @@
 package br.cspi.infra.security;
 
+import br.cspi.infra.exceptions.ErroResponse;
 import br.cspi.service.AutenticacaoService;
+import br.cspi.infra.exceptions.TratadorDeErros.*;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.hibernate.annotations.Filter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -18,7 +21,7 @@ import java.io.IOException;
 
 @Service
 @AllArgsConstructor
-public class AuenticacaoFilter extends OncePerRequestFilter {
+public class AutenticacaoFilter extends OncePerRequestFilter {
 
     private TokenServiceJWT tokenService;
     private AutenticacaoService autenticacaoService;
@@ -32,13 +35,27 @@ public class AuenticacaoFilter extends OncePerRequestFilter {
         System.out.println("Token: " + token);
 
         if (token != null) {
-            String subject = this.tokenService.getSubject(token);
-            System.out.println("Login: " + subject);
+            try {
+
+                String subject = this.tokenService.getSubject(token);
+                System.out.println("Login: " + subject);
 
 
-            UserDetails userDetails = this.autenticacaoService.loadUserByUsername(subject);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                UserDetails userDetails = this.autenticacaoService.loadUserByUsername(subject);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            }
+            catch (JWTVerificationException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+
+                var erroResponse = new ErroResponse(
+                        HttpServletResponse.SC_UNAUTHORIZED,
+                        "Falha na Autenticação (Token Inválido ou Expirado)");
+                new ObjectMapper().writeValue(response.getWriter(), erroResponse);
+                return;
+            }
         }
 
         filterChain.doFilter(request, response);

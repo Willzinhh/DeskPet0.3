@@ -1,7 +1,6 @@
 package br.cspi.controller;
 
-import br.cspi.model.funcionario.DadosFuncionario;
-import br.cspi.model.servico.DadosServico;
+import br.cspi.model.servico.DadosServicoOutput;
 import br.cspi.model.servico.InputDadosServico;
 import br.cspi.model.servico.Servico;
 import br.cspi.service.ServicoService;
@@ -25,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/servico")
 @AllArgsConstructor
+@ControllerAdvice
 @Tag(name = "Serviço", description = "Endpoints para gerenciamento de Serviços (Banho, Tosa, etc.) oferecidos.")
 public class ServicoController {
 
@@ -35,9 +35,9 @@ public class ServicoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de Serviços retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = DadosServico.class))),
+                            schema = @Schema(implementation = DadosServicoOutput.class))),
     })
-    public List<DadosServico> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id) {
+    public List<DadosServicoOutput> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id) {
         return servicoService.listar(owner_id); //
     }
 
@@ -46,10 +46,10 @@ public class ServicoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Serviço encontrado.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = DadosServico.class))),
+                            schema = @Schema(implementation = DadosServicoOutput.class))),
             @ApiResponse(responseCode = "404", description = "Serviço não encontrado.", content = @Content)
     })
-    public DadosServico buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Serviço a ser buscado") @PathVariable long id) {
+    public DadosServicoOutput buscar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Serviço a ser buscado") @PathVariable long id) {
         return this.servicoService.buscar(owner_id, id); //
     }
 
@@ -58,9 +58,9 @@ public class ServicoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de Serviços retornada com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = DadosServico.class))),
+                            schema = @Schema(implementation = DadosServicoOutput.class))),
     })
-    public List<DadosServico> listarByFuncionario(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long funcionario_id) {
+    public List<DadosServicoOutput> listarByFuncionario(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, @Parameter(description = "ID do Proprietario") @PathVariable long funcionario_id) {
         return servicoService.listarByFuncionario(owner_id, funcionario_id); //
     }
 
@@ -69,13 +69,13 @@ public class ServicoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Serviço criado com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = DadosServico.class))),
+                            schema = @Schema(implementation = DadosServicoOutput.class))),
             @ApiResponse(responseCode = "400", description = "Dados inválios fornecidos.", content = @Content),
             @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content),
             @ApiResponse(responseCode = "404", description = "Proprietário (Owner) não encontrado.", content = @Content),
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    public ResponseEntity<DadosServico> salvar(@Parameter(description = "ID do Serviço a ser buscado") @PathVariable long owner_id, @RequestBody @Valid InputDadosServico servico, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosServicoOutput> salvar(@Parameter(description = "ID do Serviço a ser buscado") @PathVariable long owner_id, @RequestBody @Valid InputDadosServico servico, UriComponentsBuilder uriBuilder) {
         Servico servicoEntity = new Servico();
         servicoEntity.setId(servico.id());
         servicoEntity.setNome(servico.nome());
@@ -83,7 +83,7 @@ public class ServicoController {
         servicoEntity.setValor(servico.valor());
         servicoEntity.setTempo(servico.tempo());
 
-        DadosServico ds = this.servicoService.salvar(owner_id, servicoEntity);
+        DadosServicoOutput ds = this.servicoService.salvar(owner_id, servicoEntity);
         URI uri = uriBuilder.path("servico/{servico_id}").build(ds.id());
         return ResponseEntity.created(uri).body(ds);
     }
@@ -99,7 +99,7 @@ public class ServicoController {
 
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    public DadosServico atualizar(@Parameter(description = "ID do Serviço a ser buscado") @PathVariable long owner_id, @RequestBody @Valid InputDadosServico servico) {
+    public DadosServicoOutput atualizar(@Parameter(description = "ID do Serviço a ser buscado") @PathVariable long owner_id, @RequestBody @Valid InputDadosServico servico) {
         Servico servicoEntity = new Servico();
         servicoEntity.setId(servico.id());
         servicoEntity.setNome(servico.nome());

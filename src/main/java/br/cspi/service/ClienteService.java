@@ -2,17 +2,17 @@ package br.cspi.service;
 
 import br.cspi.model.cliente.ClienteRepository;
 import br.cspi.model.cliente.Clientes;
-import br.cspi.model.cliente.DadosCliente;
+import br.cspi.model.cliente.DadosClienteInput;
+import br.cspi.model.cliente.DadosClienteOutput;
+import br.cspi.model.pet.DadosPetInput;
 import br.cspi.model.pet.Pet;
 import br.cspi.model.pet.PetRepository;
-import br.cspi.model.usuario.DadosUser;
 import br.cspi.model.usuario.Owner;
 import br.cspi.model.usuario.OwnerRepository;
-import br.cspi.model.usuario.User;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -26,27 +26,27 @@ public class ClienteService {
     private final PetRepository petRepository;
 
 
-    public DadosCliente salvar(long owner_id, Clientes cliente) {
+    public DadosClienteOutput salvar(long owner_id, Clientes cliente) {
         Owner owner = ownerRepository.getReferenceById(owner_id);
         cliente.setOwner(owner);
         Clientes c = this.repository.save(cliente);
-        return new DadosCliente(c);
+        return new DadosClienteOutput(c);
     }
 
-    public List<DadosCliente> listar(long owner_id) {
-        List<DadosCliente> dadosCliente = repository.findClientesByOwner(owner_id).stream().map(DadosCliente::new).toList();
-        if (dadosCliente.isEmpty()) {
+    public List<DadosClienteOutput> listar(long owner_id) {
+        List<DadosClienteOutput> dadosClienteOutputs = repository.findClientesByOwner(owner_id).stream().map(DadosClienteOutput::new).toList();
+        if (dadosClienteOutputs.isEmpty()) {
             throw new NoSuchElementException("Usuário não encontrado");
         }
-        return dadosCliente;
+        return dadosClienteOutputs;
     }
 
-    public DadosCliente getCliente(long owner_id, long id) {
+    public DadosClienteOutput getCliente(long owner_id, long id) {
         Clientes cliente = repository.findClienteByOwnerAndId(owner_id, id);
         if (cliente == null) {
             throw new NoSuchElementException("Usuário não encontrado");
         }
-        return new DadosCliente(cliente);
+        return new DadosClienteOutput(cliente);
     }
 
     public void excluir(long owner_id ,long id) {
@@ -58,25 +58,33 @@ public class ClienteService {
 
     }
 
-    public DadosCliente editar(Clientes cliente) {
-        Clientes c = this.repository.getReferenceById(cliente.getId());
-        c.setNome(cliente.getNome());
-        c.setCpf(cliente.getCpf());
-        c.setTelefone(cliente.getTelefone());
-        c.setEndereco(cliente.getEndereco());
+    public DadosClienteOutput editar(@Valid DadosClienteInput cliente) {
+        Clientes c = this.repository.getReferenceById(cliente.id());
+        c.setNome(cliente.nome());
+        c.setCpf(cliente.cpf());
+        c.setTelefone(cliente.telefone());
+        c.setEndereco(cliente.endereco());
 
         this.repository.save(c);
-        return new DadosCliente(c);
+        return new DadosClienteOutput(c);
     }
-    public String atribuirPet(long owner_id, long id, Pet pet) {
+    public String atribuirPet(long owner_id, long id, @Valid DadosPetInput pet) {
         Clientes cliente = this.repository.findClienteByOwnerAndId(owner_id, id);
         if (cliente == null ) {
             throw new NoSuchElementException("Usuário não encontrado");
         }
-        pet.setTutor(cliente);
-        pet.setOwner(cliente.getOwner());
-        petRepository.save(pet);
-        cliente.addPet(pet);
+        Pet petEntity = new Pet();
+
+        petEntity.setNomepet(pet.nomepet());
+        petEntity.setEspecie(pet.especie());
+        petEntity.setRaca(pet.raca());
+        petEntity.setSexo(pet.sexo());
+        petEntity.setDescricao(pet.descricao());
+        petEntity.setData_cricao(pet.data_criacao());
+        petEntity.setOwner(cliente.getOwner());
+        petEntity.setTutor(cliente);
+        petRepository.save(petEntity);
+        cliente.addPet(petEntity);
         return "Pet Atribuido com sucesso ";
     }
 

@@ -1,7 +1,8 @@
 package br.cspi.controller;
 
 
-import br.cspi.model.usuario.DadosUser;
+import br.cspi.model.usuario.DadosUserInput;
+import br.cspi.model.usuario.DadosUserOutput;
 import br.cspi.model.usuario.User;
 import br.cspi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +13,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +20,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/user")
 @AllArgsConstructor
+@ControllerAdvice
 @Tag(name = "Usuario", description = "Endpoints para gerenciamento de Usuarios (Users) e Tenant (multi-owner).")
 public class UserController {
 
@@ -39,13 +39,13 @@ public class UserController {
     @Operation(summary = "Listar Usuários de um Owner", description = "Lista todos os Usuários cadastrados pertencentes a um Owner específico.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Usuários Encontrados", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = DadosUser.class))),
+                    schema = @Schema(implementation = DadosUserOutput.class))),
             @ApiResponse(responseCode = "404", description = "Owner não encontrado", content = @Content),
             // Adicionado 403 Forbidden para cobrir a restrição de segurança
             @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content)
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    public ResponseEntity<List<DadosUser>> listar(@Parameter(description = "ID do Proprietario/Tenant para listar os Usuários.") @PathVariable() Long owner_id) {
+    public ResponseEntity<List<DadosUserOutput>> listar(@Parameter(description = "ID do Proprietario/Tenant para listar os Usuários.") @PathVariable() Long owner_id) {
         return ResponseEntity.ok(this.UserService.listar(owner_id));
     }
 
@@ -54,15 +54,15 @@ public class UserController {
     @ApiResponses(value = {
             // Schema alterado para DadosUser para consistência com o retorno do método
             @ApiResponse(responseCode = "200", description = "Usuário Encontrado", content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = DadosUser.class))),
+                    schema = @Schema(implementation = DadosUserOutput.class))),
             @ApiResponse(responseCode = "404", description = "Usuário ou Proprietário não encontrado", content = @Content),
             // Adicionado 403 Forbidden para cobrir a restrição de segurança
             @ApiResponse(responseCode = "403", description = "Acesso Negado: O usuário não possui as roles 'ADMIN' ou 'OWNER'.", content = @Content)
 
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    public DadosUser buscar(@Parameter(description = "ID do Proprietário/Tenant que detém o usuário.") @PathVariable long owner_id,
-                            @Parameter(description = "ID do Usuário específico a ser buscado.") @PathVariable long id) throws Throwable {
+    public DadosUserOutput buscar(@Parameter(description = "ID do Proprietário/Tenant que detém o usuário.") @PathVariable long owner_id,
+                                  @Parameter(description = "ID do Usuário específico a ser buscado.") @PathVariable long id) throws Throwable {
         return ResponseEntity.ok(this.UserService.getUser(owner_id, id)).getBody();
     }
 
@@ -75,10 +75,11 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado", content = @Content)
 
     })
-    public ResponseEntity<DadosUser> atualizar(
-            @Parameter(description = "ID do Proprietário/Tenant ao qual o Usuário pertence.") @PathVariable long owner_id, @RequestBody @Valid User user, UriComponentsBuilder uriBuilder) {
-        System.out.println(user.toString());
-        DadosUser du = this.UserService.editar(user, owner_id);
+    public ResponseEntity<DadosUserOutput> atualizar(
+            @Parameter(description = "ID do Proprietário/Tenant ao qual o Usuário pertence.") @PathVariable long owner_id, @RequestBody @Valid DadosUserInput userInput, UriComponentsBuilder uriBuilder) {
+
+        System.out.println(userInput.nome());
+        DadosUserOutput du = this.UserService.editar(userInput, owner_id);
         return ResponseEntity.noContent().build();
     }
 

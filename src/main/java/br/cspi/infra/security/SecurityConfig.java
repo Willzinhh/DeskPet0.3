@@ -1,7 +1,7 @@
 package br.cspi.infra.security;
 
 
-import br.cspi.service.AutenticacaoService;
+import br.cspi.infra.exceptions.CustomAccessDeniedHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final AuenticacaoFilter autenticacaoFilter;
+    private final AutenticacaoFilter autenticacaoFilter;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
 
 @Bean
@@ -30,6 +30,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     return http
             .csrf(crsf -> crsf.disable())
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
             .authorizeHttpRequests(auth -> auth
                             //endpoint de login - todos
                             .requestMatchers(HttpMethod.POST, "/login").permitAll()
@@ -50,6 +51,9 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 
                             .anyRequest().authenticated()
+            )
+            .exceptionHandling(handling -> handling
+                    .accessDeniedHandler(customAccessDeniedHandler)
             )
             .addFilterBefore(this.autenticacaoFilter, UsernamePasswordAuthenticationFilter.class)
             .build(); // sessao nao salvs

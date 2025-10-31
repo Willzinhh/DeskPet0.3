@@ -1,6 +1,6 @@
 package br.cspi.service;
 
-import br.cspi.model.funcionario.DadosFuncionario;
+import br.cspi.model.funcionario.DadosFuncionarioOutput;
 import br.cspi.model.funcionario.Funcionario;
 import br.cspi.model.funcionario.FuncionarioRepository;
 import br.cspi.model.servico.Servico;
@@ -10,7 +10,6 @@ import br.cspi.model.usuario.OwnerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -23,31 +22,31 @@ public class FuncionarioService {
     private final ServicoRepository servicoRepository;
 
 
-    public DadosFuncionario buscarPorId(long owner_id ,long id) {
+    public DadosFuncionarioOutput buscarPorId(long owner_id , long id) {
         Funcionario f = funcionarioRepository.findFuncionarioByOwnerAndId(owner_id, id);
         if(f == null) {
             throw new NoSuchElementException("Funcionario não encontrado");
         }
-        return new DadosFuncionario(f);
+        return new DadosFuncionarioOutput(f);
 
     }
 
-    public List<DadosFuncionario> listar(long owner_id ) {
-        List<DadosFuncionario> f = funcionarioRepository.findFuncionarioByOwner(owner_id).stream().map(DadosFuncionario::new).toList();
+    public List<DadosFuncionarioOutput> listar(long owner_id ) {
+        List<DadosFuncionarioOutput> f = funcionarioRepository.findFuncionarioByOwner(owner_id).stream().map(DadosFuncionarioOutput::new).toList();
         if(f.isEmpty()) {
             throw new NoSuchElementException("Funcionarios não encontrado");
         }
         return f;
     }
 
-    public DadosFuncionario salvar(long owner_id, Funcionario funcionario) {
+    public DadosFuncionarioOutput salvar(long owner_id, Funcionario funcionario) {
         Owner owner = ownerRepository.findOwnerById(owner_id);;
         funcionario.setOwner(owner);
         if(owner == null) {
             throw new NoSuchElementException("Proprietario não encontrado");
         }
 
-        return  new DadosFuncionario(this.funcionarioRepository.save(funcionario));
+        return  new DadosFuncionarioOutput(this.funcionarioRepository.save(funcionario));
     }
 
     public void excluir(long owner_id,long id) {
@@ -58,7 +57,7 @@ public class FuncionarioService {
         this.funcionarioRepository.deleteById(id);
     }
 
-    public DadosFuncionario editar(long owner_id, Funcionario funcionario) {
+    public DadosFuncionarioOutput editar(long owner_id, Funcionario funcionario) {
         Funcionario f = funcionarioRepository.findFuncionarioByOwnerAndId(owner_id, funcionario.getId());
         if(f == null) {
             throw new NoSuchElementException("Proprietario não encontrado");
@@ -69,7 +68,7 @@ public class FuncionarioService {
         }
 
         funcionario.setOwner(f.getOwner());
-        return new DadosFuncionario( funcionarioRepository.save(funcionario));
+        return new DadosFuncionarioOutput( funcionarioRepository.save(funcionario));
     }
 
     public void associarServico(Long owner_id, Long funcionario_id, Long servico_id) {
@@ -84,8 +83,8 @@ public class FuncionarioService {
         funcionarioRepository.save(f); // Hibernate salva também na tabela intermediária
     }
 
-    public List<DadosFuncionario> listarByServico(long owner_id, long servicoId) {
-        List<DadosFuncionario> f = this.funcionarioRepository.findFuncionariosByServico(owner_id, servicoId).stream().map(DadosFuncionario::new).toList();
+    public List<DadosFuncionarioOutput> listarByServico(long owner_id, long servicoId) {
+        List<DadosFuncionarioOutput> f = this.funcionarioRepository.findFuncionariosByServico(owner_id, servicoId).stream().map(DadosFuncionarioOutput::new).toList();
         if(f.isEmpty()) {
             throw new NoSuchElementException("Proprietario não encontrado");
         }

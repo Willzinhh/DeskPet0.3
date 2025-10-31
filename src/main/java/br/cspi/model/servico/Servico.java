@@ -40,13 +40,13 @@ public class Servico {
     // CORREÇÃO: Mapeamento N:1 para o Owner
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id", nullable = false)
-    @Schema(description = "Proprietário (Owner) que gerencia o registro")
+    @Schema(description = "Proprietário (Owner) que gerencia o registro", hidden = true)
     private Owner owner;
     // O campo 'private int cliente_usuario_id;' foi removido.
 
     // Mapeamento N:N (Já estava correto!)
     @ManyToMany(mappedBy = "servicos")
     @JsonBackReference
-    @Schema(description = "Lista de funcionários habilitados para realizar este serviço")
+    @Schema(description = "Lista de funcionários habilitados para realizar este serviço", hidden = true)
     private List<Funcionario> funcionarios = new ArrayList<>();
 }
