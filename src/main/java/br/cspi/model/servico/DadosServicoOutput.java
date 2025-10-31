@@ -28,17 +28,14 @@ public record DadosServicoOutput(
         double valor,
 
         @Schema(description = "Tempo estimado de duração do Serviço.", example = "1 hora")
-        String tempo,
-
-        @Schema(description = "ID do Proprietário (campo de sistema/relacionamento).", hidden = true, example = "1")
-        Long owner_id) {
+        String tempo) {
 
     public DadosServicoOutput(Servico s) {
         this((long) s.getId(),
                 s.getNome(),
                 s.getDescricao(),
                 s.getValor(),
-                s.getTempo(),
-                s.getOwner().getId()); // Assumindo que s.getOwner() retorna um objeto que tem o método getId()
+                s.getTempo()
+                ); // Assumindo que s.getOwner() retorna um objeto que tem o método getId()
     }
 }

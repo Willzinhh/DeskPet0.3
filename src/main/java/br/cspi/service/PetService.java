@@ -9,12 +9,14 @@ import br.cspi.model.pet.PetRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
+@ControllerAdvice
 public class PetService {
 
     private final PetRepository repository;

@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import br.cspi.model.pet.Pet; // Assumindo que a entidade Pet está neste package ou acessível
 
 import java.sql.Timestamp;
+import java.time.OffsetDateTime;
 
 
 /**
@@ -48,13 +49,9 @@ public record DadosPetOutput (
         String descricao,
 
         @Schema(description = "Data de criação")
-        Timestamp data_criacao,
+        OffsetDateTime data_cricao
 
-        @Schema(description = "ID do Tutor (Cliente) que é o dono direto do Pet.", hidden = true, example = "5")
-        Long tutor_id,
-
-        @Schema(description = "ID do Proprietário (campo de sistema/relacionamento).", hidden = true, example = "1")
-        Long owner_id)
+        )
 {
 
     public DadosPetOutput(Pet p){
@@ -64,8 +61,7 @@ public record DadosPetOutput (
                 p.getRaca(),
                 p.getSexo(),
                 p.getDescricao(),
-                (Timestamp) p.getData_cricao(),
-                p.getTutor().getId(), // Assumindo que p.getTutor() e p.getOwner() retornam objetos válidos
-                p.getOwner().getId());
+                (OffsetDateTime) p.getData_cricao()
+                );
     }
 }
