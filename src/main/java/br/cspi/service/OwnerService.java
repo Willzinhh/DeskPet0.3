@@ -32,6 +32,8 @@ public class OwnerService {
         owner.setPlano(ownerInput.plano());
         this.repository.save(owner);
 
+        owner = repository.findByCpf(ownerInput.cpf());
+
         return owner;
     }
 

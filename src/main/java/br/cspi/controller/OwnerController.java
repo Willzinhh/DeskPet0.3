@@ -70,9 +70,9 @@ public class OwnerController {
 
     })
 
-    public ResponseEntity salvar(@RequestBody @Valid DadosOwnerInput owner, UriComponentsBuilder uriBuilder) {
-        this.OwnerService.salvar(owner);
-        URI uri = uriBuilder.path("/owner/{id}").buildAndExpand(owner.id()).toUri();
+    public ResponseEntity salvar(@RequestBody @Valid DadosOwnerInput owneri, UriComponentsBuilder uriBuilder) {
+        Owner owner = this.OwnerService.salvar(owneri);
+        URI uri = uriBuilder.path("/owner/{id}").buildAndExpand(owner.getId()).toUri();
         return ResponseEntity.created(uri).body(owner);
     }
 

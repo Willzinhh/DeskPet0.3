@@ -2,6 +2,7 @@ package br.cspi.model.usuario;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.UUID;
 
@@ -15,11 +16,14 @@ public record DadosOwnerInput(
         @Schema(description = "Nome completo do Proprietário.", example = "Carlos Souza")
         String nome,
 
+
         @Schema(description = "CPF (Cadastro de Pessoa Física) do Proprietário.", example = "111.222.333-44")
         String cpf,
 
+
         @Schema(description = "CNPJ (Cadastro Nacional da Pessoa Jurídica) da empresa (se aplicável).", example = "00.000.000/0001-00")
         String cnpj,
+
 
         @Schema(description = "Número de telefone para contato.", example = "(21)98765-4321")
         String telefone,
