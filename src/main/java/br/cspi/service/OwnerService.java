@@ -1,5 +1,6 @@
 package br.cspi.service;
 
+import br.cspi.model.cliente.DadosClienteInput;
 import br.cspi.model.usuario.*;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,7 +39,10 @@ public class OwnerService {
     }
 
     public Owner atualizar(Owner owner) {
-        Owner lowner = repository.findById(owner.getId()).orElseThrow(NoSuchElementException::new);
+        Owner lowner = repository.findOwnerById(owner.getId());
+        if (lowner == null) {
+            throw new NoSuchElementException("Proprietário não encontrado");
+        }
         List<User> users = lowner.getUsers();
         owner.setUsers(users);
         owner.setUuid(lowner.getUuid());
@@ -49,14 +53,19 @@ public class OwnerService {
         return this.repository.findAll().stream().map(DadosOwnerOutput::new).toList();
     }
 
-    public Optional<DadosOwnerOutput> getOwner(Long id) {
-        return this.repository.findById(id).map(DadosOwnerOutput::new);
+    public DadosOwnerOutput getOwner(Long id) {
+        Owner owner = repository.findOwnerById(id);
+
+        if (owner == null) {
+            throw new NoSuchElementException("Proprietário não encontrado");
+        }
+        return new DadosOwnerOutput (owner);
     }
 
     public void excluir(Long id) {
         Optional<Owner> owner = this.repository.findById(id);
         if(owner.isEmpty()) {
-            throw new NoSuchElementException("Usuário não encontrado");
+            throw new NoSuchElementException("Proprietario não encontrado");
         }
         this.repository.deleteById(id);
     }

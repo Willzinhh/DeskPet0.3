@@ -49,15 +49,8 @@ public record DadosClienteOutput(
         String endereco,
 
         @Schema(description = "Data e hora de criação do registro.", example = "2025-10-31T15:40:16.978Z")
-        Timestamp data_criacao,
-
-        // Campo oculto na documentação do Swagger/OpenAPI
-        @Schema(description = "ID do Proprietário (campo interno de relacionamento).", hidden = true)
-        Long owner_id,
-
-        // Campo oculto na documentação do Swagger/OpenAPI
-        @Schema(description = "Lista de Pets associados ao cliente.", hidden = true)
-        List<DadosPetInput> pets) {
+        Timestamp data_cricao)
+{
 
     /**
      * Construtor que recebe a entidade Clientes e mapeia seus dados para o DTO.
@@ -69,10 +62,6 @@ public record DadosClienteOutput(
                 cliente.getTelefone(),
                 cliente.getCpf(),
                 cliente.getEndereco(),
-                cliente.getData_criacao(),
-                // Assumindo que o método getOwner() retorna um objeto que tem o método getId()
-                cliente.getOwner().getId(),
-                // Mapeia a lista de Pets para DTOs DadosPet
-                cliente.getPets().stream().map(DadosPetInput::new).toList());
+                cliente.getData_criacao());
     }
 }

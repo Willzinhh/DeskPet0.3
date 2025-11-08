@@ -40,13 +40,9 @@ public record DadosFuncionarioOutput(
         BigDecimal salario,
 
         @Schema(description = "Status de atividade do funcionário (true para ativo, false para inativo).", example = "true")
-        boolean ativo,
+        boolean ativo
 
-        @Schema(description = "ID do Proprietário (campo de sistema/relacionamento).", hidden = true, example = "1")
-        long owner_id,
 
-        @Schema(description = "Lista de serviços", hidden = true)
-        List<Servico> servicos
 
 ) {
 
@@ -59,8 +55,7 @@ public record DadosFuncionarioOutput(
                         f.getTelefone(),
                         f.getCargo(),
                         f.getSalario(),
-                        f.isAtivo(),
-                        f.getOwner().getId(),
-                        f.getServicos().stream().toList()); // Assumindo que f.getOwner() retorna um objeto que tem o método getId()
+                        f.isAtivo()
+                        ); // Assumindo que f.getOwner() retorna um objeto que tem o método getId()
         }
 }
