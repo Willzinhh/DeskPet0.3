@@ -36,15 +36,18 @@ public class Owner {
     @Schema(description = "Nome completo do Proprietário", example = "João da Silva")
     private String nome;
 
+    @Column(unique = true)
     @NotBlank
     @Size(min = 14, max = 14, message = "CPF deve seguir o formato XXX.XXX.XXX-XX ")
     @Schema(description = "CPF do Proprietário no formato XXX.XXX.XXX-XX", example = "123.456.789-00")
     private String cpf;
 
+    @Column(unique = true)
     @Size(min = 18, max = 18, message = "CNPJ deve seguir o formato XX.XXX.XXX/0001-AA")
     @Schema(description = "CNPJ da empresa no formato XX.XXX.XXX/0001-AA (Opcional)", example = "11.222.333/0001-44", nullable = true)
     private String cnpj;
 
+    @Column(unique = true)
     @NotBlank
     @Size(min = 14, max = 14, message = "Telefone deve seguir o formato (XX)XXXXX-XXXX")
     @Schema(description = "Telefone para contato no formato (XX)XXXXX-XXXX", example = "(11)98765-4321")

@@ -1,6 +1,7 @@
 package br.cspi.model.usuario;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,14 +27,17 @@ public record DadosOwnerInput(
         String nome,
 
         @NotBlank
+        @Column(unique = true)
         @Size(min = 14, max = 14, message = "CPF deve seguir o formato XXX.XXX.XXX-XX ")
         @Schema(description = "CPF (Cadastro de Pessoa Física) do Proprietário.", example = "111.222.333-44")
         String cpf,
 
+        @Column(unique = true)
         @Size(min = 18, max = 18, message = "CNPJ deve seguir o formato XX.XXX.XXX/0001-AA")
         @Schema(description = "CNPJ (Cadastro Nacional da Pessoa Jurídica) da empresa (se aplicável).", example = "00.000.000/0001-00")
         String cnpj,
 
+        @Column(unique = true)
         @NotBlank
         @Size(min = 14, max = 14, message = "Telefone deve seguir o formato (XX)XXXXX-XXXX")
         @Schema(description = "Número de telefone para contato.", example = "(21)98765-4321")
