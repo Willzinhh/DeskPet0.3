@@ -143,7 +143,7 @@ public class FuncionarioController {
 
     })
     @PreAuthorize("hasAnyRole('ADMIN','OWNER')")
-    public ResponseEntity atualizar(@Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long owner_id, @Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long funcionario_id, @Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long servico_id) {
+    public ResponseEntity addServico(@Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long owner_id, @Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long funcionario_id, @Parameter(description = "ID do Funcionário a ser deletado") @PathVariable long servico_id) {
         this.funcionarioService.associarServico(owner_id, funcionario_id, servico_id);
 
         return ResponseEntity.noContent().build();
