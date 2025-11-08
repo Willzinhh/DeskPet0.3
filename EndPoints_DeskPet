@@ -17,7 +17,7 @@ collection:
         meta:
           id: req_d083d7998e57442cb2ef7fe0189926b0
           created: 1760310846033
-          modified: 1761540500300
+          modified: 1761941981196
           isPrivate: false
           sortKey: -1760311039952
         method: GET
@@ -28,7 +28,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NzQ3MX0.b-MjONMZ717N34lffjzcoK0qwV4v8D-yQx4hkT6SLFw
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -37,12 +37,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/agendamento/{owner_id}/{agendamento_id}
+      - url: http://localhost:8080/DeskPet/agendamento/1/1
         name: Buscar Agendamento por ID
         meta:
           id: req_f4b7ce0e3a49445d88a2f7122b62c8f0
           created: 1760310846034
-          modified: 1760909146576
+          modified: 1761941999152
           isPrivate: false
           sortKey: -1760311039852
         method: GET
@@ -51,6 +51,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -59,12 +62,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/agendamento/1/4/2/2
+      - url: http://localhost:8080/DeskPet/agendamento/1/1/4/3
         name: Criar Agendamento
         meta:
           id: req_c7fa18f3149b4b1ea6012a51efeef4b5
           created: 1760310846035
-          modified: 1761543407424
+          modified: 1761941965436
           isPrivate: false
           sortKey: -1760311039752
         method: POST
@@ -83,7 +86,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NzQ3MX0.b-MjONMZ717N34lffjzcoK0qwV4v8D-yQx4hkT6SLFw
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -92,12 +95,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/agendamento/{owner_id}
+      - url: http://localhost:8080/DeskPet/agendamento/1
         name: Atualizar Agendamento
         meta:
           id: req_a4380ab82a6e4bd4b0748293e13de71f
           created: 1760310846036
-          modified: 1760919703228
+          modified: 1761942080408
           isPrivate: false
           sortKey: -1760311039652
         method: PUT
@@ -105,20 +108,23 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"id": 2,
+            	"id": 1,
             	"data": "2025-10-19T00:00:00Z",
             	"horario": "1970-01-01T17:09:45.58Z",
             	"observacao": "Pet arisco, necessário focinheira.",
             	"status": "REALIZADO",
-            	"pagamento": "PAGO",
-            	"pet_id": 2,
-            	"servico_id": 2,
-            	"funcionario_id": 4,
+            	"pagamento": "PAG",
+            	"pet_id": 4,
+            	"servico_id": 3,
+            	"funcionario_id": 1,
             	"owner_id": 1
             }
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -127,12 +133,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/agendamento/{owner_id}/{agendamento_i}
+      - url: http://localhost:8080/DeskPet/agendamento/1/1
         name: Excluir Agendamento
         meta:
           id: req_3fa87fab1eda4bf5a1e12c8db3dcc681
           created: 1760310846037
-          modified: 1760914141845
+          modified: 1761942103390
           isPrivate: false
           sortKey: -1760311039552
         method: DELETE
@@ -141,6 +147,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -156,12 +165,12 @@ collection:
       modified: 1760310846039
       sortKey: -1760310846039
     children:
-      - url: http://localhost:8080/DeskPet/cliente/listar/{owner_id}
+      - url: http://localhost:8080/DeskPet/cliente/listar/1
         name: Listar Clientes
         meta:
           id: req_1b9308b69be54b96914973b1b8e9f9c8
           created: 1760310846044
-          modified: 1760918209084
+          modified: 1761939480164
           isPrivate: false
           sortKey: -1760311031494
         method: GET
@@ -170,6 +179,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -178,12 +190,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/cliente/{owner_id}/{id}
+      - url: http://localhost:8080/DeskPet/cliente/1/1
         name: Buscar Cliente por ID
         meta:
           id: req_d26cda5af3ce4e5196ade8fec96aee87
           created: 1760310846045
-          modified: 1760840545857
+          modified: 1761939504684
           isPrivate: false
           sortKey: -1760311031394
         method: GET
@@ -192,6 +204,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -200,12 +215,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/cliente/{owner_id}
+      - url: http://localhost:8080/DeskPet/cliente/1
         name: Criar Cliente
         meta:
           id: req_fb36d46adf0f405c8e9b4e08008b3409
           created: 1760310846046
-          modified: 1760832692571
+          modified: 1762570113337
           isPrivate: false
           sortKey: -1760311031294
         method: POST
@@ -216,12 +231,16 @@ collection:
               "nome": "Mariana Oliveira",
               "telefone": "(21)99887-7669",
               "cpf": "187.694.391-39",
-              "endereco": "Av. Principal, 456 - Bairro X"
+              "endereco": "Av. Principal, 456 - Bairro X",
+            	"data_criacao": "2025-10-31T15:40:16.978Z"
               
             }
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFsZW5jYXJAZ21haWwuY29tIiwiUk9MRSI6IkFETUlOIiwiZXhwIjoxNzYyNTc3Mjk3fQ.HGEtLrGY_6IuKJWI3qpdn7jIkVNNy-uKvE2S5iJCFGs
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -230,12 +249,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/cliente/{owner_id}
+      - url: http://localhost:8080/DeskPet/cliente/1
         name: Atualizar Cliente
         meta:
           id: req_614cffe04992468a9066346e5fdee981
           created: 1760310846047
-          modified: 1760832726204
+          modified: 1761939749596
           isPrivate: false
           sortKey: -1760311031194
         method: PUT
@@ -243,16 +262,20 @@ collection:
           mimeType: application/json
           text: |-
             {
-            		"id": 10,
+            		"id": 1,
             		"nome": "Mariano Oliveira",
             		"telefone": "(21)99887-7669",
             		"cpf": "187.694.391-99",
             		"endereco": "Av. Principal, 456 - Bairro X",
-            		"data_criacao": null
+            	  "data_criacao": "2025-10-31T15:40:16.978Z"
+            	
             	}
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -261,12 +284,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/cliente/{owner_id}/{cliente_id}
+      - url: http://localhost:8080/DeskPet/cliente/1/2
         name: Excluir Cliente
         meta:
           id: req_a2d6a1614623444f9d15359d1471fc56
           created: 1760310846048
-          modified: 1760831401043
+          modified: 1761941135608
           isPrivate: false
           sortKey: -1760311031094
         method: DELETE
@@ -275,6 +298,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -283,12 +309,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/cliente/{owner_id}/{cliente_id}/addPet
+      - url: http://localhost:8080/DeskPet/cliente/1/1/addPet
         name: Atribuir Pet
         meta:
           id: req_84ab3e8ea6484f74825639e557067363
           created: 1760836936686
-          modified: 1760918254801
+          modified: 1761940037739
           isPrivate: false
           sortKey: -1760836936686
         method: PUT
@@ -308,6 +334,9 @@ collection:
             value: application/json
           - name: User-Agent
             value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -328,7 +357,7 @@ collection:
         meta:
           id: req_bfbf1537b3b3477da2aa8d9eb91f4ec4
           created: 1760310846049
-          modified: 1761543338318
+          modified: 1761941516734
           isPrivate: false
           sortKey: -1760311021486
         method: GET
@@ -340,7 +369,7 @@ collection:
             id: pair_db2492c8c39f41cd8bdf4c673d99e246
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU1MDQ4MX0.4SmZt-6waZwYgWxxJPdUyvDhFOgDc9EbKYD-Tj9doZk
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -354,7 +383,7 @@ collection:
         meta:
           id: req_2c2a2fc069b3400e80084d6699b9bbde
           created: 1760310846050
-          modified: 1760883848478
+          modified: 1761941431515
           isPrivate: false
           sortKey: -1760311021386
         method: POST
@@ -363,8 +392,8 @@ collection:
           text: |-
             {
               "nome": "Maria",
-              "cpf": "123.456.789-01",
-              "telefone": "(11)99999-8881",
+              "cpf": "123.456.789-02",
+              "telefone": "(11)99999-8882",
               "cargo": "Atendente",
               "salario": 3500.00,
               "ativo": true
@@ -372,6 +401,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -380,12 +412,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/funcionario/{owner_id}/{funcionario_id}
+      - url: http://localhost:8080/DeskPet/funcionario/1/1
         name: Buscar Funcionário por ID
         meta:
           id: req_e9bab50dd6b34f839abb953a3c348c77
           created: 1760310846050
-          modified: 1760880481185
+          modified: 1761941365135
           isPrivate: false
           sortKey: -1760311021286
         method: GET
@@ -394,6 +426,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -407,7 +442,7 @@ collection:
         meta:
           id: req_d6f108510d3f4408a6cf794166b1d996
           created: 1760310846051
-          modified: 1760886311273
+          modified: 1761941393375
           isPrivate: false
           sortKey: -1760311021186
         method: PUT
@@ -415,17 +450,20 @@ collection:
           mimeType: application/json
           text: |-
             {
-            		"id": 4,
+            		"id": 1,
             		"nome": "Joao",
             		"cpf": "123.456.789-01",
             		"telefone": "(11)99999-8881",
             		"cargo": "Tosador",
-            		"salario": 3500,
+            		"salario": 3000,
             		"ativo": true
             	}
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -434,12 +472,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/funcionario/{owner_id}/{funcionario_id}
+      - url: http://localhost:8080/DeskPet/funcionario/1/3
         name: Excluir Funcionário
         meta:
           id: req_90423ba832544ee7b2ef623b66f8bfb8
           created: 1760310846052
-          modified: 1761512753177
+          modified: 1761941535266
           isPrivate: false
           sortKey: -1760311021086
         method: DELETE
@@ -449,11 +487,9 @@ collection:
           - name: Content-Type
             value: application/json
             id: pair_770f832d3fc74588af0dcd2ca0f12c26
-          - id: pair_4f8a135e689d4aeea1d5840a89a632dd
-            name: Authorization
-            value: Bearer
-              eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IlBlZHJvQGdtYWlsLmNvbSIsIlJPTEUiOiJGdW5jaW9uYXJpbyIsImV4cCI6MTc2MTUxOTg3Nn0.YDJCSgUy1J01AF4o25AKMB4v1j6S-TF7y50V47QJ9ZE
-            disabled: false
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -462,18 +498,21 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/funcionario/{owner_id}/{funcionario_id}/{servico_id}
+      - url: http://localhost:8080/DeskPet/funcionario/1/1/1
         name: Atribuir Serviços a Funcionário
         meta:
           id: req_e6b49e8deee1407eba564e58131d63ed
           created: 1760921038378
-          modified: 1760921407657
+          modified: 1761941694781
           isPrivate: false
           sortKey: -1760921038378
         method: PUT
         headers:
           - name: User-Agent
             value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -482,18 +521,21 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/funcionario/listarByServico/1/2
+      - url: http://localhost:8080/DeskPet/funcionario/listarByServico/1/1
         name: "Listar Funcionários por Serviço "
         meta:
           id: req_ce98f8feb5144ea38b89a865b326f064
           created: 1760922162732
-          modified: 1760923724332
+          modified: 1761941721657
           isPrivate: false
           sortKey: -1760922162732
         method: GET
         headers:
           - name: User-Agent
             value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -514,7 +556,7 @@ collection:
         meta:
           id: req_15fa71324b1145b9b55c0efd1c77fd83
           created: 1760310846053
-          modified: 1760832776654
+          modified: 1761938721443
           isPrivate: false
           sortKey: -1760311005290
         method: GET
@@ -523,6 +565,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IldpbGxAZ21haWwuY29tIiwiUk9MRSI6IkFETUlOIiwiZXhwIjoxNzYxOTQ1NDUyfQ.13zXubZZFnDeRJxJl4wIv6pjjCu7PWYRvLygli2xjVQ
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -536,7 +581,7 @@ collection:
         meta:
           id: req_3d50fe8bbe764bceb8330aeb55ddb2e9
           created: 1760310846053
-          modified: 1761541931697
+          modified: 1762567737302
           isPrivate: false
           sortKey: -1760311005190
         method: GET
@@ -547,7 +592,7 @@ collection:
             disabled: false
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0OTA4NH0.cPaMVwkXCJbCEo7ie2hNc1o1CcK65Kf6AdJwlTj3nrw
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFsZW5jYXJAZ21haWwuY29tIiwiUk9MRSI6IkFETUlOIiwiZXhwIjoxNzYyNTc0OTIwfQ.amrWHbMLnehkIjfzPjmAzwuBvW3u29Qf6fONlfXQIgs
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -561,7 +606,7 @@ collection:
         meta:
           id: req_530ce72addde4442a57e33146431cc7b
           created: 1760310846054
-          modified: 1761507227907
+          modified: 1762567531960
           isPrivate: false
           sortKey: -1760311005090
         method: POST
@@ -571,9 +616,9 @@ collection:
             {
 
               "nome": "Alencar",
-              "cpf": "123.456.719-10",
-              "cnpj": "11.212.333/0001-10",
-              "telefone": "(11)98765-4322",
+              "cpf": "123.456.719-11",
+              "cnpj": "11.212.333/0091-11",
+              "telefone": "(11)98755-4311",
               "endereco": "Rua Teste, 123 - Centro",
               "nome_empresa": "PetShop Nota10",
               "plano": "Premium"
@@ -583,6 +628,8 @@ collection:
           - name: Content-Type
             value: application/json
             id: pair_39624c7f26174e44b47645d540507b0b
+        authentication:
+          type: bearer
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -591,12 +638,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/owner/{owner_id}
+      - url: http://localhost:8080/DeskPet/owner/2
         name: Excluir Owner
         meta:
           id: req_b5cd69654127470aa0fc0100b37f9888
           created: 1760310846055
-          modified: 1760833572394
+          modified: 1761938782881
           isPrivate: false
           sortKey: -1760311004890
         method: DELETE
@@ -605,6 +652,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IldpbGxAZ21haWwuY29tIiwiUk9MRSI6IkFETUlOIiwiZXhwIjoxNzYxOTQ1NDUyfQ.13zXubZZFnDeRJxJl4wIv6pjjCu7PWYRvLygli2xjVQ
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -651,7 +701,7 @@ collection:
         meta:
           id: req_c4da242ec09e4f4298b9c216df02d8f6
           created: 1760310846064
-          modified: 1761543261652
+          modified: 1762567771194
           isPrivate: false
           sortKey: -1760311005390
         method: PUT
@@ -659,10 +709,10 @@ collection:
           mimeType: application/json
           text: |-
             {
-              "nome": "Admin",
-              "email": "Will@gmail.com",
+              "nome": "Alencar",
+              "email": "Alencar@gmail.com",
               "senha": "1234",
-              "permissao": "ADMIN"
+              "permissao": ""
             }
         headers:
           - name: Content-Type
@@ -670,7 +720,6 @@ collection:
             id: pair_1b2c476fcab4494b8a1102da3693f2b2
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NTI4NX0.XaCPVCtjcvaelWPjl2tGCRwlALQb5REHJQeMHOzencQ
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -691,7 +740,7 @@ collection:
         meta:
           id: req_128237ce4ef2422b9755a6a923f97112
           created: 1760310846057
-          modified: 1761543377155
+          modified: 1761940052540
           isPrivate: false
           sortKey: -1760310981968
         method: GET
@@ -702,7 +751,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU1MDQ4MX0.4SmZt-6waZwYgWxxJPdUyvDhFOgDc9EbKYD-Tj9doZk
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -738,7 +787,7 @@ collection:
         meta:
           id: req_67e6f1fd51a641e89f9520d5a0b5e6be
           created: 1760310846058
-          modified: 1761539596504
+          modified: 1761940291176
           isPrivate: false
           sortKey: -1760310981768
         method: PUT
@@ -746,20 +795,20 @@ collection:
           mimeType: application/json
           text: |-
             {
-            		"id": 2,
+            		"id": 1,
             		"nomepet": "Bidu",
             		"especie": "Cachorro",
             		"raca": "Golden Retriever",
             		"sexo": "F",
-            		"descricao": "Castrado, alergia a frango."
-            		
+            		"descricao": "Castrado, alergia a frango.",
+            		"data_cricao": "2025-10-31T19:51:18.937Z"
             	}
         headers:
           - name: Content-Type
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NjcxM30.QEbDmtpHakBnZlp2mrnf3ANyxXVQJm7Mc-x4SWODHds
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -768,12 +817,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/pet/{owner_id}/{pet_id}
+      - url: http://localhost:8080/DeskPet/pet/1/2
         name: Excluir Pet
         meta:
           id: req_ce59757da7d649f78b09aedf1bd15e46
           created: 1760310846059
-          modified: 1760844033486
+          modified: 1761941101087
           isPrivate: false
           sortKey: -1760310981568
         method: DELETE
@@ -782,6 +831,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -790,18 +842,21 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/pet/listar/{owner_id}/{cliente_id}
+      - url: http://localhost:8080/DeskPet/pet/listar/1/1
         name: Listar Pets por Cliente
         meta:
           id: req_7165b81b109744c4a85535ac095ae937
           created: 1760841693582
-          modified: 1760841949599
+          modified: 1761940097127
           isPrivate: false
           sortKey: -1760841693582
         method: GET
         headers:
           - name: User-Agent
             value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0NjU2NX0.izL3pD_2U9vObVq_izv2kmWKVbbik8bO5QqViaxI1mw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -822,13 +877,13 @@ collection:
         meta:
           id: req_09f28925cd664fc489948c5c6cb0ab26
           created: 1760310846060
-          modified: 1761543398914
+          modified: 1761941609726
           isPrivate: false
           sortKey: -1760310958296
         method: GET
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU1MDQ4MX0.4SmZt-6waZwYgWxxJPdUyvDhFOgDc9EbKYD-Tj9doZk
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -837,12 +892,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/servico/{owner_id)/{servico_id}
+      - url: http://localhost:8080/DeskPet/servico/1/1
         name: Buscar Serviço por ID
         meta:
           id: req_75d428338b5d4dbbac17b254ebd9bd37
           created: 1760310846060
-          modified: 1760890530388
+          modified: 1761941625960
           isPrivate: false
           sortKey: -1760310958196
         method: GET
@@ -851,6 +906,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -859,12 +917,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/servico/{owner_id}
+      - url: http://localhost:8080/DeskPet/servico/1
         name: Atualizar Serviço
         meta:
           id: req_b8d7351752604a07acdd6ecbe59d1b31
           created: 1760310846061
-          modified: 1760890947090
+          modified: 1761941649027
           isPrivate: false
           sortKey: -1760310958096
         method: PUT
@@ -875,12 +933,15 @@ collection:
             		"id": 1,
             		"nome": "Banho e Tosa Completa",
             		"descricao": "Inclui corte de pelo, limpeza de ouvidos e corte de unhas.",
-            		"valor": 85,
+            		"valor": 105,
             		"tempo": "02:00"
             	}
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -894,7 +955,7 @@ collection:
         meta:
           id: req_f2785aa943ef4794be710b300a9398dd
           created: 1760310846061
-          modified: 1760886864930
+          modified: 1761941561440
           isPrivate: false
           sortKey: -1760310957896
         method: POST
@@ -910,6 +971,9 @@ collection:
         headers:
           - name: Content-Type
             value: application/json
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -923,10 +987,36 @@ collection:
         meta:
           id: req_e35f5744d66f42d7a46177f665bb99e2
           created: 1760310846062
-          modified: 1760890964996
+          modified: 1761941852017
           isPrivate: false
           sortKey: -1760310957996
         method: DELETE
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:8080/DeskPet/servico/listarbyFuncionario/1/1
+        name: Listar Serviço por Funcionário
+        meta:
+          id: req_e813e4f4317745afa412ae0dd1be0777
+          created: 1761941730407
+          modified: 1761941828637
+          isPrivate: false
+          sortKey: -1761941730407
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTk0ODY5OX0.g0_MHbLd2S8MHmP98JlNa9RhuZofq1W8AMEzNE6XWxU
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -942,12 +1032,12 @@ collection:
       modified: 1760310917100
       sortKey: -1760310846062
     children:
-      - url: http://localhost:8080/DeskPet/user/listar/1
+      - url: http://localhost:8080/DeskPet/user/listar/3
         name: Listar Usuários
         meta:
           id: req_901fb9e47d5b48da9160b1a2cb9a0e90
           created: 1760310846063
-          modified: 1761538704776
+          modified: 1761939106257
           isPrivate: false
           sortKey: -1760310939559
         method: GET
@@ -964,9 +1054,8 @@ collection:
             id: pair_0d654179c8d949ff8a95a3b6de56fbb6
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NTI4NX0.XaCPVCtjcvaelWPjl2tGCRwlALQb5REHJQeMHOzencQ
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IndpbGxAZ21haWwuY29tIiwiUk9MRSI6IkFETUlOIiwiZXhwIjoxNzYxOTQ2Mjk1fQ.KqNymS7xp1icRGwZKptBRXJYskX8PsE9to_trjqmiVw
           disabled: false
-          prefix: "Bearer "
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -980,7 +1069,7 @@ collection:
         meta:
           id: req_1d15994b1d324dc7a95468fedfab9fd6
           created: 1760310846064
-          modified: 1761532266904
+          modified: 1761938911914
           isPrivate: false
           sortKey: -1760310939459
         method: GET
@@ -992,7 +1081,7 @@ collection:
             id: pair_67fe97cb6bfd4e9ead8fa3b5d2c69459
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTUzOTM5Mn0.nsOYjQSMEQe2lBCfzkt17mQDbx3TS1F0scQqTinr-eo
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IldpbGxAZ21haWwuY29tIiwiUk9MRSI6IkFETUlOIiwiZXhwIjoxNzYxOTQ2MDM0fQ._F0ltxCcIFJBzUHfEM-z5bSNF3d1dEx39znvbiz03Do
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -1001,12 +1090,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/user/1
+      - url: http://localhost:8080/DeskPet/user/3
         name: Atualizar Usuário
         meta:
           id: req_fb6222da15f84cb19f551ad154f9e478
           created: 1760310846065
-          modified: 1761539393342
+          modified: 1761939040722
           isPrivate: false
           sortKey: -1760310939259
         method: PUT
@@ -1014,11 +1103,11 @@ collection:
           mimeType: application/json
           text: |-
             {
-            		"id": 13,
+            		"id": 2,
             		"nome": "Pedro",
-            		"email": "Pedror@admin.com.br",
+            		"email": "will@gmail.com",
             		"senha": "1234",
-            		"permissao": "FUNCIONARIO"
+            		"permissao": "ADMIN"
             	}
         headers:
           - name: Content-Type
@@ -1026,7 +1115,7 @@ collection:
             id: pair_349e9bc39d9f4c6b885f7edf65dad17c
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTU0NTI4NX0.XaCPVCtjcvaelWPjl2tGCRwlALQb5REHJQeMHOzencQ
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IldpbGxAZ21haWwuY29tIiwiUk9MRSI6IkFETUlOIiwiZXhwIjoxNzYxOTQ2MDM0fQ._F0ltxCcIFJBzUHfEM-z5bSNF3d1dEx39znvbiz03Do
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -1035,12 +1124,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: http://localhost:8080/DeskPet/user/2/6
+      - url: http://localhost:8080/DeskPet/user/3/2
         name: Excluir Usuário
         meta:
           id: req_1ae53d1816d247e8a31d05bc1db4ab3b
           created: 1760310846066
-          modified: 1761532322008
+          modified: 1761939133173
           isPrivate: false
           sortKey: -1760310939159
         method: DELETE
@@ -1051,7 +1140,7 @@ collection:
             value: application/json
         authentication:
           type: bearer
-          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IkFkbWluQGdtYWlsLmNvbSIsIlJPTEUiOiJBRE1JTiIsImV4cCI6MTc2MTUzOTM5Mn0.nsOYjQSMEQe2lBCfzkt17mQDbx3TS1F0scQqTinr-eo
+          token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkgRGVza1BldCIsInN1YiI6IndpbGxAZ21haWwuY29tIiwiUk9MRSI6IkFETUlOIiwiZXhwIjoxNzYxOTQ2Mjk1fQ.KqNymS7xp1icRGwZKptBRXJYskX8PsE9to_trjqmiVw
         settings:
           renderRequestBody: true
           encodeUrl: true
@@ -1072,7 +1161,7 @@ collection:
         meta:
           id: req_6cf60460eb804f3f9e05f9d5dc8eaac5
           created: 1761434286827
-          modified: 1761543280527
+          modified: 1762567543287
           isPrivate: false
           sortKey: -1761434286827
         method: POST
@@ -1080,7 +1169,7 @@ collection:
           mimeType: application/json
           text: |-
             {
-            	"email":"Admin@gmail.com",
+            	"email":"Alencar@gmail.com",
             	"senha":"1234"
             }
         headers:
