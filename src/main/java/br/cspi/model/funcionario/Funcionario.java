@@ -32,7 +32,7 @@ public class Funcionario {
     private Long id;
     @Schema(description = "Nome completo do Funcionário", example = "Ana Costa")
     private String nome;
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Schema(description = "CPF do Funcionário", example = "321.654.987-00")
     private String cpf;
     @Size(min = 14, max = 14, message = "Telefone deve seguir o formato (XX)XXXXX-XXXX")
