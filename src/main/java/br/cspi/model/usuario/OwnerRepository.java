@@ -12,4 +12,5 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
             "FROM owner u where u.id =:owner_id", nativeQuery = true)
     Owner findOwnerById(@Param("owner_id") Long owner_id);
 
+    Owner findByCpf(String cpf);
 }
