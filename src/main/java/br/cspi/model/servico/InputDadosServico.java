@@ -2,6 +2,8 @@ package br.cspi.model.servico;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 public record InputDadosServico(
         @Schema(description = "Identificador único do Serviço.", example = "201")
@@ -15,7 +17,8 @@ public record InputDadosServico(
         @Schema(description = "Descrição detalhada do Serviço.", example = "Serviço de higienização completa com corte de pelo.")
         String descricao,
 
-        @NotBlank
+        @NotNull
+        @Positive
         @Schema(description = "Valor (preço) do Serviço.", example = "55.00")
         double valor,
 

@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +43,8 @@ public class Funcionario {
     private String telefone;
     @Schema(description = "Cargo ou função do Funcionário", example = "Veterinário")
     private String cargo;
+    @NotNull
+    @Positive
     @Schema(description = "Salário ou base salarial do Funcionário", example = "3500.00")
     private BigDecimal salario;
     @Schema(description = "Status de atividade do Funcionário", example = "true")

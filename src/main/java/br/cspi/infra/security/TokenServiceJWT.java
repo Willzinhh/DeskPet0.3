@@ -22,6 +22,7 @@ public class TokenServiceJWT {
             return JWT.create()
                     .withIssuer("API DeskPet")
                     .withSubject(user.getEmail())
+                    .withClaim("ownerId", user.getOwner().getId())
                     .withClaim("ROLE",user.getPermissao())
                     .withExpiresAt(dataExpiracao())
                     .sign(algorithm);

@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
@@ -31,11 +33,11 @@ public record InputDadosFuncionario(
         @Schema(description = "Cargo ou função do funcionário.", example = "Veterinário")
         String cargo,
 
-        @NotBlank
+        @NotNull
+        @Positive
         @Schema(description = "Salario do funcionário.", example = "1500")
         BigDecimal salario,
 
-        @NotBlank
         @Schema(description = "Status de atividade do funcionário (true para ativo, false para inativo).", example = "true")
         boolean ativo,
 

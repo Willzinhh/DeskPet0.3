@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @RestController
@@ -68,7 +69,7 @@ public class AgendamentoController {
                                                    @RequestBody @Valid InputDadosAgendamento agendamento, UriComponentsBuilder uriBuilder) {
         Agendamento agendamentoEntity = new Agendamento();
         agendamentoEntity.setData(agendamento.data());
-        agendamentoEntity.setHorario(agendamento.horario());
+        agendamentoEntity.setHorario(OffsetDateTime.from(agendamento.horario()));
         agendamentoEntity.setObservacao(agendamento.observacao());
         agendamentoEntity.setStatus(agendamento.status());
         agendamentoEntity.setPagamento(agendamento.pagamento());
@@ -89,7 +90,7 @@ public class AgendamentoController {
         Agendamento agendamentoEntity = new Agendamento();
         agendamentoEntity.setId(agendamento.id());
         agendamentoEntity.setData(agendamento.data());
-        agendamentoEntity.setHorario(agendamento.horario());
+        agendamentoEntity.setHorario(OffsetDateTime.from(agendamento.horario()));
         agendamentoEntity.setObservacao(agendamento.observacao());
         agendamentoEntity.setStatus(agendamento.status());
         agendamentoEntity.setPagamento(agendamento.pagamento());
