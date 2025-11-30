@@ -31,6 +31,25 @@ public class AutenticacaoFilter extends OncePerRequestFilter {
         System.out.println("filtro para autenticar e autorizar");
         System.out.println("filtro para autenticação e autorização");
 
+        System.out.println("Filtro para autenticação e autorização (URI: " + request.getRequestURI() + ")");
+
+        // =========================================================================
+        // 🚨 LÓGICA DE BYPASS EXPLÍCITO CRUCIAL 🚨
+        // Ignora a validação de token para rotas públicas (Login e Cadastro)
+        // A requisição de OPTIONS (preflight CORS) também deve ser liberada aqui.
+        String requestURI = request.getRequestURI();
+        String requestMethod = request.getMethod();
+
+        if ((requestURI.equals("DeskPet/login") && requestMethod.equals("POST")) ||
+                (requestURI.equals("/owner") && requestMethod.equals("POST")) ||
+                (requestURI.equals("/owner/**") && requestMethod.equals("PUT")) ||
+                (requestMethod.equals("OPTIONS"))) {
+
+            System.out.println("Bypass: Rota pública ou OPTIONS. Ignorando validação de token.");
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String token = this.recuperaToken(request);
         System.out.println("Token: " + token);
 

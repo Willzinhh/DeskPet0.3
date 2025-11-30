@@ -46,7 +46,7 @@ public class ClienteController {
     public ResponseEntity<List<DadosClienteOutput>> listar(@Parameter(description = "ID do Proprietario") @PathVariable long owner_id, UriComponentsBuilder uriBuilder) {
         List<DadosClienteOutput> dc =  this.ClienteService.listar(owner_id);
         URI uri = uriBuilder.path("/listar/{owner_id}").buildAndExpand(owner_id).toUri();
-        return ResponseEntity.created(uri).body(dc);
+        return ResponseEntity.ok(dc);
     }
 
     @GetMapping("/{owner_id}/{id}")

@@ -18,6 +18,7 @@ public class AutenticacaoService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        System.out.println("Login= "+login);
         User usuario = userRepository.findByEmail(login);
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuario ou senha Incoreetos");
